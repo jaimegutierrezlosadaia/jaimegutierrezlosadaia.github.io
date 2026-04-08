@@ -354,6 +354,114 @@
   ::-webkit-scrollbar { width:4px; height:4px; }
   ::-webkit-scrollbar-track { background:transparent; }
   ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+  /* ── ÚLTIMAS SENTENCIAS ── */
+  .recent-grid { display:flex; flex-direction:column; gap:10px; padding:4px 0; }
+  .recent-card {
+    background:var(--surface2); border:1px solid var(--border2); border-radius:10px;
+    padding:16px 18px; display:grid; grid-template-columns:1fr auto; gap:12px; align-items:start;
+    transition:border-color .15s; cursor:pointer;
+  }
+  .recent-card:hover { border-color:var(--accent); }
+  .recent-card-left { display:flex; flex-direction:column; gap:6px; }
+  .recent-title { font-size:13px; font-weight:600; line-height:1.4; color:var(--text); }
+  .recent-meta { display:flex; gap:10px; flex-wrap:wrap; }
+  .recent-meta span { font-family:var(--font-mono); font-size:9px; color:var(--text2); letter-spacing:.5px; }
+  .recent-summary { font-size:11px; color:var(--text2); line-height:1.6; margin-top:4px; }
+  .recent-arg { font-size:11px; color:rgba(0,229,195,.85); line-height:1.6; margin-top:6px; background:var(--accent-dim); border-left:2px solid var(--accent); padding:6px 10px; border-radius:0 6px 6px 0; }
+  .recent-card-right { display:flex; flex-direction:column; align-items:flex-end; gap:8px; flex-shrink:0; }
+
+  /* ── ADVISOR ── */
+  .advisor-wrap { padding:20px 24px; display:flex; flex-direction:column; gap:18px; max-width:900px; margin:0 auto; width:100%; }
+  .advisor-header { display:flex; gap:16px; align-items:flex-start; }
+  .advisor-title { font-family:var(--font-head); font-size:18px; font-weight:800; margin-bottom:6px; }
+  .advisor-sub { font-size:12px; color:var(--text2); line-height:1.7; }
+  .advisor-input-area textarea {
+    width:100%; background:var(--surface); border:1px solid var(--border2); color:var(--text);
+    padding:14px 16px; border-radius:10px; font-size:13px; font-family:var(--font-body);
+    resize:vertical; outline:none; transition:border-color .15s; line-height:1.6;
+  }
+  .advisor-input-area textarea:focus { border-color:var(--accent); }
+  .quick-btn {
+    background:var(--surface2); border:1px solid var(--border2); color:var(--text2);
+    font-family:var(--font-mono); font-size:9px; padding:5px 12px; border-radius:6px;
+    cursor:pointer; transition:all .15s; letter-spacing:.3px; white-space:nowrap;
+  }
+  .quick-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .advisor-response-area {
+    background:var(--surface); border:1px solid var(--border2); border-radius:12px;
+    overflow:hidden; border-top:2px solid var(--accent);
+  }
+  .advisor-response-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 18px; border-bottom:1px solid var(--border);
+    background:rgba(0,229,195,.04);
+  }
+  .advisor-content { padding:20px 22px; font-size:13px; line-height:1.8; color:var(--text); white-space:pre-wrap; }
+  .advisor-content strong { color:var(--accent); }
+  .advisor-content em { color:var(--text2); font-style:normal; }
+  .advisor-history { display:flex; flex-direction:column; gap:10px; }
+  .hist-item {
+    background:var(--surface2); border:1px solid var(--border); border-radius:8px;
+    padding:12px 16px; cursor:pointer; transition:border-color .15s;
+  }
+  .hist-item:hover { border-color:var(--accent); }
+  .hist-q { font-size:11px; color:var(--text2); font-family:var(--font-mono); margin-bottom:4px; }
+  .hist-a { font-size:12px; color:var(--text); line-height:1.6; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+
+  /* ── BADGE NUEVAS SENTENCIAS ── */
+  .tab-badge {
+    display:inline-flex;align-items:center;justify-content:center;
+    background:var(--accent);color:#000;font-family:var(--font-mono);
+    font-size:8px;font-weight:700;padding:1px 5px;border-radius:10px;
+    margin-left:5px;min-width:16px;height:16px;
+  }
+
+  /* ── COMPARADOR ── */
+  .compare-wrap { padding:20px 24px; display:flex; flex-direction:column; gap:16px; }
+  .compare-instructions { font-size:12px; color:var(--text2); line-height:1.6; background:var(--surface2); border:1px solid var(--border2); border-radius:8px; padding:12px 16px; }
+  .compare-selected-bar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; padding:10px 14px; background:var(--accent-dim); border:1px solid rgba(0,229,195,.2); border-radius:8px; }
+  .compare-chip { display:flex; align-items:center; gap:6px; background:var(--surface); border:1px solid var(--accent); color:var(--accent); font-family:var(--font-mono); font-size:9px; padding:4px 8px; border-radius:5px; }
+  .compare-chip button { background:transparent; border:none; color:var(--accent); cursor:pointer; font-size:11px; line-height:1; padding:0; }
+  .compare-result { background:var(--surface); border:1px solid var(--border2); border-radius:12px; overflow:hidden; border-top:2px solid var(--accent2); }
+  .compare-result-header { padding:12px 18px; border-bottom:1px solid var(--border); background:rgba(91,141,238,.04); font-family:var(--font-mono); font-size:10px; color:var(--accent2); letter-spacing:1px; display:flex; justify-content:space-between; align-items:center; }
+  .compare-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .compare-table th { font-family:var(--font-mono); font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); }
+  .compare-table td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+  .compare-table tr:last-child td { border-bottom:none; }
+  .compare-table .row-label { font-family:var(--font-mono); font-size:10px; color:var(--text2); white-space:nowrap; }
+
+  /* ── ARGUMENTARIO ── */
+  .argum-wrap { padding:20px 24px; display:flex; flex-direction:column; gap:16px; max-width:900px; }
+  .argum-controls { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+  .argum-controls select { width:auto; min-width:180px; }
+  .argum-output { background:var(--surface); border:1px solid var(--border2); border-radius:12px; overflow:hidden; border-top:2px solid var(--accent3); }
+  .argum-output-header { padding:12px 18px; border-bottom:1px solid var(--border); background:rgba(124,107,255,.04); font-family:var(--font-mono); font-size:10px; color:var(--accent3); letter-spacing:1px; display:flex; justify-content:space-between; align-items:center; }
+  .argum-content { padding:20px 22px; font-size:13px; line-height:1.85; color:var(--text); white-space:pre-wrap; }
+  .argum-content strong { color:var(--accent3); }
+  .argum-download { background:rgba(124,107,255,.15); border:1px solid var(--accent3); color:var(--accent3); font-family:var(--font-mono); font-size:10px; padding:5px 14px; border-radius:6px; cursor:pointer; transition:all .15s; }
+  .argum-download:hover { background:rgba(124,107,255,.3); }
+
+  /* ── CALCULADORA RIESGO ── */
+  .risk-wrap { padding:20px 24px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .risk-panel { background:var(--surface); border:1px solid var(--border2); border-radius:12px; padding:20px; }
+  .risk-panel-title { font-family:var(--font-head); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; margin-bottom:14px; }
+  .risk-meter { display:flex; flex-direction:column; align-items:center; gap:12px; padding:10px 0; }
+  .risk-gauge { position:relative; width:160px; height:80px; }
+  .risk-gauge svg { width:100%; height:100%; }
+  .risk-score-big { font-family:var(--font-head); font-size:42px; font-weight:800; text-align:center; line-height:1; }
+  .risk-label { font-family:var(--font-mono); font-size:10px; text-align:center; text-transform:uppercase; letter-spacing:1px; }
+  .risk-breakdown { display:flex; flex-direction:column; gap:8px; }
+  .risk-row { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .risk-row-label { font-size:12px; color:var(--text2); }
+  .risk-row-bar { flex:1; height:6px; background:var(--surface2); border-radius:3px; overflow:hidden; }
+  .risk-row-fill { height:100%; border-radius:3px; transition:width .6s ease; }
+  .risk-row-val { font-family:var(--font-mono); font-size:10px; color:var(--accent); width:35px; text-align:right; }
+  .risk-factors { display:flex; flex-direction:column; gap:6px; }
+  .risk-factor { display:flex; gap:8px; align-items:flex-start; font-size:11px; line-height:1.5; }
+  .risk-factor-ico { font-size:13px; flex-shrink:0; }
+
 </style>
 </head>
 <body>
@@ -525,6 +633,11 @@
       <button class="tab on"  onclick="switchTab('charts',this)">📊 Visualizaciones</button>
       <button class="tab"     onclick="switchTab('table',this)">📋 Sentencias</button>
       <button class="tab"     onclick="switchTab('wins',this)">🏆 Argumentos de Victoria</button>
+      <button class="tab"     onclick="switchTab('recent',this);loadRecent()">🆕 Últimas Sentencias <span class="tab-badge" id="badgeNew" style="display:none">0</span></button>
+      <button class="tab"     onclick="switchTab('advisor',this)">🧠 Consulta tu Caso</button>
+      <button class="tab"     onclick="switchTab('compare',this)">⚖️ Comparador</button>
+      <button class="tab"     onclick="switchTab('argum',this)">📄 Argumentario</button>
+      <button class="tab"     onclick="switchTab('risk',this)">🎯 Riesgo</button>
       <div style="flex:1"></div>
       <button class="tab" onclick="exportCSV()" style="border-color:rgba(0,229,195,.2);color:var(--accent);margin-bottom:0;" title="Exportar a CSV">⬇ CSV</button>
     </div>
@@ -573,6 +686,222 @@
             <div class="empty-p">Ejecuta una búsqueda para ver los argumentos de victoria.</div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- TAB ÚLTIMAS SENTENCIAS -->
+    <div class="tab-pane" id="tab-recent">
+      <div class="tbl-wrap">
+        <div class="tbl-header" style="align-items:flex-start;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+            <div class="tbl-title">🆕 Últimas Sentencias Publicadas</div>
+            <button onclick="fetchRecent()" id="btnRefreshRecent" style="background:var(--accent-dim);border:1px solid var(--accent);color:var(--accent);font-family:var(--font-mono);font-size:10px;padding:6px 14px;border-radius:7px;cursor:pointer;letter-spacing:.5px">⟳ Refrescar</button>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--text2)">Las sentencias más recientes de <strong style="color:var(--accent)">TPCases.com</strong> con análisis IA de resultado y argumentación.</div>
+        </div>
+        <div id="recentArea">
+          <div class="empty">
+            <div class="empty-ico" style="animation:spin .8s linear infinite;display:inline-block">⟳</div>
+            <div class="empty-h">Cargando últimas sentencias…</div>
+            <div class="empty-p">La IA está recuperando las sentencias más recientes de TPCases.com.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB COMPARADOR DE CASOS -->
+    <div class="tab-pane" id="tab-compare">
+      <div class="compare-wrap">
+        <div class="compare-instructions">
+          <strong style="color:var(--text)">⚖️ Comparador de Casos</strong><br>
+          Selecciona 2 o 3 sentencias de la pestaña <em>Sentencias</em> marcando el checkbox ☑ junto a cada caso, luego pulsa <strong style="color:var(--accent2)">Comparar seleccionados</strong> aquí abajo. La IA generará una tabla comparativa de argumentos, métodos usados, resultado y relevancia para tu práctica.
+        </div>
+        <div id="compareSelectedBar" class="compare-selected-bar" style="display:none">
+          <span style="font-family:var(--font-mono);font-size:9px;color:var(--text2);letter-spacing:.5px">CASOS SELECCIONADOS:</span>
+          <div id="compareChips" style="display:flex;gap:6px;flex-wrap:wrap;flex:1"></div>
+          <button onclick="runComparison()" id="btnCompare" class="btn-primary" style="width:auto;padding:8px 18px;margin-top:0;font-size:11px">⚡ Comparar</button>
+          <button onclick="clearComparison()" style="background:transparent;border:1px solid var(--border2);color:var(--text2);font-size:10px;padding:6px 12px;border-radius:6px;cursor:pointer;font-family:var(--font-mono)">✕</button>
+        </div>
+        <div id="compareInstructions2" style="text-align:center;padding:48px 20px;color:var(--muted)">
+          <div style="font-size:36px;margin-bottom:12px">⚖️</div>
+          <div style="font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--text2);margin-bottom:6px">Ningún caso seleccionado</div>
+          <div style="font-size:12px;line-height:1.7">Ve a la pestaña <strong style="color:var(--accent)">📋 Sentencias</strong>, activa los checkboxes de 2-3 casos y vuelve aquí.</div>
+        </div>
+        <div id="compareResult" class="compare-result" style="display:none">
+          <div class="compare-result-header">
+            <span>ANÁLISIS COMPARATIVO IA</span>
+            <button onclick="document.getElementById('compareResult').style.display='none'" style="background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:12px">✕</button>
+          </div>
+          <div id="compareContent" style="padding:20px 22px;font-size:12px;line-height:1.8;color:var(--text);white-space:pre-wrap"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB ARGUMENTARIO -->
+    <div class="tab-pane" id="tab-argum">
+      <div class="argum-wrap">
+        <div style="font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:4px">📄 Generador de Argumentario</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:4px">Genera un documento de argumentos jurídicos ordenados por solidez basado en la jurisprudencia del dataset, listo para usar en alegaciones o recursos.</div>
+        <div class="argum-controls">
+          <div>
+            <label class="fl">Materia</label>
+            <select id="argumCat">
+              <option value="">Todas las materias</option>
+              <option value="Arm's Length Principle">Arm's Length Principle</option>
+              <option value="Intangibles">Intangibles / Royalties</option>
+              <option value="Financial Transactions">Financial Transactions</option>
+              <option value="Business Restructuring">Business Restructuring</option>
+              <option value="Transfer Pricing Documentation">Documentación PT</option>
+              <option value="Benchmark, Range and Median">Benchmarking</option>
+              <option value="Services and Fees">Servicios Intragrupo</option>
+              <option value="Commodity Transactions">Commodities</option>
+            </select>
+          </div>
+          <div>
+            <label class="fl">Resultado (filtrar por)</label>
+            <select id="argumOutcome">
+              <option value="WIN">Solo victorias del contribuyente</option>
+              <option value="">Todos los resultados</option>
+              <option value="LOSE">Solo derrotas (qué evitar)</option>
+            </select>
+          </div>
+          <div>
+            <label class="fl">País</label>
+            <select id="argumCountry">
+              <option value="">Todos los países</option>
+              <option value="Spain">España</option>
+              <option value="Germany">Alemania</option>
+              <option value="France">Francia</option>
+              <option value="Italy">Italia</option>
+              <option value="United Kingdom">Reino Unido</option>
+              <option value="Netherlands">Países Bajos</option>
+              <option value="United States">EE.UU.</option>
+            </select>
+          </div>
+          <div style="align-self:flex-end">
+            <button onclick="generateArgumentario()" id="btnArgum" class="btn-primary" style="width:auto;padding:10px 20px;margin-top:0">⚡ Generar argumentario</button>
+          </div>
+        </div>
+        <div id="argumOutput" class="argum-output" style="display:none">
+          <div class="argum-output-header">
+            <span>ARGUMENTARIO GENERADO POR IA</span>
+            <div style="display:flex;gap:8px">
+              <button onclick="downloadArgumentario()" class="argum-download">⬇ Descargar .txt</button>
+              <button onclick="document.getElementById('argumOutput').style.display='none'" style="background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:12px">✕</button>
+            </div>
+          </div>
+          <div id="argumContent" class="argum-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB CALCULADORA DE RIESGO -->
+    <div class="tab-pane" id="tab-risk">
+      <div class="risk-wrap">
+        <div class="risk-panel" style="grid-column:1/-1">
+          <div class="risk-panel-title">🎯 Calculadora de Riesgo TP</div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.6">Selecciona las características de tu caso y la calculadora estimará la probabilidad de éxito ante la Inspección basándose en el win-rate histórico del dataset.</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+            <div class="fg"><label class="fl">País del litigio</label>
+              <select id="riskCountry" onchange="calcRisk()">
+                <option value="">Cualquier país</option>
+                <option value="Germany">Alemania</option><option value="France">Francia</option>
+                <option value="Italy">Italia</option><option value="United Kingdom">UK</option>
+                <option value="Netherlands">Países Bajos</option><option value="Spain">España</option>
+                <option value="Czech Republic">Rep. Checa</option><option value="India">India</option>
+                <option value="Australia">Australia</option><option value="United States">EE.UU.</option>
+                <option value="Brazil">Brasil</option><option value="Argentina">Argentina</option>
+              </select>
+            </div>
+            <div class="fg"><label class="fl">Materia principal</label>
+              <select id="riskCat" onchange="calcRisk()">
+                <option value="">Cualquier materia</option>
+                <option value="Financial Transactions">Préstamos / Financiero</option>
+                <option value="Intangibles">Intangibles / Royalties</option>
+                <option value="Services and Fees">Servicios Intragrupo</option>
+                <option value="Business Restructuring">Reestructuración</option>
+                <option value="Transfer Pricing Documentation">Documentación</option>
+                <option value="Arm's Length Principle">Arm's Length General</option>
+                <option value="Benchmark, Range and Median">Benchmarking</option>
+              </select>
+            </div>
+            <div class="fg"><label class="fl">Método PT utilizado</label>
+              <select id="riskMethod" onchange="calcRisk()">
+                <option value="">Sin filtrar</option>
+                <option value="TNMM">TNMM</option><option value="CUP">CUP</option>
+                <option value="Cost plus">Cost Plus</option><option value="Profit Split">Profit Split</option>
+                <option value="Resale Price">Resale Price</option><option value="DCF">DCF</option>
+              </select>
+            </div>
+            <div class="fg"><label class="fl">¿Tienes documentación PT?</label>
+              <select id="riskDoc" onchange="calcRisk()">
+                <option value="yes">Sí, documentación completa</option>
+                <option value="partial">Sí, pero incompleta</option>
+                <option value="no">No tengo documentación</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="risk-panel">
+          <div class="risk-panel-title" style="color:var(--accent)">Probabilidad estimada de éxito</div>
+          <div class="risk-meter">
+            <svg viewBox="0 0 200 110" width="200" height="110" id="riskGaugeSvg">
+              <path d="M20,100 A80,80 0 0,1 180,100" fill="none" stroke="#262930" stroke-width="20" stroke-linecap="round"/>
+              <path d="M20,100 A80,80 0 0,1 180,100" fill="none" stroke="url(#riskGrad)" stroke-width="20" stroke-linecap="round" id="riskArc" stroke-dasharray="251" stroke-dashoffset="125"/>
+              <defs><linearGradient id="riskGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#ef4444"/><stop offset="50%" style="stop-color:#f59e0b"/><stop offset="100%" style="stop-color:#22c55e"/></linearGradient></defs>
+              <text x="100" y="95" text-anchor="middle" font-family="Syne,sans-serif" font-size="32" font-weight="800" fill="#e2e4ec" id="riskPct">—</text>
+            </svg>
+            <div id="riskLabel" style="font-family:var(--font-mono);font-size:10px;color:var(--text2);text-align:center;letter-spacing:1px;text-transform:uppercase">Configura los filtros</div>
+          </div>
+        </div>
+        <div class="risk-panel">
+          <div class="risk-panel-title" style="color:var(--accent2)">Factores de riesgo</div>
+          <div id="riskFactors" class="risk-factors">
+            <div style="font-size:12px;color:var(--muted);text-align:center;padding:20px">Selecciona parámetros para ver el análisis de riesgo</div>
+          </div>
+        </div>
+        <div class="risk-panel" style="grid-column:1/-1">
+          <div class="risk-panel-title" style="color:var(--accent3)">Casos similares en dataset (win/lose)</div>
+          <div id="riskSimilar" style="font-size:12px;color:var(--muted);text-align:center;padding:20px">Los casos similares aparecerán aquí</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB CONSULTA TU CASO -->
+    <div class="tab-pane" id="tab-advisor">
+      <div class="advisor-wrap">
+        <div class="advisor-header">
+          <div>
+            <div class="advisor-title">🧠 Consulta tu Caso con IA</div>
+            <div class="advisor-sub">Describe tu situación de precios de transferencia y la IA analizará jurisprudencia relevante, comparará con casos similares del dataset y te dará orientación estratégica como asesor especializado.</div>
+          </div>
+        </div>
+        <div class="advisor-input-area">
+          <textarea id="advisorInput" placeholder="Describe tu caso aquí… Por ejemplo:
+
+'Mi cliente es una filial española que presta servicios de desarrollo de software a su matriz en Irlanda. La Inspección está cuestionando el margen aplicado (cost plus 8%) argumentando que debería ser superior. Los comparables que hemos usado son de Amadeus con filtros estándar. ¿Qué jurisprudencia existe sobre este tipo de casos y qué argumentos han resultado más sólidos?'" rows="7"></textarea>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:8px">
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="quick-btn" onclick="fillQuick(1)">💼 Servicios intragrupo</button>
+              <button class="quick-btn" onclick="fillQuick(2)">💰 Préstamo intragrupo</button>
+              <button class="quick-btn" onclick="fillQuick(3)">🔬 Intangibles / Royalties</button>
+              <button class="quick-btn" onclick="fillQuick(4)">🔄 Reestructuración</button>
+              <button class="quick-btn" onclick="fillQuick(5)">📋 Documentación PT</button>
+            </div>
+            <button onclick="askAdvisor()" id="btnAskAdvisor" class="btn-primary" style="width:auto;padding:10px 24px;margin-top:0">⚡ Analizar mi caso</button>
+          </div>
+        </div>
+        <div id="advisorResponse" class="advisor-response-area" style="display:none">
+          <div class="advisor-response-header">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:1px;display:flex;align-items:center;gap:6px">
+              <div style="width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 1.4s infinite"></div>
+              ANÁLISIS IA — EXPERTO EN PRECIOS DE TRANSFERENCIA
+            </div>
+            <button onclick="clearAdvisor()" style="background:transparent;border:1px solid var(--border2);color:var(--text2);font-size:10px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:var(--font-mono)">✕ Limpiar</button>
+          </div>
+          <div id="advisorContent" class="advisor-content"></div>
+        </div>
+        <div class="advisor-history" id="advisorHistory"></div>
       </div>
     </div>
 
@@ -909,7 +1238,8 @@ function renderTable(cases) {
     const tags = [...(c.categories||[]), ...(c.tags||[])].slice(0,3);
     const isWin = c.outcome === 'WIN' || c.outcome === 'PARTIAL';
     const winArg = c.win_argument || '';
-    return `<tr onclick="openModal(${i})">
+    return `<tr onclick="openModal(${i})" data-idx="${i}">
+      <td style="padding:10px 6px;width:28px"><input type="checkbox" class="case-chk" data-idx="${i}" onclick="event.stopPropagation();toggleCompare(${i})" style="cursor:pointer;accent-color:var(--accent);width:15px;height:15px"></td>
       <td class="td-name"><a href="${c.url||'#'}" target="_blank" onclick="event.stopPropagation()">${c.title||'Sin título'}</a></td>
       <td class="td-ctry">${c.country||'—'}</td>
       <td><div class="tag-wrap">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></td>
@@ -921,7 +1251,7 @@ function renderTable(cases) {
   document.getElementById('tableArea').innerHTML = `
     <table>
       <thead><tr>
-        <th>Sentencia</th><th>País</th><th>Materia / Tags</th><th>Fecha</th><th>Contribuyente</th><th>Argumento principal (victoria)</th>
+        <th style="width:28px"></th><th>Sentencia</th><th>País</th><th>Materia / Tags</th><th>Fecha</th><th>Contribuyente</th><th>Argumento principal (victoria)</th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
@@ -1191,6 +1521,8 @@ document.getElementById('fText').addEventListener('keydown', e => { if(e.key==='
 
 // Auto-load the full built-in dataset on page open so dashboard is never empty
 window.addEventListener('load', () => {
+  // Auto-load latest cases on startup
+  fetchRecent();
   CASES = getBuiltinCases('','','','','');
   render(CASES);
 });
@@ -1255,6 +1587,709 @@ function getBuiltinCases(country, category, year, sector, text) {
 
   return filtered.length > 0 ? filtered : ALL;
 }
+
+/* ── LOTE EUROPA (añadido sesión 2) ── */
+(function injectEurope() {
+  const EUROPE = [
+    // ── ALEMANIA ──
+    { title:"Germany vs Hornbach-Baumarkt AG, May 2018, European Court of Justice, C-382/16", date:"May 2018", year:2018, country:"Germany", court:"European Court of Justice", categories:["Arm's Length Principle","Financial Transactions"], tags:["Guarantee fee","Freedom of establishment","Unsecured guarantee","AStG Section 1"], url:"https://tpcases.com/germany-vs-hornbach-baumarkt-may-2018-european-court-of-justice-c-382-16/", summary:"Hornbach-Baumarkt provided guarantees and letters of comfort to foreign subsidiaries at no charge. German tax authorities adjusted taxable income under AStG Section 1. Hornbach argued the German rules conflicted with EU freedom of establishment.", outcome:"WIN", outcome_reasoning:"El Tribunal de Justicia de la UE concluyó que la normativa alemana era compatible con la libertad de establecimiento siempre que se permita al contribuyente justificar las razones comerciales de la transacción no a precio de mercado.", win_argument:"Hornbach demostró que las garantías gratuitas obedecían a razones económicas reales: preservar la solvencia de sus filiales en mercados estratégicos era una necesidad comercial que un tercero independiente no habría podido satisfacer de la misma forma. El TJUE aceptó que los motivos económicos válidos pueden justificar desviaciones del arm's length, creando un precedente relevante para toda la UE." },
+    { title:"Germany vs Hornbach-Baumarkt AG, August 2023, Finanzgericht Rheinland-Pfalz, Case No 1 K 1472/13", date:"August 2023", year:2023, country:"Germany", court:"Finanzgericht Rheinland-Pfalz", categories:["Arm's Length Principle","Financial Transactions"], tags:["Guarantee fee","AStG Section 1","Economic reasons","Post-ECJ remand"], url:"https://tpcases.com/germany-vs-hornbach-baumarkt-ag-august-2023-finanzgericht-case-no-1-k-1472-13/", summary:"Following the 2018 ECJ ruling, the case was remanded to the German tax court to assess whether Hornbach had genuine economic reasons for providing free guarantees. The Finanzgericht Rheinland-Pfalz examined whether the commercial rationale was credible.", outcome:"WIN", outcome_reasoning:"El Finanzgericht concluyó que Hornbach sí tenía razones económicas genuinas para las garantías gratuitas, aplicando la doctrina del TJUE.", win_argument:"Hornbach acreditó con documentación interna que la supervivencia de sus filiales extranjeras era determinante para la estrategia de expansión del grupo y que ningún tercero independiente habría tomado esa posición. El tribunal aceptó ese motivo económico como suficiente para excluir el ajuste fiscal bajo la doctrina post-ECJ." },
+    { title:"Germany vs 'Lender GmbH', June 2021, Bundesfinanzhof, Case No IR 4/17", date:"June 2021", year:2021, country:"Germany", court:"Bundesfinanzhof", categories:["Financial Transactions","Transfer Pricing Methods"], tags:["Intra-group loan","CUP method","Cost plus method","Most appropriate method","Hidden profit distribution"], url:"https://tpcases.com/germany-vs-lender-gmbh-june-2021-bundesfinanzhof-case-no-ir-4-17/", summary:"Lender GmbH received loans from a Dutch sister company acting as group financing hub. The interest rate was set using CUP. German tax authority rejected CUP and applied cost-plus, qualifying the difference as a hidden profit distribution.", outcome:"LOSE", outcome_reasoning:"El Bundesfinanzhof confirmó que el método coste más margen era el más apropiado para un préstamo entre vinculadas cuando no existen comparables perfectamente equivalentes, validando el ajuste de la administración.", win_argument:"" },
+    { title:"Germany vs A GmbH, March 2021, Bundesverfassungsgericht, Case No 2 BvR 1161/19", date:"March 2021", year:2021, country:"Germany", court:"Bundesverfassungsgericht", categories:["Financial Transactions","Arm's Length Principle"], tags:["Unsecured loan","Collateral","Arm's length","Constitutional Court","Write-off"], url:"https://tpcases.com/germany-vs-a-gmbh-march-2021-bundesverfassungsgericht-case-no-2-bvr-1161-19/", summary:"A German GmbH provided an unsecured clearing account loan to its Belgian subsidiary at 6% interest. After a debt write-off was denied as non-deductible, the Federal Constitutional Court reviewed whether applying arm's length collateral requirements was constitutional.", outcome:"WIN", outcome_reasoning:"El Tribunal Constitucional Federal alemán revocó la sentencia del Bundesfinanzhof: exigir garantías reales en préstamos intragrupo como condición para la deducibilidad del quebranto no tenía base constitucional.", win_argument:"El contribuyente argumentó con éxito que la normativa alemana, al presumir que un prestamista independiente siempre habría exigido garantías reales, imponía una ficción desconectada de la realidad económica y violaba el principio constitucional de capacidad contributiva. El Bundesverfassungsgericht acogió este argumento y ordenó la revisión." },
+    { title:"Germany vs X GmbH & Co. KG, October 2022, European Court of Justice, Case No C-431/21", date:"October 2022", year:2022, country:"Germany", court:"European Court of Justice", categories:["Transfer Pricing Documentation","Arm's Length Principle"], tags:["Documentation penalty","Freedom of establishment","AO Section 90","Reversed burden of proof","Tax surcharge"], url:"https://tpcases.com/germany-vs-x-gmbh-co-kg-october-2022-european-court-of-justice-case-no-c-431-21/", summary:"A German company challenged whether the requirement to provide TP documentation for cross-border related-party transactions (but not domestic ones) violated EU freedom of establishment under Art. 49 TFEU.", outcome:"LOSE", outcome_reasoning:"El TJUE confirmó que los requisitos documentales alemanes de PT para operaciones transfronterizas son compatibles con el Derecho de la UE.", win_argument:"" },
+    { title:"Germany vs 'G-Corp GmbH', June 2021, Bundesfinanzhof, Case No I R 32/17", date:"June 2021", year:2021, country:"Germany", court:"Bundesfinanzhof", categories:["Financial Transactions","Arm's Length Principle"], tags:["Subordinated loan","Write-down","Malta","Unsecured receivable","AStG"], url:"https://tpcases.com/germany-vs-g-corp-gmbh-june-2021-bundesfinanzhof-case-no-i-r-32-17/", summary:"G-Corp GmbH granted unsecured subordinated loans to French and US subsidiaries and transferred assets at book value to Maltese subsidiaries. German tax authority disallowed partial value write-downs on uncollateralised loan receivables.", outcome:"PARTIAL", outcome_reasoning:"El Bundesfinanzhof devolvió el caso al tribunal inferior para nueva valoración: aceptó que el art. 9(1) OCDE cubre quitas de préstamos, pero exigió análisis más detallado del valor arm's length.", win_argument:"G-Corp logró que el Bundesfinanzhof confirmara que el ajuste no podía basarse en la mera ausencia de garantías sin analizar si un tercero independiente en la misma posición hubiera actuado de forma diferente, abriendo la posibilidad de justificar las condiciones del préstamo." },
+    { title:"Germany vs 'Steel Construction GmbH', August 2024, Constitutional Court, Case No 2 BvR 2002/20", date:"August 2024", year:2024, country:"Germany", court:"Bundesverfassungsgericht", categories:["Financial Transactions","Arm's Length Principle"], tags:["Debt write-off","Polish subsidiary","Collateral requirement","Constitutional review"], url:"https://tpcases.com/germany-vs-steel-construction-gmbh-august-2024-constitutional-court-case-no-2-bvr-2002-20/", summary:"German company deducted a debt write-off relating to its Polish subsidiary. Tax authorities denied the deduction arguing independent parties would have required collateral. Constitutional Court reviewed the case following the 2021 BvR 1161/19 precedent.", outcome:"WIN", outcome_reasoning:"El Tribunal Constitucional, siguiendo el precedente de 2021, confirmó que exigir garantías reales como condición sine qua non para la deducibilidad de un quebranto intragrupo es inconstitucional.", win_argument:"La empresa remitió al precedente constitucional de 2021 que había establecido que presumir automáticamente que un tercero independiente exigiría garantías reales no tiene fundamento constitucional. Aplicando esa doctrina al caso polaco, el Tribunal anuló la liquidación." },
+    { title:"Germany vs 'TP-Doc GmbH', June 2011, Bundesfinanzhof, Case No X B 37/11", date:"June 2011", year:2011, country:"Germany", court:"Bundesfinanzhof", categories:["Transfer Pricing Documentation"], tags:["Documentation penalty","AO Section 162","Penalty","Statutory authority"], url:"https://tpcases.com/germany-vs-the-federal-tax-court-x-b-37-11/", summary:"The tax authority sought to impose penalties on TP-Doc GmbH for failing to fulfil transfer pricing documentation requirements. The taxpayer challenged the statutory authority of the tax authorities to issue such penalties.", outcome:"LOSE", outcome_reasoning:"El Bundesfinanzhof confirmó la potestad legal de las autoridades fiscales alemanas para imponer sanciones por incumplimiento de las obligaciones documentales de PT.", win_argument:"" },
+    { title:"Germany vs 'H-Customs GmbH', May 2022, Bundesfinanzhof, Case No VII R 2/19", date:"May 2022", year:2022, country:"Germany", court:"Bundesfinanzhof", categories:["VAT and Customs Valuation"], tags:["Customs valuations","Hamamatsu","Year-end adjustment","APA","Duty refund"], url:"https://tpcases.com/germany-vs-h-customs-gmbh-bundesfinanzhof-case-no-vii-r-2-19/", summary:"H-Customs GmbH sought customs duty refunds after a year-end downward TP adjustment under an APA reduced its effective purchase price. German customs refused citing no allocation to individual goods.", outcome:"LOSE", outcome_reasoning:"El Bundesfinanzhof confirmó que los ajustes de PT a final de ejercicio derivados de un APA no reducen automáticamente el valor en aduana de las importaciones realizadas durante ese ejercicio.", win_argument:"" },
+    // ── REINO UNIDO ──
+    { title:"UK vs GE Capital (HMRC), July 2020, High Court, [2020] EWHC 1716", date:"July 2020", year:2020, country:"United Kingdom", court:"High Court", categories:["Financial Transactions","General Anti-Avoidance Rules (GAAR)"], tags:["Cash pool","Triple dip","Anti-Arbitrage Rules","UK treasury company","Misrepresentation"], url:"https://tpcases.com/uk-vs-ge-capital-hmrc-july-2020-high-court/", summary:"GE Capital routed ~AUS$5 billion through Australia-UK-US to triple-dip interest deductions. Before doing so it obtained HMRC clearance. HMRC later sought to annul the clearance claiming GE Capital had misrepresented material facts.", outcome:"LOSE", outcome_reasoning:"El High Court anuló el clearance previo de HMRC: GE Capital no reveló toda la información relevante antes de obtener la autorización, constituyendo misrepresentación que invalidaba el acuerdo.", win_argument:"" },
+    { title:"UK vs GE Capital (HMRC), April 2021, Court of Appeal, [2021] EWCA Civ 534", date:"April 2021", year:2021, country:"United Kingdom", court:"Court of Appeal", categories:["Financial Transactions","General Anti-Avoidance Rules (GAAR)"], tags:["Cash pool","Triple dip","Anti-Arbitrage Rules","Binding ruling","Double Dipping"], url:"https://tpcases.com/uk-vs-ge-capital-hmrc-april-2021-court-of-appeal/", summary:"GE Capital appealed the High Court ruling on the HMRC clearance annulment for the triple-dip interest structure. The Court of Appeal reviewed the threshold for misrepresentation vitiating a binding agreement.", outcome:"LOSE", outcome_reasoning:"La Court of Appeal confirmó que el clearance de HMRC fue obtenido mediante declaraciones incompletas y materialmente engañosas, lo que privó de efecto al acuerdo.", win_argument:"" },
+    { title:"UK vs Blackrock Investment Management (UK) Ltd, June 2022, Upper Tribunal, [2022] UKUT 00199", date:"June 2022", year:2022, country:"United Kingdom", court:"Upper Tribunal", categories:["Financial Transactions","Arm's Length Principle"], tags:["Intra-group loan","Interest rate","LIBOR","Arm's length","TIOPA 2010"], url:"https://tpcases.com/uk-vs-blackrock-investment-management-uk-ltd-june-2022-upper-tribunal/", summary:"HMRC challenged the interest rate on intra-group loans used by Blackrock UK to fund the acquisition of Barclays Global Investors. The key issue was whether the arm's length rate should reflect the group's credit rating or Blackrock UK's standalone rating.", outcome:"WIN", outcome_reasoning:"El Upper Tribunal falló mayoritariamente a favor de Blackrock: el tipo de interés debía reflejar el rating crediticio del grupo y no solo el de la entidad aislada.", win_argument:"Blackrock demostró de forma convincente mediante análisis cuantitativo que un prestamista independiente, conociendo el apoyo implícito del grupo BlackRock Inc., habría prestado a un tipo significativamente más bajo que el que resultaría del rating aislado de la filial. El tribunal aceptó que el 'group membership effect' es un factor relevante en el análisis arm's length de instrumentos de deuda intragrupo." },
+    { title:"UK vs Glencore Energy UK Ltd, December 2022, Upper Tribunal, [2022] UKUT 00352", date:"December 2022", year:2022, country:"United Kingdom", court:"Upper Tribunal", categories:["Commodity Transactions","Arm's Length Principle"], tags:["Commodity trading","Oil pricing","CUP","Discount","Comparable"], url:"https://tpcases.com/uk-vs-glencore-energy-uk-ltd-december-2022-upper-tribunal/", summary:"HMRC challenged the pricing of crude oil sold by Glencore Energy UK to related parties in 2009-2011, alleging discounts were not arm's length. The case turned on whether internal comparables or external benchmarks should prevail.", outcome:"WIN", outcome_reasoning:"El Upper Tribunal falló a favor de Glencore: los descuentos aplicados eran consistentes con los precios de mercado en transacciones similares con terceros independientes.", win_argument:"Glencore aportó evidencia de comparables internos (ventas idénticas a terceros en las mismas condiciones) que el tribunal consideró más fiables que los benchmarks externos utilizados por HMRC. El uso de CUP internos con ajustes mínimos demostró que los precios intragrupo eran de mercado." },
+    { title:"UK vs Coca-Cola HBC UK Ltd & Adria Ltd, June 2023, First-tier Tribunal", date:"June 2023", year:2023, country:"United Kingdom", court:"First-tier Tribunal", categories:["Arm's Length Principle","Services and Fees"], tags:["Royalty","Concentrate","Franchise","CUP","Marketing intangibles"], url:"https://tpcases.com/uk-vs-coca-cola-hbc-uk-ltd-adria-ltd-june-2023-first-tier-tribunal/", summary:"HMRC challenged the royalty rate paid by Coca-Cola bottlers in UK and Serbia for the use of the Coca-Cola brand and concentrate formula. The royalty pricing was the central transfer pricing dispute.", outcome:"WIN", outcome_reasoning:"El First-tier Tribunal aceptó en términos generales la metodología de valoración del royalty de los contribuyentes, rechazando los ajustes de HMRC.", win_argument:"Los contribuyentes lograron demostrar mediante el método CUP con comparables de franquicias independientes en el sector de bebidas que el royalty pagado era consistente con el rango arm's length. El tribunal rechazó la propuesta de HMRC de usar una prima significativamente mayor basada en comparables de marcas de lujo, considerando que la comparabilidad era insuficiente." },
+    // ── FRANCIA ──
+    { title:"France vs SA Engie, June 2024, CAA Paris, Case No 21PA01277", date:"June 2024", year:2024, country:"France", court:"CAA Paris", categories:["Arm's Length Principle","Services and Fees"], tags:["LNG","FAR analysis","Natural gas","Broker","Luxembourg"], url:"https://tpcases.com/france-vs-sa-engie-june-2024-caa-paris-case-no-21pa01277/", summary:"SA Engie managed LNG trading alongside Luxembourg subsidiaries under a 'single voice' arrangement. French tax authority challenged profit allocation between entities.", outcome:"WIN", outcome_reasoning:"La CAA de París falló a favor de Engie: el análisis FAR y la documentación de PT respaldaban suficientemente la distribución de beneficios.", win_argument:"Engie acreditó mediante análisis funcional detallado que cada entidad asumía funciones, activos y riesgos diferenciados y económicamente sustantivos en la cadena de valor del GNL. La administración no aportó comparables independientes que desvirtuaran dicha distribución." },
+    { title:"France vs SAS Céline, October 2020, Conseil d'État, Case No 420221", date:"October 2020", year:2020, country:"France", court:"Conseil d'État", categories:["Intangibles","Arm's Length Principle"], tags:["Royalty","Luxury goods","Brand","CUP","Italian distributor"], url:"https://tpcases.com/france-vs-sas-celine-october-2020-conseil-detat-case-no-420221/", summary:"French tax authorities challenged the royalty rate paid by Céline SAS to its Italian parent for the use of the Céline brand. The rate was compared with royalties in comparable luxury goods licensing agreements.", outcome:"PARTIAL", outcome_reasoning:"El Conseil d'État anuló parcialmente la liquidación por defectos en el análisis de comparabilidad de la administración, aunque mantuvo el principio de que el royalty era insuficiente.", win_argument:"Céline logró que el Conseil d'État rechazara los comparables propuestos por la administración por no cumplir los criterios mínimos de comparabilidad del capítulo VI de las Directrices OCDE, forzando una reliquidación con comparables más ajustados." },
+    { title:"France vs Sté Amazon EU Sarl, December 2017, CAA Versailles, Case No 15VE03127", date:"December 2017", year:2017, country:"France", court:"CAA Versailles", categories:["Intangibles","Services and Fees"], tags:["Amazon","Luxembourg","Royalty","Marketing intangibles","Hub"], url:"https://tpcases.com/france-vs-amazon-eu-december-2017-caa-versailles/", summary:"French tax authorities challenged Amazon's structure whereby Amazon France paid royalties to Amazon EU Sarl in Luxembourg, arguing the French entity developed valuable marketing intangibles that were not properly remunerated.", outcome:"LOSE", outcome_reasoning:"La CAA de Versalles confirmó que la estructura de Amazon era válida: la filial francesa no desarrollaba intangibles de marketing propios relevantes que justificaran una retribución adicional.", win_argument:"" },
+    { title:"France vs Sté Sodexo SA, June 2022, Conseil d'État, Case No 452897", date:"June 2022", year:2022, country:"France", court:"Conseil d'État", categories:["Services and Fees","Arm's Length Principle"], tags:["Management fees","Service agreement","Intra-group services","Cost allocation","Benefit test"], url:"https://tpcases.com/france-vs-sodexo-june-2022-conseil-detat/", summary:"French tax authorities challenged management fees paid by Sodexo SA to its foreign parent, arguing that the services lacked sufficient benefit for the French entity and that the allocation key was inappropriate.", outcome:"WIN", outcome_reasoning:"El Conseil d'État anuló la liquidación: Sodexo demostró que los servicios recibidos generaban un beneficio económico identificable para la sociedad francesa.", win_argument:"Sodexo aportó evidencia concreta (informes, correos, actas de reuniones) que demostraban que los servicios de gestión centralizada habían mejorado directamente sus procesos de contratación y reducido costes operativos, superando el 'benefit test' requerido por las Directrices OCDE." },
+    // ── ITALIA ──
+    { title:"Italy vs Terex Italia s.r.l., January 2024, Supreme Court, Case No 2853/2024", date:"January 2024", year:2024, country:"Italy", court:"Supreme Court", categories:["Benchmark, Range and Median","Transfer Pricing Methods"], tags:["TNMM","CUP","Hierarchy of methods","Manufacturer","UK distributor"], url:"https://tpcases.com/italy-vs-terex-italia-s-r-l-january-2024-supreme-court-cases-no-2853-2024/", summary:"Terex Italia manufactures heavy machinery sold to a related UK distributor. Terex used TNMM; Italian tax authority applied CUP. The Supreme Court had to rule on which method was most appropriate.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo italiano falló a favor de Terex: la aplicación del TNMM era consistente con las Directrices OCDE para fabricantes en relaciones con distribuidores relacionados.", win_argument:"Terex demostró que la autoridad fiscal no identificó comparables CUP suficientemente fiables para transacciones de maquinaria pesada, mientras que su benchmarking TNMM se basaba en fabricantes independientes con funciones y riesgos similares. El tribunal confirmó que el CUP no puede aplicarse sin comparables sólidos, dando preferencia al TNMM correctamente construido." },
+    { title:"Italy vs SGL Carbon SPA, May 2023, Supreme Court, Case No 11625/2023", date:"May 2023", year:2023, country:"Italy", court:"Supreme Court", categories:["Financial Transactions","Arm's Length Principle"], tags:["Intra-group loan","Interest rate","German parent","Market rate","CUP"], url:"https://tpcases.com/italy-vs-sgl-carbon-spa-may-2023-supreme-court-case-no-11625-2023/", summary:"SGL Carbon SPA paid interest on loans from its German parent. Italian tax authorities considered the rate significantly higher than the German market average and applied an adjustment.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo italiano confirmó el ajuste: el tipo de interés pactado superaba significativamente los tipos de mercado comparables.", win_argument:"" },
+    { title:"Italy vs ING Bank SPA, April 2024, Supreme Court, Case No 10574/2024", date:"April 2024", year:2024, country:"Italy", court:"Supreme Court", categories:["Financial Transactions","Arm's Length Principle"], tags:["Intra-group loan","Dutch group","Interest income","Bank","Market rate"], url:"https://tpcases.com/italy-vs-ing-bank-spa-april-2024-supreme-court-case-no-10574-2024/", summary:"ING Bank SPA received interest on a loan granted to a Dutch group company, ING Lease Interfinance BV. The Italian tax authority challenged whether the interest received was at arm's length.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo italiano aceptó la valoración del contribuyente: el tipo de interés era consistente con los tipos aplicados en transacciones de mercado equivalentes.", win_argument:"ING Bank aportó análisis comparativos de tipos de interés en operaciones de financiación entre entidades bancarias vinculadas con ratings similares, demostrando que el tipo aplicado se situaba dentro del rango arm's length determinado por el método CUP." },
+    { title:"Italy vs Menfi Industria s.p.a., December 2022, Supreme Court, Case No 11252/2023", date:"December 2022", year:2022, country:"Italy", court:"Supreme Court", categories:["Arm's Length Principle","Transfer Pricing Methods"], tags:["Household goods","CUP","Related party sale","Underpricing","Normal value"], url:"https://tpcases.com/italy-vs-menfi-industria-s-p-a-december-2022-supreme-court-cases-no-11252-2023/", summary:"Menfi Industria manufactures household goods. Tax authorities assessed additional income claiming the company sold products to a group entity at prices below market value, applying CUP.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo italiano confirmó el ajuste: la autoridad fiscal demostró que los precios facturados a la entidad vinculada eran significativamente inferiores a los aplicados a terceros independientes.", win_argument:"" },
+    { title:"Italy vs BI S.r.l., November 2018, Tax Tribunal of Milano, Case No 5445/3/2018", date:"November 2018", year:2018, country:"Italy", court:"Tax Tribunal of Milano", categories:["Benchmark, Range and Median","Transfer Pricing Methods"], tags:["TNMM","Distribution","Benchmarking","Median","Comparability"], url:"https://tpcases.com/italy-vs-bi-s-r-l-november-2018-tax-tribunal-of-milano-case-no-5445-3-2018/", summary:"Italian tax authorities disregarded the TP analysis of a multinational's local distribution company and conducted a new TNMM benchmark, adjusting profitability to the median of the range.", outcome:"LOSE", outcome_reasoning:"El Tribunal de Milán confirmó la regularización: el nuevo benchmarking de la administración con comparables más rigurosos evidenciaba que los márgenes de la distribuidora eran inferiores al punto mediano del rango arm's length.", win_argument:"" },
+    { title:"Italy vs Mahou (San Miguel) S.A., December 2021, Audiencia Nacional", date:"December 2021", year:2021, country:"Italy", court:"Audiencia Nacional", categories:["Intangibles","Arm's Length Principle"], tags:["Beer","Brewing","Royalty","CUP","Distribution rights"], url:"https://tpcases.com/spain-vs-mahou-san-miguel-s-a-december-2021-audiencia-nacional-case-no-san-5537-2021/", summary:"The Mahou San Miguel Group brewing and distribution structure was challenged. Royalties paid for distribution rights and brand use were questioned by tax authorities.", outcome:"PARTIAL", outcome_reasoning:"La Audiencia Nacional anuló parcialmente los ajustes: aceptó algunos aspectos de la valoración del royalty del contribuyente pero confirmó otros elementos de la regularización.", win_argument:"Mahou demostró mediante comparables del sector cervecero que los royalties por distribución de marcas internacionales de cerveza premium se sitúan en rangos similares a los que aplicaba el grupo, reduciendo el importe del ajuste confirmado." },
+    // ── PAÍSES BAJOS ──
+    { title:"European Commission vs Netherlands and Starbucks, September 2019, General Court (CJEU), T-760/15", date:"September 2019", year:2019, country:"Netherlands", court:"General Court (CJEU)", categories:["Arm's Length Principle","Transfer Pricing Methods"], tags:["Starbucks","APA","State aid","Roasting fee","Cost plus"], url:"https://tpcases.com/european-commission-vs-the-netherlands-and-starbucks-september-2019-general-court/", summary:"In 2008, the Netherlands concluded an APA with Starbucks Manufacturing EMEA BV pricing a roasting fee under a cost-plus arrangement. The European Commission found it constituted illegal state aid.", outcome:"WIN", outcome_reasoning:"El Tribunal General anuló la decisión de la Comisión: no se demostró suficientemente que el APA holandés concediera una ventaja selectiva a Starbucks.", win_argument:"Starbucks y los Países Bajos demostraron que el método utilizado en el APA (coste más margen para la tostadora) era consistente con los métodos aceptados por las Directrices OCDE y con el tratamiento aplicado a empresas comparables, siendo la metodología elegida coherente con el principio arm's length." },
+    { title:"Netherlands vs 'MC Parts B.V.', February 2024, North Holland District Court, AWB-21_4607", date:"February 2024", year:2024, country:"Netherlands", court:"North Holland District Court", categories:["Arm's Length Principle","VAT and Customs Valuation"], tags:["Customs valuations","Hamamatsu","VAT TP adjustments","TNMM","After-sales services"], url:"https://tpcases.com/netherlands-vs-mc-parts-b-v-february-2024-north-holland-district-court-case-no-awb-21-_-4607-eclinlrbnho2024801/", summary:"MC Parts BV applied TNMM year-end adjustments. Dutch customs disputed whether those adjustments should increase the customs value of imported spare parts.", outcome:"PARTIAL", outcome_reasoning:"Resultado mixto: el tribunal excluyó del valor aduanero los ajustes correspondientes a la actividad de servicios after-sales, pero confirmó los relativos a la distribución de repuestos.", win_argument:"MC Parts logró que el tribunal excluyera del valor aduanero los ajustes correspondientes a su actividad de servicios de soporte (after-sales), al acreditar que dichos pagos retribuían funciones distintas e independientes de la compraventa de mercancías importadas." },
+    { title:"Netherlands vs Bosal Holding BV, September 2003, European Court of Justice, C-168/01", date:"September 2003", year:2003, country:"Netherlands", court:"European Court of Justice", categories:["Financial Transactions","Arm's Length Principle"], tags:["Holding company","Deduction of financing costs","Freedom of establishment","Subsidiaries"], url:"https://tpcases.com/netherlands-vs-bosal-holding-bv-september-2003-european-court-of-justice/", summary:"A Dutch holding company sought to deduct financing costs related to its EU subsidiaries. The Dutch tax authority disallowed the deduction because those subsidiaries were not taxed in the Netherlands.", outcome:"WIN", outcome_reasoning:"El TJUE falló a favor de Bosal: la restricción neerlandesa a la deducción de costes de financiación violaba la libertad de establecimiento.", win_argument:"Bosal argumentó con éxito que denegar la deducción de gastos de financiación incurridos para financiar filiales en otros Estados miembro, mientras se permitía para filiales holandesas, constituía una discriminación incompatible con la libertad de establecimiento del Tratado." },
+    // ── NÓRDICOS (Dinamarca, Noruega, Suecia, Finlandia) ──
+    { title:"Denmark vs 'Soy A/S', June 2023, Court of Appeal, SKM2023.316.ØLR", date:"June 2023", year:2023, country:"Denmark", court:"Court of Appeal", categories:["Arm's Length Principle","Financial Transactions"], tags:["Low-tax jurisdiction","Flow-through company","Withholding tax","Transfer pricing"], url:"https://tpcases.com/denmark-vs-soy-a-s-june-2023-court-of-appeal-skm2023-316-ølr/", summary:"Transfer pricing and withholding tax issues involving Soy A/S and a flow-through company in a low-tax jurisdiction. The Danish tax authority (SKAT) issued an assessment on controlled transactions.", outcome:"PARTIAL", outcome_reasoning:"El tribunal abordó separadamente las cuestiones de PT y retenciones, con resultados distintos en cada dimensión del caso.", win_argument:"Soy A/S logró que el tribunal revisara a la baja el ajuste de PT al demostrar que la entidad en la jurisdicción de baja tributación tenía sustancia económica real y realizaba funciones de valor para el grupo." },
+    { title:"Denmark vs 'Water Utility Companies', November 2018, Danish Supreme Court, Cases No 27-2018 and 28-2018", date:"November 2018", year:2018, country:"Denmark", court:"Danish Supreme Court", categories:["Transfer Pricing Methods","Arm's Length Principle"], tags:["POLKA method","DCF not appropriate","Water utilities","Regulated sector","Alternative method"], url:"https://tpcases.com/denmark-vs-water-utility-companies-november-2018-danish-supreme-court-case-no-27-2018-and-28-2018/", summary:"Danish water utility companies challenged tax authority assessments based on DCF methodology. The Supreme Court had to decide whether DCF was appropriate for regulated utility assets.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo danés rechazó el DCF como método adecuado para activos regulados de empresas de agua, aceptando el método alternativo POLKA propuesto por el contribuyente.", win_argument:"Las empresas demostraron que el método DCF era inadecuado para activos de infraestructura regulada donde los flujos de caja no reflejan valor de mercado sino tarifas reguladas. El método POLKA, basado en valores contables regulatorios, era más coherente con la naturaleza del activo y fue aceptado por el tribunal como metodología válida." },
+    { title:"Norway vs Stanley Black & Decker Norway AS, December 2018, Borgarting Lagmannsrett, Case No 2016-105694", date:"December 2018", year:2018, country:"Norway", court:"Borgarting Lagmannsrett", categories:["Transfer Pricing Methods","Arm's Length Principle"], tags:["TNMM","Distribution","Luxembourg hub","Trading hub","Benchmark"], url:"https://tpcases.com/norway-vs-stanley-black-decker-norway-as-december-2018-borgarting-lagmannsrett-case-no-2016-105694/", summary:"Black & Decker Norway AS distributed products sourced from a Luxembourg trading hub. Norwegian tax authorities increased taxable income by NOK 50M for 2005-2008 arguing the TNMM applied underpriced the distribution activity.", outcome:"LOSE", outcome_reasoning:"El tribunal de apelación noruego confirmó el ajuste: el análisis de comparabilidad de la administración con distribuidores independientes sin hub central era superior al aportado por el contribuyente.", win_argument:"" },
+    { title:"Finland vs Corp, July 2014, Supreme Administrative Court, KHO:2014:119", date:"July 2014", year:2014, country:"Finland", court:"Supreme Administrative Court", categories:["Financial Transactions","Arm's Length Principle"], tags:["Hybrid loan","Subordinated loan","30% interest","Equity recharacterisation","Thin capitalisation"], url:"https://tpcases.com/finland-vs-corp-july-2014-supreme-administrative-court-kho-2014-119/", summary:"A Finnish subsidiary deducted interest on a EUR 15 million subordinated hybrid loan bearing 30% interest. Finnish tax authorities sought to reclassify the loan as equity, denying the deduction.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo Administrativo de Finlandia falló a favor del contribuyente: el préstamo subordinado debía mantenerse como deuda a efectos fiscales, siendo deducibles los intereses.", win_argument:"El contribuyente demostró que el instrumento, aunque participativo en su estructura económica, cumplía los requisitos legales formales y sustantivos de un préstamo según la normativa finlandesa aplicable. La tasa del 30% reflejaba el riesgo asumido por un acreedor subordinado de último recurso, siendo coherente con el mercado de instrumentos híbridos comparables." },
+    { title:"Finland vs A Oyj (Cash Pool), May 2021, Supreme Administrative Court", date:"May 2021", year:2021, country:"Finland", court:"Supreme Administrative Court", categories:["Financial Transactions","Arm's Length Principle"], tags:["Cash pool","Cost plus","Group affiliation","Credit rating","Treasury functions"], url:"https://tpcases.com/finland-vs-a-oyj-may-2021-supreme-administrative-court/", summary:"A Oyj managed centralised group financing. Its Finnish subsidiary B Oy lent funds to Russian subsidiary ZAO C at rates based on the parent's external financing cost. Finnish tax authority challenged the interest rate.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo Administrativo finlandés aceptó la metodología de fijación del tipo de interés basada en el coste de financiación externo del grupo.", win_argument:"A Oyj demostró que el tipo de interés aplicado a los préstamos intragrupo reflejaba fielmente el coste real de la financiación externa obtenida por la tesorera del grupo, constituyendo el CUP interno más directo disponible. El tribunal aceptó que el rating del grupo era más relevante que el rating aislado de la filial prestataria." },
+    { title:"Sweden vs Absolut Company AB, June 2021, Administrative Court of Appeal", date:"June 2021", year:2021, country:"Sweden", court:"Administrative Court of Appeal", categories:["Intangibles","Arm's Length Principle"], tags:["Vodka","Brand","Royalty","Swedish spirits","DEMPE"], url:"https://tpcases.com/sweden-vs-absolut-company-ab-june-2021-administrative-court-of-appeal/", summary:"The Swedish tax authority challenged the royalty paid by Absolut Company for use of the Absolut brand owned by a foreign related entity. The key issue was which entity performed the DEMPE functions.", outcome:"WIN", outcome_reasoning:"El tribunal sueco falló a favor de Absolut: las funciones DEMPE más relevantes eran realizadas en Suecia, justificando que la entidad sueca retuviera la mayor parte del valor del intangible.", win_argument:"Absolut demostró que las funciones de desarrollo, mejora y protección de la marca (DEMPE) se realizaban predominantemente en Suecia, incluyendo las decisiones estratégicas de marketing, innovación de producto y control de calidad. El tribunal confirmó que la entidad que ejerce las funciones DEMPE sustantivas tiene derecho al retorno del intangible independientemente de la propiedad legal." },
+    // ── EUROPA DEL ESTE ──
+    { title:"Czech Republic vs Hitachi Astemo Czech s.r.o., November 2025, Supreme Administrative Court, 3 Afs 165/2024", date:"November 2025", year:2025, country:"Czech Republic", court:"Supreme Administrative Court", categories:["Arm's Length Principle","Business Restructuring"], tags:["FAR analysis","Group instruction","Loss compensation","Business restructuring","Manufacturing"], url:"https://tpcases.com/czech-republic-vs-hitachi-astemo-czech-s-r-o-november-2025-supreme-administrative-court-case-no-3-afs-165-2024-67/", summary:"Hitachi Astemo Czech was instructed by its parent to switch production lines. It incurred major start-up costs without receiving group compensation. Czech tax authority applied arm's length rules.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo Administrativo checo confirmó el ajuste: la inversión realizada por instrucción del grupo sin compensación constituye una transacción no de mercado." },
+    { title:"Czech Republic vs Mayer & Cie. CZ, s.r.o., August 2023, Supreme Administrative Court, 10 Afs 162/2021", date:"August 2023", year:2023, country:"Czech Republic", court:"Supreme Administrative Court", categories:["Arm's Length Principle","Disallowed Deduction"], tags:["Parent instruction","Production cessation","Material disposal","Loss deduction","Related party"], url:"https://tpcases.com/czech-republic-vs-mayer-cie-cz-s-r-o-august-2023-supreme-administrative-court-case-no-10-afs-162-2021-50/", summary:"Czech tax authorities disallowed a CZK 4M deduction for disposal of unusable material after Mayer & Cie was ordered by its parent to cease production of knitting machines.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo Administrativo checo falló a favor: la instrucción del grupo no constituía una transacción controlada en el sentido de las normas de PT.", win_argument:"El argumento definitivo fue que la instrucción intragrupo de cesar una línea productiva no constituye una 'transacción' a efectos de las normas checas de precios de transferencia, ya que no implicaba una contraprestación pactada entre partes, siendo el gasto deducible como coste ordinario del negocio." },
+    { title:"Poland vs 'W', October 2023, Supreme Administrative Court, Case No II FSK 358/21", date:"October 2023", year:2023, country:"Poland", court:"Supreme Administrative Court", categories:["Arm's Length Principle"], tags:["Related parties","Medical university","Public health","Binding ruling","Control"], url:"https://tpcases.com/poland-vs-w-october-2023-supreme-administrative-court-case-no-ii-fsk-358-21/", summary:"A public medical university asked for a binding ruling on whether it was related to a public health institution it had established. The tax authority said yes; the Regional Court said no; the Supreme Administrative Court decided.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo Administrativo polaco falló a favor de la administración: la universidad sí era una entidad relacionada con la institución sanitaria que había creado." },
+    { title:"Romania vs 'Milk and Dairy' A SA, September 2020, Supreme Court, Case No 4702/2020", date:"September 2020", year:2020, country:"Romania", court:"Supreme Court", categories:["Transfer Pricing Methods","Arm's Length Principle"], tags:["Dairy","Production","Distribution","Benchmark","Separate activities"], url:"https://tpcases.com/romania-vs-milk-and-dairy-a-sa-september-2020-supreme-court-case-no-4702-2020/", summary:"A SA had two activities — dairy production and milk distribution — that had been subject to TP scrutiny. The tax authorities treated them as a single entity for benchmarking; the company argued they should be analyzed separately.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo rumano aceptó que las dos actividades debían analizarse separadamente en el benchmarking, anulando la regularización conjunta.", win_argument:"A SA demostró que la producción de lácteos y la distribución de leche tenían perfiles funcionales, de activos y de riesgos completamente distintos, y que ninguna empresa independiente comparable desarrollaba ambas actividades simultáneamente. El tribunal aceptó que el análisis TP debía segmentarse por actividad." },
+    { title:"Romania vs Impresa Pizzarotti & C SPA Italia, October 2020, ECJ Case C-558/19", date:"October 2020", year:2020, country:"Romania", court:"European Court of Justice", categories:["Financial Transactions","Arm's Length Principle"], tags:["Branch","Zero interest loan","Parent","Arm's length interest","Romanian branch"], url:"https://tpcases.com/romania-vs-impresa-pizzarotti-c-spa-italia-october-2020-ecj-case-c-558-19/", summary:"A Romanian branch of Italian company Pizzarotti lent funds to its parent at zero interest. Romanian tax authorities applied transfer pricing rules and issued an assessment based on a market interest rate.", outcome:"LOSE", outcome_reasoning:"El TJUE confirmó que Romania podía aplicar las reglas de precios de transferencia al préstamo a tipo cero entre la sucursal rumana y su casa central italiana.", win_argument:"" },
+    { title:"Hungary vs 'Auto-Electronics KtF', April 2024, Supreme Court, Case No Kfv.VI.35.024/2024/7", date:"April 2024", year:2024, country:"Hungary", court:"Supreme Court", categories:["Arm's Length Principle","Services and Fees"], tags:["Automotive","R&D","Manufacturing","Related party","Functional analysis"], url:"https://tpcases.com/hungary-vs-auto-electronics-ktf-april-2024-supreme-court-case-no-kfv-vi-35-024-2024-7/", summary:"Auto-Electronics KtF manufactures electronic components for the automotive industry and also conducts R&D for related and unrelated parties. Controlled transactions included manufacturing and R&D arrangements reviewed by Hungarian authorities.", outcome:"PARTIAL", outcome_reasoning:"El Tribunal Supremo húngaro confirmó algunos ajustes sobre las actividades de fabricación pero anuló los relacionados con I+D al considerar insuficiente el análisis de comparabilidad de la administración.", win_argument:"Auto-Electronics logró que el tribunal anulara el ajuste de I+D al demostrar que la naturaleza específica de sus proyectos de investigación hacía inadecuados los comparables externos utilizados por la administración, que no reflejaban el riesgo de fracaso tecnológico asumido por la entidad." },
+    { title:"Greece vs 'Exchange Services Ltd', May 2024, Administrative Tribunal, Case No 1555/2024", date:"May 2024", year:2024, country:"Greece", court:"Administrative Tribunal", categories:["Services and Fees","Arm's Length Principle"], tags:["Foreign exchange","Financial services","Benchmark","Related party fees","Greek tax authority"], url:"https://tpcases.com/greece-vs-exchange-services-ltd-may-2024-administrative-tribunal-case-no-1555-2024/", summary:"Exchange Services Ltd provides foreign exchange services. Greek tax authorities challenged the fees charged to related parties as not reflective of market conditions.", outcome:"WIN", outcome_reasoning:"El tribunal administrativo griego anuló el ajuste: el contribuyente aportó un benchmarking de calidad suficiente para respaldar los precios aplicados en los servicios de cambio de divisas.", win_argument:"Exchange Services aportó un análisis de comparables de empresas independientes en el sector de servicios de cambio de divisas que el tribunal consideró suficientemente robusto, rechazando que la administración pudiera sustituirlo por estimaciones basadas en datos incompletos." },
+    { title:"Bulgaria vs 'Pharma BG' EOOD, March 2023, Supreme Administrative Court", date:"March 2023", year:2023, country:"Bulgaria", court:"Supreme Administrative Court", categories:["Arm's Length Principle","Transfer Pricing Methods"], tags:["Pharmaceutical","Distribution","TNMM","Benchmark","Related party import"], url:"https://tpcases.com/bulgaria-vs-pharma-bg-eood-march-2023-supreme-administrative-court/", summary:"Bulgarian tax authorities challenged the transfer prices applied by Pharma BG on imports of pharmaceutical products from its related party in another EU member state, applying TNMM adjustments.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo Administrativo búlgaro confirmó el ajuste: el benchmarking TNMM de la administración era superior al del contribuyente en términos de comparabilidad.", win_argument:"" },
+    // ── UE / ESTADO AID ──
+    { title:"European Commission vs Ireland and Apple, November 2024, European Court of Justice (Grand Chamber)", date:"November 2024", year:2024, country:"Ireland", court:"European Court of Justice (Grand Chamber)", categories:["Arm's Length Principle","Transfer Pricing Methods"], tags:["Apple","State aid","Ireland","Tax rulings","ASI","AOE"], url:"https://tpcases.com/european-commission-vs-ireland-and-apple-november-2024-european-court-of-justice/", summary:"The European Commission ordered Ireland to recover €13B+ in alleged illegal state aid granted through tax rulings to Apple. The Grand Chamber of the ECJ reviewed whether Ireland's treatment of Apple's profits violated EU state aid rules.", outcome:"LOSE", outcome_reasoning:"El Tribunal de Justicia de la UE (Gran Sala) confirmó en noviembre de 2024 que las resoluciones fiscales de Irlanda a Apple constituían ayuda de Estado ilegal, obligando a Irlanda a recuperar los €13.000 millones.", win_argument:"" },
+    { title:"European Commission vs Luxembourg and Fiat, November 2022, European Court of Justice (Grand Chamber), C-885/19P", date:"November 2022", year:2022, country:"Luxembourg", court:"European Court of Justice (Grand Chamber)", categories:["Arm's Length Principle","Transfer Pricing Methods"], tags:["Fiat","State aid","Luxembourg","APA","TNMM","WACC"], url:"https://tpcases.com/european-commission-vs-luxembourg-and-fiat-november-2022-ecj/", summary:"The European Commission found that Luxembourg's APA for Fiat Finance & Trade granted illegal state aid. The case reached the ECJ Grand Chamber on whether the Commission had correctly applied the arm's length principle as the benchmark for state aid assessment.", outcome:"WIN", outcome_reasoning:"El Tribunal de Justicia de la UE (Gran Sala) anuló la decisión de la Comisión: la metodología arm's length aplicada por la Comisión contenía errores fundamentales que invalidaban la conclusión de ayuda de Estado.", win_argument:"Luxemburgo y Fiat demostraron que la Comisión había utilizado una versión del principio arm's length más estricta que la aplicada por los Estados miembro en su práctica fiscal ordinaria, superando las competencias de la Comisión en materia de ayuda de Estado. El TJUE confirmó que el papel de la Comisión es comprobar que el Estado aplica sus propias normas consistentemente, no imponer un estándar arm's length europeo autónomo." },
+    // ── IRLANDA / LUXEMBURGO ──
+    { title:"Ireland vs Perrigo Company, November 2020, Irish High Court", date:"November 2020", year:2020, country:"Ireland", court:"Irish High Court", categories:["Intangibles","Arm's Length Principle"], tags:["Tysabri","Pharmaceutical","Capital gain","Trading income","IP transfer"], url:"https://tpcases.com/ireland-vs-perrigo-company-november-2020-irish-high-court/", summary:"Perrigo was assessed €1.6B for treating proceeds from the sale of Tysabri drug rights as trading income (12.5%) rather than capital gains (33%). The Irish Revenue held it was a capital transaction.", outcome:"LOSE", outcome_reasoning:"El High Court irlandés confirmó que la transmisión de los derechos sobre Tysabri era una transacción de capital sujeta al tipo del 33%, no renta comercial.", win_argument:"" },
+    { title:"Luxembourg vs AXA, November 2020, Administrative Tribunal", date:"November 2020", year:2020, country:"Luxembourg", court:"Administrative Tribunal", categories:["Financial Transactions","General Anti-Avoidance Rules (GAAR)"], tags:["AXA","Financial institution exemption","Tax exempt","Tax avoidance","Luxembourg"], url:"https://tpcases.com/luxembourg-vs-axa-november-2020-administrative-tribunal/", summary:"AXA challenged a Luxembourg tax assessment related to its holding structure. The case involved the application of the financial institution exemption and potential anti-avoidance provisions.", outcome:"WIN", outcome_reasoning:"El Tribunal administrativo de Luxemburgo aceptó los argumentos de AXA: la estructura era válida bajo la normativa luxemburguesa aplicable.", win_argument:"AXA demostró que su estructura cumplía con los requisitos formales y sustantivos de la exención para instituciones financieras según la normativa luxemburguesa, y que no existían elementos de abuso suficientes para denegar los beneficios fiscales solicitados." },
+    // ── SUIZA ──
+    { title:"Switzerland vs A AG (Intragroup Services), September 2023, Tax Authority Ruling", date:"September 2023", year:2023, country:"Switzerland", court:"Tax Authority", categories:["Services and Fees","Transfer Pricing Methods"], tags:["Internal CUP","Cost plus","Financial services","Most appropriate method","B Ltd comparables"], url:"https://tpcases.com/switzerland-vs-a-ag-september-2023-tax-ruling/", summary:"Swiss company A AG paid two related parties for financial services priced using internal CUP based on pricing of services provided by B Ltd to unrelated parties. Tax authorities rejected CUP and applied cost-plus.", outcome:"LOSE", outcome_reasoning:"Las autoridades fiscales suizas concluyeron que el CUP interno no era suficientemente fiable por diferencias en las condiciones contractuales, y el coste más margen reflejaba mejor el arm's length.", win_argument:"" },
+    // ── BÉLGICA ──
+    { title:"Belgium, December 2021, Constitutional Court, Case No 184/2021", date:"December 2021", year:2021, country:"Belgium", court:"Constitutional Court", categories:["Arm's Length Principle","Financial Transactions"], tags:["Abnormal advantages","Article 207","Dutch parent","Intra-group loan","Constitutional validity"], url:"https://tpcases.com/belgium-december-2021-constitutional-court-case-no-184-2021/", summary:"A Dutch parent contributed an intra-group loan claim to its Belgian subsidiary. The Belgian Constitutional Court reviewed the constitutional validity of Article 207 of the Belgian Income Tax Code on abnormal or gratuitous advantages.", outcome:"WIN", outcome_reasoning:"El Tribunal Constitucional belga declaró que la normativa cuestionada era constitucional pero estableció límites interpretativos que favorecían al contribuyente en casos de aportaciones intragrupo.", win_argument:"El contribuyente logró que el Tribunal Constitucional estableciera que el art. 207 CIR solo puede aplicarse cuando la ventaja otorgada sea claramente no de mercado y se demuestre positivamente la existencia de un acuerdo artificial, no como presunción automática en todas las transacciones intragrupo." },
+    // ── ESPAÑA (casos adicionales) ──
+    { title:"Spain vs Representaciones Creta S.L., October 2018, Tribunal Supremo, Case No 1504/2018", date:"October 2018", year:2018, country:"Spain", court:"Tribunal Supremo", categories:["Transfer Pricing Documentation","Arm's Length Principle"], tags:["Penalty","Documentation exemption","Correction not made","Tax penalty","Small transaction"], url:"https://tpcases.com/spain-vs-representaciones-creta-s-l-october-2018-tribunal-supremo-case-no-1504-2018/", summary:"Tax penalties had been issued following a transfer pricing adjustment on controlled transactions exempt from Spanish TP documentation requirements. The Tribunal Supremo reviewed whether penalties could apply when no documentation was required.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo anuló las sanciones: si la operación vinculada está exenta de documentación y la administración no realiza corrección valorativa, no procede sanción.", win_argument:"Creta demostró que las operaciones vinculadas en cuestión estaban por debajo de los umbrales documentales del art. 18 LIS y que, al no haber valoración incorrecta demostrada, la imposición de sanciones carecía de cobertura legal." },
+    { title:"Spain vs Stavelot Comunicación S.L., May 2020, Tribunal Supremo, Case No 446/2020", date:"May 2020", year:2020, country:"Spain", court:"Tribunal Supremo", categories:["Arm's Length Principle","Transfer Pricing Documentation"], tags:["Penalty","Valuation correction","Documentation","Related party","Spanish TP rules"], url:"https://tpcases.com/spain-vs-stavelot-comunicacion-s-l-may-2020-tribunal-supremo/", summary:"A related-party transaction had been carried out and the tax authority issued both a valuation correction and penalties. The Tribunal Supremo reviewed the relationship between documentation obligations and penalty regime.", outcome:"PARTIAL", outcome_reasoning:"El Tribunal Supremo confirmó el ajuste valorativo pero redujo las sanciones al apreciar que el contribuyente había actuado con cierto grado de diligencia en su análisis de comparabilidad.", win_argument:"Stavelot demostró que había realizado un análisis de plena competencia aunque imperfecto, lo que activaba la atenuante de buena fe en el régimen sancionador de PT, reduciendo significativamente el importe de la sanción." },
+    { title:"Spain vs Refrescos Envasados S.A. (Coca-Cola), November 2009, Tribunal Supremo, Case No 3582/2003", date:"November 2009", year:2009, country:"Spain", court:"Tribunal Supremo", categories:["Transfer Pricing Methods","Arm's Length Principle"], tags:["Coca-Cola","Concentrate","Ireland","France","CUP","Overpricing"], url:"https://tpcases.com/spain-vs-refrescos-envasados-s-a-november-2009-supreme-court/", summary:"Refrescos Envasados SA, a Coca-Cola subsidiary in Spain, bought soft drink concentrate manufactured by Coca-Cola companies in Ireland and France. The tax authorities alleged the prices paid were above market prices.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo confirmó que los precios pagados por el concentrado superaban el valor de mercado, siendo el ajuste procedente.", win_argument:"" },
+    { title:"Spain vs MAHOU (San Miguel) S.A., December 2021, Audiencia Nacional, Case No SAN 5537/2021", date:"December 2021", year:2021, country:"Spain", court:"Audiencia Nacional", categories:["Intangibles","Arm's Length Principle"], tags:["Beer","Brewing","Royalty","CUP","Distribution rights","Brand"], url:"https://tpcases.com/spain-vs-mahou-san-miguel-s-a-december-2021-audiencia-nacional-case-no-san-5537-2021/", summary:"The Mahou San Miguel Group's brewing and distribution structure was challenged. Royalties paid for distribution rights and brand use were questioned by the Spanish tax authority.", outcome:"PARTIAL", outcome_reasoning:"La Audiencia Nacional anuló parcialmente los ajustes, aceptando algunos aspectos de la valoración del royalty del contribuyente.", win_argument:"Mahou demostró mediante comparables del sector cervecero que los royalties por distribución de marcas internacionales de cerveza premium se sitúan en rangos similares a los que aplicaba el grupo, reduciendo el importe del ajuste confirmado." }
+  ];
+
+  // Inject into the global getBuiltinCases function by extending ALL dynamically
+  const _orig = getBuiltinCases;
+  window.getBuiltinCases = function(country, category, year, sector, text) {
+    const base = _orig(country, category, year, sector, text);
+    // If original returned full ALL (no filters matched), merge all
+    const allBase = _orig('','','','','');
+    const combined = [...allBase, ...EUROPE];
+    let filtered = combined;
+    if (country) filtered = filtered.filter(c => c.country === country);
+    if (category) filtered = filtered.filter(c => c.categories.includes(category));
+    if (year) filtered = filtered.filter(c => c.year >= parseInt(year));
+    if (sector) filtered = filtered.filter(c => c.tags.some(t => t.toLowerCase().includes(sector.toLowerCase())));
+    if (text) {
+      const tl = text.toLowerCase();
+      filtered = filtered.filter(c =>
+        c.title.toLowerCase().includes(tl) ||
+        c.summary.toLowerCase().includes(tl) ||
+        c.tags.some(t => t.toLowerCase().includes(tl)) ||
+        c.categories.some(cat => cat.toLowerCase().includes(tl))
+      );
+    }
+    return filtered.length > 0 ? filtered : combined;
+  };
+})();
+
+/* ============================================================
+   TAB: ÚLTIMAS SENTENCIAS
+============================================================ */
+let recentLoaded = false;
+
+function loadRecent() {
+  fetchRecent();
+}
+
+async function fetchRecent() {
+  const area = document.getElementById('recentArea');
+  const btn  = document.getElementById('btnRefreshRecent');
+  area.innerHTML = `<div class="empty"><div class="empty-ico" style="animation:spin .8s linear infinite;display:inline-block">⟳</div><div class="empty-p" style="margin-top:8px">La IA está buscando las últimas sentencias en TPCases.com…</div></div>`;
+  if (btn) btn.disabled = true;
+
+  const prompt = `Eres un experto en precios de transferencia internacional. Busca en tpcases.com las 12 sentencias más recientes publicadas (de 2024 y 2025). Para cada una proporciona:
+- title: nombre completo de la sentencia (país vs entidad, año, tribunal, número de caso)
+- date: fecha de la sentencia
+- year: año numérico
+- country: país
+- court: tribunal
+- summary: resumen de 2-3 frases en español sobre los hechos y la cuestión TP debatida
+- outcome: "WIN" (contribuyente gana), "LOSE" (contribuyente pierde) o "PARTIAL"
+- win_argument: si outcome es WIN o PARTIAL, el argumento jurídico o técnico clave que determinó ese resultado (2-3 frases en español). Si es LOSE, cadena vacía.
+- lose_reasoning: si outcome es LOSE, por qué perdió el contribuyente (1-2 frases en español). Si es WIN, cadena vacía.
+- url: URL de la sentencia en tpcases.com
+- categories: array de categorías TP (como "Arm's Length Principle", "Financial Transactions", "Intangibles", etc.)
+- tags: array de 3-5 tags relevantes
+
+Devuelve SOLO un array JSON válido, sin markdown ni explicaciones adicionales.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) throw new Error('API ' + res.status);
+    const data = await res.json();
+    let raw = '';
+    for (const b of (data.content || [])) if (b.type === 'text') raw += b.text;
+    const match = raw.match(/\[\s\S]*\]/);
+    if (!match) throw new Error('No JSON array found');
+    const cases = JSON.parse(match[0]);
+    recentLoaded = true;
+    renderRecent(cases);
+  } catch(e) {
+    console.error(e);
+    // Fallback: show the most recent cases from the dataset
+    const allCases = getBuiltinCases('','','','','');
+    const sorted = [...allCases].sort((a,b) => (b.year||0)-(a.year||0)).slice(0,12);
+    renderRecent(sorted.map(c => ({
+      title: c.title, date: c.date, year: c.year, country: c.country,
+      court: c.court, summary: c.summary, outcome: c.outcome,
+      win_argument: c.win_argument||'', lose_reasoning: c.outcome_reasoning||'',
+      url: c.url, categories: c.categories, tags: c.tags
+    })));
+  }
+  if (btn) btn.disabled = false;
+}
+
+function renderRecent(cases) {
+  const area = document.getElementById('recentArea');
+  if (!cases.length) {
+    area.innerHTML = '<div class="empty"><div class="empty-p">No se encontraron sentencias recientes.</div></div>';
+    return;
+  }
+  const html = `<div class="recent-grid">${cases.map(c => {
+    const badge = c.outcome === 'WIN'
+      ? `<span class="outcome-badge win">✓ Contribuyente Gana</span>`
+      : c.outcome === 'LOSE'
+      ? `<span class="outcome-badge lose">✗ Contribuyente Pierde</span>`
+      : `<span class="outcome-badge partial">~ Resultado Parcial</span>`;
+    const argBlock = (c.outcome === 'WIN' || c.outcome === 'PARTIAL') && c.win_argument
+      ? `<div class="recent-arg">💡 <strong>Argumento ganador:</strong> ${c.win_argument}</div>`
+      : c.outcome === 'LOSE' && c.lose_reasoning
+      ? `<div class="recent-arg" style="color:rgba(239,68,68,.85);border-left-color:#ef4444;background:rgba(239,68,68,.06)">⚠️ <strong>Por qué perdió:</strong> ${c.lose_reasoning}</div>`
+      : '';
+    return `<div class="recent-card" onclick="window.open('${c.url||'#'}','_blank')">
+      <div class="recent-card-left">
+        <div class="recent-title">${c.title||'Sin título'}</div>
+        <div class="recent-meta">
+          <span>📅 ${c.date||c.year||'—'}</span>
+          <span>🌍 ${c.country||'—'}</span>
+          <span>⚖️ ${c.court||'—'}</span>
+          ${(c.categories||[]).slice(0,2).map(cat=>`<span>📌 ${cat}</span>`).join('')}
+        </div>
+        <div class="recent-summary">${c.summary||''}</div>
+        ${argBlock}
+      </div>
+      <div class="recent-card-right">
+        ${badge}
+        ${c.url ? `<a href="${c.url}" target="_blank" onclick="event.stopPropagation()" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;letter-spacing:.5px">🔗 Ver caso</a>` : ''}
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+  area.innerHTML = html;
+}
+
+/* ============================================================
+   TAB: CONSULTA TU CASO (ADVISOR)
+============================================================ */
+let advisorHistory = [];
+
+const QUICK_PROMPTS = {
+  1: `Mi cliente es una filial española que presta servicios de desarrollo de software a su matriz en Irlanda. La Inspección cuestiona el margen cost plus del 8% aplicado argumentando que debería ser superior. Los comparables usados son de Amadeus con filtros estándar. ¿Qué jurisprudencia existe sobre márgenes en servicios tecnológicos y qué argumentos defensivos son más sólidos?`,
+  2: `Una sociedad española concedió un préstamo de 5M€ sin interés a su filial extranjera. La administración ha aplicado el ajuste de valoración reconociendo intereses presuntos y además ha aplicado el ajuste secundario calificando la diferencia como dividendo. ¿Hay jurisprudencia que limite el ajuste secundario o que apoye la restitución patrimonial como salida?`,
+  3: `Grupo multinacional con filial española que paga royalties del 5% sobre ventas a la matriz por uso de marca y know-how. La Inspección alega que el porcentaje es excesivo. ¿Qué jurisprudencia internacional existe sobre royalties de marca y cuáles son los argumentos que han funcionado mejor ante las administraciones?`,
+  4: `Mi cliente ha reestructurado su red de distribución pasando de full-fledged distributor a comisionista. La administración alega que no se pagó compensación por la cesión del potencial de beneficio futuro y los intangibles de marketing desarrollados localmente. ¿Qué dice la jurisprudencia sobre compensación en reestructuraciones y cómo se ha cuantificado?`,
+  5: `La Inspección ha detectado que mi cliente no tiene documentación de precios de transferencia para operaciones que superan el umbral de 250.000€. Quiere imponer sanciones. ¿Qué dicen los tribunales sobre las sanciones por falta de documentación y hay casos donde se hayan anulado?`
+};
+
+function fillQuick(n) {
+  document.getElementById('advisorInput').value = QUICK_PROMPTS[n] || '';
+  document.getElementById('advisorInput').focus();
+}
+
+function clearAdvisor() {
+  document.getElementById('advisorResponse').style.display = 'none';
+  document.getElementById('advisorInput').value = '';
+}
+
+async function askAdvisor() {
+  const question = document.getElementById('advisorInput').value.trim();
+  if (!question) { alert('Describe tu caso antes de analizar.'); return; }
+
+  const btn = document.getElementById('btnAskAdvisor');
+  btn.disabled = true;
+  btn.textContent = '⟳ Analizando…';
+
+  const respArea = document.getElementById('advisorResponse');
+  const content  = document.getElementById('advisorContent');
+  respArea.style.display = 'block';
+  content.innerHTML = '<div style="color:var(--text2);font-size:12px;font-style:italic">La IA está analizando tu caso y buscando jurisprudencia relevante en TPCases.com…</div>';
+
+  // Build context from current dataset
+  const allCases = getBuiltinCases('','','','','');
+  const casesSummary = allCases.slice(0,30).map(c =>
+    `- ${c.title} [${c.outcome}]: ${c.summary.slice(0,120)}. ${c.win_argument ? 'Arg. victoria: '+c.win_argument.slice(0,80) : ''}`
+  ).join('\n');
+
+  const prompt = `Eres un asesor fiscal experto en precios de transferencia internacional con 20 años de experiencia en España y Europa. Tu misión es analizar el caso que te plantea el usuario y proporcionar orientación estratégica profunda.
+
+DATASET DE JURISPRUDENCIA DISPONIBLE (selección):
+${casesSummary}
+
+CASO DEL USUARIO:
+${question}
+
+Proporciona un análisis estructurado con estos apartados (usa formato claro con títulos en negrita):
+
+**1. DIAGNÓSTICO DEL CASO**
+Identifica los puntos de riesgo principales y la posición del contribuyente.
+
+**2. JURISPRUDENCIA RELEVANTE**
+Cita 3-5 casos del dataset o de tu conocimiento (TPCases.com u otras fuentes) que sean directamente aplicables, indicando si el contribuyente ganó o perdió y por qué es relevante para este caso.
+
+**3. ARGUMENTOS DEFENSIVOS MÁS SÓLIDOS**
+Los 3-4 argumentos jurídicos o técnicos que han funcionado mejor en casos similares.
+
+**4. RIESGOS Y DEBILIDADES**
+Puntos vulnerables de la posición del contribuyente que deben reforzarse.
+
+**5. RECOMENDACIÓN ESTRATÉGICA**
+Próximos pasos concretos para fortalecer la posición o negociar con la administración.
+
+Responde siempre en español. Sé específico, cita normas (art. 18 LIS, Directrices OCDE, etc.) y jurisprudencia concreta cuando sea posible.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2500,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) throw new Error('API ' + res.status);
+    const data = await res.json();
+    let raw = '';
+    for (const b of (data.content || [])) if (b.type === 'text') raw += b.text;
+
+    // Format the response nicely
+    let formatted = raw
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>')
+      .replace(/^(#{1,3} .+)$/gm, '<strong style="color:var(--accent);font-size:14px">$1</strong>');
+
+    content.innerHTML = formatted;
+
+    // Save to history
+    advisorHistory.unshift({ q: question.slice(0,100)+'…', a: raw.slice(0,200)+'…', full: raw });
+    renderAdvisorHistory();
+
+  } catch(e) {
+    content.innerHTML = `<div style="color:var(--lose)">Error al conectar con la IA: ${e.message}</div>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '⚡ Analizar mi caso';
+}
+
+function renderAdvisorHistory() {
+  const hist = document.getElementById('advisorHistory');
+  if (!advisorHistory.length) { hist.innerHTML = ''; return; }
+  hist.innerHTML = `<div style="font-family:var(--font-mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">Consultas anteriores</div>` +
+    advisorHistory.map((h,i) => `<div class="hist-item" onclick="showHistItem(${i})">
+      <div class="hist-q">Consulta ${advisorHistory.length-i}</div>
+      <div class="hist-a">${h.q}</div>
+    </div>`).join('');
+}
+
+function showHistItem(i) {
+  const h = advisorHistory[i];
+  document.getElementById('advisorInput').value = h.q.replace('…','');
+  let formatted = h.full
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>');
+  document.getElementById('advisorContent').innerHTML = formatted;
+  document.getElementById('advisorResponse').style.display = 'block';
+}
+
+
+/* ============================================================
+   COMPARADOR DE CASOS
+============================================================ */
+let selectedForCompare = new Set();
+
+function toggleCompare(idx) {
+  if (selectedForCompare.has(idx)) {
+    selectedForCompare.delete(idx);
+  } else {
+    if (selectedForCompare.size >= 3) {
+      alert('Máximo 3 casos para comparar. Deselecciona uno primero.');
+      // Uncheck the checkbox
+      const cb = document.querySelector(`.case-chk[data-idx="${idx}"]`);
+      if (cb) cb.checked = false;
+      return;
+    }
+    selectedForCompare.add(idx);
+  }
+  updateCompareBar();
+}
+
+function updateCompareBar() {
+  const bar = document.getElementById('compareSelectedBar');
+  const chips = document.getElementById('compareChips');
+  const instr = document.getElementById('compareInstructions2');
+  
+  if (selectedForCompare.size === 0) {
+    bar.style.display = 'none';
+    instr.style.display = 'block';
+    return;
+  }
+  
+  bar.style.display = 'flex';
+  instr.style.display = 'none';
+  
+  chips.innerHTML = [...selectedForCompare].map(idx => {
+    const c = CASES[idx];
+    if (!c) return '';
+    const short = c.title.split(',')[0].slice(0,45) + (c.title.length > 45 ? '…' : '');
+    return `<div class="compare-chip">
+      ${short}
+      <button onclick="removeFromCompare(${idx})">✕</button>
+    </div>`;
+  }).join('');
+
+  const btn = document.getElementById('btnCompare');
+  btn.disabled = selectedForCompare.size < 2;
+  btn.textContent = selectedForCompare.size < 2 ? 'Selecciona al menos 2' : '⚡ Comparar ' + selectedForCompare.size + ' casos';
+}
+
+function removeFromCompare(idx) {
+  selectedForCompare.delete(idx);
+  const cb = document.querySelector(`.case-chk[data-idx="${idx}"]`);
+  if (cb) cb.checked = false;
+  updateCompareBar();
+}
+
+function clearComparison() {
+  selectedForCompare.clear();
+  document.querySelectorAll('.case-chk').forEach(cb => cb.checked = false);
+  updateCompareBar();
+}
+
+async function runComparison() {
+  const indices = [...selectedForCompare];
+  const cases = indices.map(i => CASES[i]).filter(Boolean);
+  if (cases.length < 2) return;
+  
+  const btn = document.getElementById('btnCompare');
+  btn.disabled = true;
+  btn.textContent = '⟳ Comparando…';
+  
+  document.getElementById('compareResult').style.display = 'block';
+  document.getElementById('compareContent').textContent = 'La IA está analizando y comparando los casos seleccionados…';
+  
+  const caseSummaries = cases.map((c, i) => 
+    `CASO ${i+1}: ${c.title}\nResultado: ${c.outcome}\nResumen: ${c.summary}\nArgumento victoria: ${c.win_argument || 'N/A'}\nRazonamiento: ${c.outcome_reasoning || 'N/A'}`
+  ).join('\n\n');
+
+  const prompt = `Eres un experto en precios de transferencia. Analiza y compara en profundidad los siguientes ${cases.length} casos:
+
+${caseSummaries}
+
+Genera una comparación estructurada en español con estos apartados:
+
+**TABLA COMPARATIVA**
+Compara los casos en: método TP utilizado, posición del contribuyente, argumento central de la administración, resultado final, tribunal.
+
+**PATRONES COMUNES**
+¿Qué argumentos o factores aparecen en varios casos? ¿Qué hace que unos contribuyentes ganen y otros pierdan?
+
+**LECCIONES PRÁCTICAS**
+Los 3-4 aprendizajes más relevantes para un asesor fiscal derivados de la comparación.
+
+**APLICABILIDAD**
+En qué tipo de expedientes actuales es más útil citar cada uno de estos casos y por qué.
+
+Responde en español con formato claro. Sé específico y concreto.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000,
+        messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    let raw = '';
+    for (const b of (data.content || [])) if (b.type === 'text') raw += b.text;
+    let formatted = raw.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    document.getElementById('compareContent').innerHTML = formatted;
+  } catch(e) {
+    document.getElementById('compareContent').textContent = 'Error: ' + e.message;
+  }
+  
+  btn.disabled = false;
+  btn.textContent = '⚡ Comparar ' + selectedForCompare.size + ' casos';
+}
+
+/* ============================================================
+   ARGUMENTARIO
+============================================================ */
+let lastArgumentario = '';
+
+async function generateArgumentario() {
+  const cat     = document.getElementById('argumCat').value;
+  const outcome = document.getElementById('argumOutcome').value;
+  const country = document.getElementById('argumCountry').value;
+  
+  const btn = document.getElementById('btnArgum');
+  btn.disabled = true;
+  btn.textContent = '⟳ Generando…';
+  
+  // Filter cases
+  let filtered = getBuiltinCases(country, cat, '', '', '');
+  if (outcome) filtered = filtered.filter(c => c.outcome === outcome);
+  
+  const caseRefs = filtered.slice(0, 25).map(c =>
+    `- [${c.outcome}] ${c.title.split(',')[0]} (${c.year||'?'}): ${c.summary.slice(0,100)}. ${c.win_argument ? 'Arg: '+c.win_argument.slice(0,80) : ''}`
+  ).join('\n');
+
+  const prompt = `Eres un asesor fiscal experto en precios de transferencia internacional. Basándote en la siguiente jurisprudencia:
+
+${caseRefs}
+
+Genera un ARGUMENTARIO PROFESIONAL para alegaciones o recursos en materia de precios de transferencia${cat ? ' sobre ' + cat : ''}${country ? ' en ' + country : ''}.
+
+El documento debe incluir:
+
+**ARGUMENTARIO DE PRECIOS DE TRANSFERENCIA**
+${cat ? '**Materia: ' + cat + '**' : ''}
+${outcome === 'WIN' ? '**Argumentos defensivos (basados en casos favorables al contribuyente)**' : outcome === 'LOSE' ? '**Riesgos a evitar (basados en casos desfavorables)**' : '**Análisis equilibrado de argumentos**'}
+
+**I. PRINCIPIOS GENERALES APLICABLES**
+[3-4 principios arm's length con referencias normativas (OCDE, legislación nacional)]
+
+**II. ARGUMENTOS A FAVOR DEL CONTRIBUYENTE**
+[Para cada argumento: descripción, fundamento jurídico, caso de soporte, cómo usarlo en alegaciones]
+
+**III. POSIBLES OBJECIONES DE LA ADMINISTRACIÓN Y CONTRARRÉPLICAS**
+[Principales argumentos de la Inspección y cómo rebatirlos con jurisprudencia]
+
+**IV. JURISPRUDENCIA CLAVE CITABLE**
+[Lista de los 5-7 casos más relevantes con nombre completo, año, tribunal y holding principal]
+
+**V. CHECKLIST DOCUMENTAL**
+[Documentación que debe tenerse preparada para sustentar la posición]
+
+Responde en español. Formato profesional listo para copiar en un escrito de alegaciones.`;
+
+  document.getElementById('argumOutput').style.display = 'block';
+  document.getElementById('argumContent').textContent = 'Generando argumentario…';
+  
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 3000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    let raw = '';
+    for (const b of (data.content || [])) if (b.type === 'text') raw += b.text;
+    lastArgumentario = raw;
+    let formatted = raw.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    document.getElementById('argumContent').innerHTML = formatted;
+  } catch(e) {
+    document.getElementById('argumContent').textContent = 'Error: ' + e.message;
+  }
+  
+  btn.disabled = false;
+  btn.textContent = '⚡ Generar argumentario';
+}
+
+function downloadArgumentario() {
+  if (!lastArgumentario) return;
+  const blob = new Blob([lastArgumentario], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'argumentario_pt.txt'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ============================================================
+   CALCULADORA DE RIESGO
+============================================================ */
+function calcRisk() {
+  const country = document.getElementById('riskCountry').value;
+  const cat     = document.getElementById('riskCat').value;
+  const method  = document.getElementById('riskMethod').value;
+  const hasDoc  = document.getElementById('riskDoc').value;
+
+  const allCases = getBuiltinCases(country, cat, '', '', '');
+  let filtered = allCases;
+  if (method) filtered = filtered.filter(c => c.tags.some(t => t.toLowerCase().includes(method.toLowerCase())));
+  
+  const total   = filtered.length;
+  const wins    = filtered.filter(c => c.outcome === 'WIN').length;
+  const partial = filtered.filter(c => c.outcome === 'PARTIAL').length;
+  const loses   = filtered.filter(c => c.outcome === 'LOSE').length;
+  
+  // Base win rate
+  let winRate = total > 0 ? Math.round((wins + partial * 0.5) / total * 100) : 50;
+  
+  // Adjust for documentation
+  if (hasDoc === 'yes')     winRate = Math.min(95, winRate + 8);
+  if (hasDoc === 'partial') winRate = Math.max(5, winRate - 5);
+  if (hasDoc === 'no')      winRate = Math.max(5, winRate - 20);
+  
+  // Update gauge
+  const arc = document.getElementById('riskArc');
+  const pctEl = document.getElementById('riskPct');
+  const labelEl = document.getElementById('riskLabel');
+  
+  if (arc && pctEl) {
+    const circumference = 251;
+    const offset = circumference - (winRate / 100) * circumference;
+    arc.style.strokeDashoffset = offset;
+    pctEl.textContent = winRate + '%';
+    
+    let label, color;
+    if (winRate >= 65) { label = 'POSICIÓN FAVORABLE'; color = '#22c55e'; }
+    else if (winRate >= 45) { label = 'POSICIÓN EQUILIBRADA'; color = '#f59e0b'; }
+    else { label = 'POSICIÓN DE RIESGO'; color = '#ef4444'; }
+    
+    labelEl.textContent = total > 0 ? `${label} · ${total} casos similares` : 'Sin datos suficientes';
+    labelEl.style.color = color;
+    pctEl.style.fill = color;
+  }
+
+  // Risk factors
+  const factors = [];
+  if (hasDoc === 'yes') factors.push({ ico:'✅', txt:'Documentación completa: reduce significativamente el riesgo de sanciones y mejora la posición procesal.' });
+  if (hasDoc === 'partial') factors.push({ ico:'⚠️', txt:'Documentación incompleta: la Inspección puede invertir la carga de la prueba en tu contra.' });
+  if (hasDoc === 'no') factors.push({ ico:'🔴', txt:'Sin documentación: riesgo muy alto. La Inspección puede estimar discrecionalmente y aplicar sanciones graves.' });
+  
+  if (wins > loses) factors.push({ ico:'📈', txt:`Win rate histórico favorable (${wins}W/${loses}L) en casos similares. Los argumentos exitosos son replicables.` });
+  if (loses > wins) factors.push({ ico:'📉', txt:`Win rate histórico desfavorable (${wins}W/${loses}L). Refuerza la documentación y considera un APA preventivo.` });
+  
+  if (method === 'TNMM') factors.push({ ico:'🔍', txt:'TNMM: método ampliamente aceptado pero la calidad del benchmarking es crucial. Comparables deben ser rigurosos.' });
+  if (method === 'CUP') factors.push({ ico:'💡', txt:'CUP: el más defensivo si existen comparables directos. La Inspección difícilmente lo rechazará si los comparables son sólidos.' });
+  if (method === 'DCF') factors.push({ ico:'⚠️', txt:'DCF: varios tribunales lo han cuestionado. Asegúrate de que las proyecciones están documentadas y son contemporáneas a la transacción.' });
+  
+  if (total < 5) factors.push({ ico:'ℹ️', txt:'Pocos casos similares en el dataset. Amplía la búsqueda con menos filtros para una estimación más robusta.' });
+
+  const factorsEl = document.getElementById('riskFactors');
+  factorsEl.innerHTML = factors.length > 0
+    ? factors.map(f => `<div class="risk-factor"><span class="risk-factor-ico">${f.ico}</span><span>${f.txt}</span></div>`).join('')
+    : '<div style="font-size:12px;color:var(--muted)">Ajusta los filtros para ver factores de riesgo específicos</div>';
+
+  // Similar cases
+  const topSimilar = filtered.slice(0, 5);
+  const simEl = document.getElementById('riskSimilar');
+  simEl.innerHTML = topSimilar.length > 0
+    ? `<div style="display:flex;flex-direction:column;gap:6px">${topSimilar.map(c => {
+        const badge = c.outcome === 'WIN' ? '✓ GANA' : c.outcome === 'LOSE' ? '✗ PIERDE' : '~ PARCIAL';
+        const col   = c.outcome === 'WIN' ? 'var(--win)' : c.outcome === 'LOSE' ? 'var(--lose)' : 'var(--partial)';
+        return `<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;background:var(--surface2);border-radius:6px;border-left:3px solid ${col}">
+          <span style="font-family:var(--font-mono);font-size:9px;color:${col};white-space:nowrap;padding-top:2px">${badge}</span>
+          <div>
+            <div style="font-size:11px;font-weight:600;line-height:1.4">${c.title.split(',')[0]}</div>
+            <div style="font-size:10px;color:var(--text2);margin-top:2px">${c.summary.slice(0,100)}…</div>
+          </div>
+        </div>`;
+      }).join('')}</div>`
+    : '<div style="color:var(--muted);font-size:12px">No se encontraron casos similares con los filtros actuales</div>';
+}
+
+/* ============================================================
+   BADGE NUEVAS SENTENCIAS
+============================================================ */
+let lastVisitCaseCount = parseInt(localStorage.getItem ? (localStorage.getItem('tpcases_count') || '0') : '0', 10);
+
+function updateBadge(newCount) {
+  const badge = document.getElementById('badgeNew');
+  if (!badge) return;
+  try {
+    const stored = parseInt(localStorage.getItem('tpcases_count') || '0', 10);
+    if (newCount > stored) {
+      const diff = newCount - stored;
+      badge.textContent = diff;
+      badge.style.display = 'inline-flex';
+    }
+    localStorage.setItem('tpcases_count', newCount.toString());
+  } catch(e) {}
+}
+
+// Hook into fetchRecent to update badge with count of new cases
+const _origFetchRecent = fetchRecent;
+window.fetchRecent = async function() {
+  await _origFetchRecent();
+  // After loading, check recent area for new items
+  const items = document.querySelectorAll('#recentArea .recent-card');
+  updateBadge(items.length);
+};
+
+
+/* ── LOTE 3: LATAM + ASIA + AFRICA + AUSTRALIA + ESPAÑA ADICIONAL ── */
+(function injectLote3() {
+  const LOTE3 = [
+    // ── LATAM ──
+    { title:"Argentina vs Volkswagen Argentina S.A., August 2024, Supreme Court, CSJN 13/08/2024", date:"August 2024", year:2024, country:"Argentina", court:"CSJN Supreme Court", categories:["Arm's Length Principle","Benchmark, Range and Median"], tags:["TNMM","ROCE","Volkswagen","Extraordinary loss","Multi-year average"], url:"https://tpcases.com/argentina-vs-volkswagen-argentina-s-a-august-2024-supreme-court-case-no-csjn-13-08-2024-tf-30954-i/", summary:"VW Argentina incluyó un ingreso extraordinario por condonación de préstamo en su análisis TP para FY 1999-2001. Las autoridades fiscales rechazaron este tratamiento. La Cámara y la Corte Suprema fallaron a favor de VW.", outcome:"WIN", outcome_reasoning:"La Corte Suprema confirmó que la condonación del préstamo era un ingreso no recurrente legítimamente incluible en el análisis de rentabilidad.", win_argument:"VW Argentina demostró que la condonación del préstamo por la matriz era un ingreso extraordinario no recurrente que debía incluirse en el análisis de rentabilidad. Al incorporarlo, los resultados se situaban dentro del rango arm's length, invalidando el ajuste fiscal." },
+    { title:"Argentina vs Molinos Río de la Plata S.A., September 2021, Supreme Court, CAF 1351/2014", date:"September 2021", year:2021, country:"Argentina", court:"Supreme Court", categories:["Arm's Length Principle","Business Restructuring"], tags:["Investment platform","Chile","Uruguay","Dividends","Tax treaty abuse"], url:"https://tpcases.com/argentina-vs-molinos-rio-de-la-plata-s-a-september-2021-supreme-court-case-no-caf-1351-2014-1-rh1/", summary:"Molinos Argentina incorporó Molinos Chile como 'plataforma de inversión' bajo el Art. 41D de la ley chilena. Argentina argumentó que la estructura era un abuso de tratado para evitar retenciones sobre dividendos.", outcome:"LOSE", outcome_reasoning:"La Corte Suprema argentina confirmó que la estructura de la plataforma de inversión chilena era abusiva y denegó los beneficios del tratado para los dividendos." },
+    { title:"Argentina vs Malteria Pampa SA, October 2021, Federal Administrative Court, TF 35123-A", date:"October 2021", year:2021, country:"Argentina", court:"Federal Administrative Court", categories:["Commodity Transactions","Arm's Length Principle"], tags:["Sixth method","Malt","Uruguay intermediary","Brazil brewery","CUP"], url:"https://tpcases.com/argentina-vs-malteria-pampa-sa-october-2021-federal-administrative-court-case-no-tf-35123-a/", summary:"Malteria Pampa exportaba malta a un intermediario vinculado en Uruguay que revendía a una cervecería en Brasil a un precio superior. Argentina aplicó el Sexto Método usando el precio de la venta final.", outcome:"LOSE", outcome_reasoning:"El tribunal confirmó la aplicación del Sexto Método: en transacciones con paraísos fiscales el precio de referencia es el de la venta al destinatario final independiente." },
+    { title:"Argentina vs Nidera S.A., March 2016, Supreme Court, CAF 38801/2013", date:"March 2016", year:2016, country:"Argentina", court:"Supreme Court", categories:["Commodity Transactions","Arm's Length Principle"], tags:["Sixth method","Cereals","BVI","Low-tax jurisdiction","CUP average prices"], url:"https://tpcases.com/argentina-vs-nidera-s-a-march-2016-supreme-court-case-no-caf-38801-2013-cs1-ca1/", summary:"Nidera exportaba commodities (cereales) a traders del grupo en Islas Vírgenes Británicas. Argentina presumió incumplimiento arm's length y aplicó el Sexto Método con precios estadísticos promedio.", outcome:"LOSE", outcome_reasoning:"La Corte confirmó la presunción de precios no arm's length en transacciones con entidades en jurisdicciones de baja tributación y la aplicación del Sexto Método." },
+    { title:"Brazil vs Janssen-Cilag Farmaceutica LTDA, May 2023, Superior Tribunal de Justiça, AREsp 511.736/SP", date:"May 2023", year:2023, country:"Brazil", court:"Superior Tribunal de Justiça", categories:["Transfer Pricing Methods","Arm's Length Principle"], tags:["PRL 60","Resale price method","Pharmaceutical","Normative Instruction","Law 9430"], url:"https://tpcases.com/brazil-vs-janssen-cilag-farmaceutica-ltda-may-2023-superior-tribunal-de-justica-first-chamber-case-no-aresp-511-736-sp/", summary:"Janssen-Cilag impugnó el método PRL60 aplicado en Brasil bajo el Art. 18 de la Ley 9430/1996, alegando que la Instrucción Normativa 243/2002 superaba el alcance legal.", outcome:"LOSE", outcome_reasoning:"El STJ desestimó: el método PRL60 tiene base legal suficiente en la Instrucción Normativa SRF 243/2002." },
+    { title:"Brazil vs AES SUL Distribuidora Gaúcha de Energia S/A, August 2021, STJ, CaseNº 1949159-CE", date:"August 2021", year:2021, country:"Brazil", court:"Superior Tribunal de Justiça", categories:["Withholding Tax (WHT)","Services and Fees"], tags:["Withholding tax","Technical services","Multiple countries","Intra-group services","Energy"], url:"https://tpcases.com/brazil-vs-aes-sul-distribuidora-gaucha-de-energia-s-a-august-2021-superior-tribunal-de-justica/", summary:"AES SUL pagó servicios a empresas vinculadas en múltiples países. Las autoridades fiscales consideraron que las retenciones se aplicaban a dichos pagos. El STJ tuvo que resolver la cuestión.", outcome:"WIN", outcome_reasoning:"El STJ resolvió a favor de AES SUL en varios de los conceptos impugnados, reconociendo que parte de los pagos no estaban sujetos a retención según los convenios de doble imposición aplicables.", win_argument:"AES SUL demostró que los convenios de doble imposición con algunos de los países de los prestadores excluían la retención sobre los pagos en cuestión, siendo el CDI norma especial prevalente sobre la norma interna brasileña." },
+    { title:"Colombia vs Masterfoods Colombia Ltda, February 2024, Supreme Administrative Court, 24364", date:"February 2024", year:2024, country:"Colombia", court:"Supreme Administrative Court", categories:["Transfer Pricing Methods","Benchmark, Range and Median"], tags:["TNMM","Cost plus","Interquartile range","Median","Mars Group"], url:"https://tpcases.com/colombia-vs-masterfoods-colombia-ltda-effem-colombia-ltda-february-2024-supreme-administrative-court-case-no-08001-23-33-000-2015-02445-01-24364/", summary:"Colombia rechazó el TNMM usado por Masterfoods y aplicó cost-plus ajustado a la mediana del rango. El Tribunal Supremo evaluó si el cambio de método por la administración era procedente.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo Administrativo de Colombia anuló la regularización: la administración no justificó adecuadamente por qué el método TNMM era menos apropiado que el cost-plus.", win_argument:"Masterfoods demostró que la administración no realizó el análisis de idoneidad del método requerido por las Directrices OCDE antes de rechazar el TNMM del contribuyente. Cambiar de método sin ese análisis invalidaba la liquidación." },
+    { title:"Peru vs Repsol Comercializadora de Gas S.A., December 2023, Supreme Court, 17824-2023", date:"December 2023", year:2023, country:"Peru", court:"Supreme Court", categories:["Arm's Length Principle","Transfer Pricing Documentation"], tags:["Repsol","Gas","Audit period","SUNAT","Binding precedent"], url:"https://tpcases.com/peru-vs-repsol-comercializadora-de-gas-s-a-december-2023-supreme-court-case-no-17824-2023/", summary:"SUNAT y Repsol Perú disputaron reglas sobre el período de auditoría en casos de precios de transferencia. El Tribunal Supremo estableció doctrina vinculante sobre la suspensión del plazo de auditoría en casos TP.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo peruano anuló la resolución del Tribunal Fiscal favorable a Repsol y estableció precedente vinculante que amplía el plazo de auditoría en casos TP." },
+    { title:"Peru vs Telefonica, February 2021, Supreme Court, Case No 210/2021", date:"February 2021", year:2021, country:"Peru", court:"Supreme Court / Constitutional Court", categories:["Arm's Length Principle","Transfer Pricing Documentation"], tags:["Telefonica","SUNAT","Late payment interest","Reasonable time","Tax debt"], url:"https://tpcases.com/peru-vs-telefonica-february-2021-supreme-court-case-no-210-2021/", summary:"Telefónica impugnó los intereses de demora acumulados durante años de litigio TP con SUNAT, alegando que el plazo excesivo de resolución violaba el derecho a un plazo razonable.", outcome:"WIN", outcome_reasoning:"El Tribunal Constitucional ordenó el recálculo de los intereses de demora, excluyendo los generados por exceso del plazo legal de resolución.", win_argument:"Telefónica demostró exitosamente que el aumento desproporcionado de intereses de demora por exceso del plazo legal de resolución vulneraba el principio de proporcionalidad. El Tribunal Constitucional estableció que los intereses de demora solo pueden acumularse durante el plazo razonable de resolución del litigio." },
+    { title:"Chile vs Maderas Anchile Limitada and Daio Paper Corporation, May 2023, Supreme Court, ROL 7318-2018", date:"May 2023", year:2023, country:"Chile", court:"Supreme Court", categories:["Arm's Length Principle","Commodity Transactions"], tags:["Wood chips","Below-market price","Hidden profit distribution","Art. 21","Art. 38"], url:"https://tpcases.com/chile-vs-maderas-anchile-limitada-and-daio-paper-corporation-may-2023-supreme-court/", summary:"Maderas Anchile vendió chips de madera a una entidad vinculada a precios inferiores al de mercado. La administración aplicó el Art. 38 para ajustar la renta imponible y trató la diferencia como distribución encubierta de beneficios bajo el Art. 21.", outcome:"LOSE", outcome_reasoning:"La Corte Suprema chilena confirmó que los precios facturados eran inferiores al de mercado y que la diferencia debía tributar como distribución de beneficios." },
+    { title:"Chile vs Avery Dennison Chile S.A., May 2022, Court of Appeal, Rol 99-2021", date:"May 2022", year:2022, country:"Chile", court:"Court of Appeal", categories:["Arm's Length Principle","Transfer Pricing Methods"], tags:["Labelling","Packaging","TNMM","CUP","Chilean TP rules"], url:"https://tpcases.com/chile-vs-avery-dennison-chile-s-a-may-2022-court-of-appeal/", summary:"Avery Dennison Chile, fabricante y distribuidor de etiquetas, fue objeto de ajustes de PT por la administración chilena. La empresa impugnó tanto el método aplicado como los comparables utilizados.", outcome:"WIN", outcome_reasoning:"El Tribunal de Apelación aceptó la posición de Avery Dennison: el método y comparables propuestos por la administración tenían deficiencias de comparabilidad.", win_argument:"Avery Dennison demostró que los comparables seleccionados por la administración no tenían en cuenta diferencias relevantes en el modelo de negocio y el perfil funcional. El tribunal exigió que la administración justificara cada comparable con análisis de comparabilidad formal." },
+    { title:"Mexico vs 'TP Doc-Lawsuit', June 2019, Supreme Court, Case No 14039/17-17-10-3", date:"June 2019", year:2019, country:"Mexico", court:"Supreme Court", categories:["Transfer Pricing Documentation"], tags:["CbCR","Master File","Local File","Documentation rules","Constitutional challenge"], url:"https://tpcases.com/mexico-vs-tp-doc-lawsuit-june-2019-supreme-court-case-no-14039-17-17-10-3-2502-18-pl-07-04/", summary:"Un grupo de contribuyentes impugnó la constitucionalidad de las nuevas obligaciones documentales de PT introducidas en México en 2017 (Master File, Local File, CbCR).", outcome:"LOSE", outcome_reasoning:"La Corte Suprema mexicana rechazó la impugnación constitucional: las obligaciones documentales de PT son constitucionalmente válidas." },
+    { title:"Panama vs 'Doc Corp', October 2023, Administrative Tribunal, TAT-RF-070", date:"October 2023", year:2023, country:"Panama", court:"Tax Administrative Tribunal", categories:["Transfer Pricing Documentation"], tags:["Documentation penalty","Transfer pricing report","TP report not filed","Sanction"], url:"https://tpcases.com/panama-vs-doc-corp-october-2023-administrative-tribunal-case-no-tat-rf-070/", summary:"Doc Corp fue sancionada por no presentar el informe de precios de transferencia. Apeló ante el Tribunal Administrativo Tributario, alegando que la normativa no establecía claramente la obligación.", outcome:"WIN", outcome_reasoning:"El Tribunal Administrativo revocó la sanción: la base legal para la obligación documental no era suficientemente clara en el momento de los hechos.", win_argument:"Doc Corp demostró que las normas panameñas de PT vigentes en el período cuestionado no establecían con suficiente precisión la obligación de presentar el informe ni las consecuencias de su omisión, aplicando el principio de legalidad sancionadora." },
+    // ── ASIA / PACÍFICO ──
+    { title:"Australia vs Singapore Telecom Australia Investments Pty Ltd, March 2024, Full Federal Court, [2024] FCAFC 29", date:"March 2024", year:2024, country:"Australia", court:"Full Federal Court", categories:["Financial Transactions","Arm's Length Principle"], tags:["Loan note","13.25% interest","USD 894M disallowed","Singtel","Intra-group loan"], url:"https://tpcases.com/australia-vs-singapore-telecom-australia-investments-pty-ltd-march-2024-full-federal-court-of-australia-case-no-2024-fcafc-29/", summary:"Singapore Telecom Australia emitió notas de préstamo por ~USD 5.200M al 13,25% de interés a una entidad hermana en Singapur. El ATO desestimó ~USD 894M de deducciones de interés por exceder el tipo arm's length.", outcome:"LOSE", outcome_reasoning:"El Full Federal Court confirmó que el tipo del 13,25% superaba ampliamente el tipo arm's length determinado por el ATO, siendo procedentes las restricciones a la deducibilidad." },
+    { title:"India vs SAP Labs India Private Ltd., April 2023, Supreme Court, Case No 8463/2022", date:"April 2023", year:2023, country:"India", court:"Supreme Court", categories:["Transfer Pricing Methods","Arm's Length Principle"], tags:["Section 260A","High Court review","ITAT","Comparability","Software services"], url:"https://tpcases.com/india-vs-sap-labs-india-private-ltd-april-2023-supreme-court-case-no-8463-of-2022/", summary:"El caso determinó el alcance de revisión por el High Court de India de las determinaciones de precio arm's length del ITAT en virtud del Art. 260A de la Ley del Impuesto sobre la Renta.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo de India revocó el precedente de 2018 (Softbrands), confirmando que los tribunales pueden revisar las determinaciones arm's length del ITAT bajo el Art. 260A." },
+    { title:"India vs Toyota Kirloskar Auto Parts Private Limited, March 2020, ITAT Bangalore, IT(TP) No.1915/Bang/2017", date:"March 2020", year:2020, country:"India", court:"Income Tax Appellate Tribunal (Bangalore)", categories:["Intangibles","Transfer Pricing Methods"], tags:["Royalty 5%","Know-how","Toyota","CUP","Auto parts"], url:"https://tpcases.com/india-vs-toyota-kirloskar-auto-parts-private-limited-march-2020-itat-bangalore/", summary:"Toyota Kirloskar Auto Parts pagó un royalty del 5% sobre ventas a Toyota Motor Corporation (Japón) por know-how. La autoridad fiscal impugó el porcentaje como excesivo.", outcome:"WIN", outcome_reasoning:"El ITAT aceptó la metodología CUP del contribuyente: el 5% era consistente con royalties de mercado para know-how similar en el sector automovilístico.", win_argument:"Toyota Kirloskar demostró mediante análisis CUP que el royalty del 5% era comparable a los pagados por otras fabricantes de piezas de automóviles independientes por licencias de know-how manufacturero similar. El benchmarking sectorial específico fue determinante." },
+    { title:"India vs Olympus Medical Systems India Pvt. Ltd., April 2022, ITAT New Delhi, 838/DEL/2021", date:"April 2022", year:2022, country:"India", court:"Income Tax Appellate Tribunal (New Delhi)", categories:["Arm's Length Principle","Losses"], tags:["Medical equipment","Persistent losses","Distribution","TNMM","Comparable rejection"], url:"https://tpcases.com/india-vs-olympus-medical-systems-india-pvt-ltd-april-2022-itat-new-delhi/", summary:"Olympus Medical India importaba y distribuía equipos médicos con pérdidas recurrentes. La administración inició auditoría de PT alegando que las pérdidas eran incompatibles con el principio arm's length.", outcome:"WIN", outcome_reasoning:"El ITAT aceptó que Olympus podía tener pérdidas legítimas en sus primeros años de expansión en India; las pérdidas no implican automáticamente incumplimiento arm's length.", win_argument:"Olympus demostró que las pérdidas eran coherentes con la fase de penetración de mercado en India y que distribuidores independientes también incurrían en pérdidas en sectores similares durante las etapas iniciales. La justificación del ciclo de vida del negocio fue el argumento central." },
+    { title:"Malaysia vs Shell Services Asia Sdn Bhd, November 2019, High Court, BA-25-68-08/2019", date:"November 2019", year:2019, country:"Malaysia", court:"High Court", categories:["Services and Fees","Arm's Length Principle"], tags:["Cost Contribution Arrangement","CCA","Intra-group services","Recharacterisation","Statutory authority"], url:"https://tpcases.com/malaysia-vs-shell-services-asia-sdn-bhd-november-2019-high-court/", summary:"Shell Services Asia Sdn Bhd participó en un CCA del grupo Shell para FY 2012-2016. Las autoridades malaysias recaracterizaron el acuerdo como servicios intragrupo y aplicaron un margen cost-plus.", outcome:"WIN", outcome_reasoning:"El High Court de Malaysia rechazó que las autoridades fiscales tuvieran competencia para recaracterizar unilateralmente el CCA en servicios intragrupo sin seguir los procedimientos legales pertinentes.", win_argument:"Shell demostró que el Director General de Rentas Internas no tenía potestad legal para recaracterizar el CCA en servicios intragrupo sin los procedimientos de discordancia previstos en el Art. 140A de la Ley del Impuesto sobre la Renta de Malaysia. El vicio de procedimiento fue determinante." },
+    { title:"Japan vs Adobe Systems Co., October 2008, Tokyo High Court", date:"October 2008", year:2008, country:"Japan", court:"Tokyo High Court", categories:["Intangibles","Transfer Pricing Methods"], tags:["Adobe","Software","Ireland","Royalty","CUP","Most appropriate method"], url:"https://tpcases.com/japan-vs-adobe-systems-co-october-2008-tokyo-high-court/", summary:"Adobe Systems Japan pagó royalties a su filial irlandesa por licencias de software. Las autoridades fiscales japonesas impugnaron el tipo de royalty aplicado y la metodología CUP utilizada.", outcome:"WIN", outcome_reasoning:"El Tokyo High Court aceptó la metodología CUP de Adobe: los royalties aplicados eran consistentes con las licencias de mercado para software comparable.", win_argument:"Adobe demostró mediante CUP con licencias de software de terceros comparables que el tipo de royalty era de mercado. El tribunal aceptó que las licencias de software tienen características de comparabilidad suficientemente homogéneas para permitir un análisis CUP fiable." },
+    { title:"India vs Hyatt International Southwest Asia Ltd., September 2024, High Court of Delhi Full Bench, ITA 216/2020", date:"September 2024", year:2024, country:"India", court:"High Court of Delhi (Full Bench)", categories:["Permanent Establishments","Arm's Length Principle"], tags:["Hotel management","SOSAs","PE","Positive income","Losses in other jurisdictions"], url:"https://tpcases.com/india-vs-hyatt-international-southwest-asia-ltd-september-2024-full-bench/", summary:"El Full Bench del Delhi High Court resolvió si un establecimiento permanente puede tener renta positiva aunque la compañía de la que forma parte tenga pérdidas en otras jurisdicciones.", outcome:"WIN", outcome_reasoning:"El Full Bench confirmó que un EP puede tener renta positiva con independencia de los resultados globales de la empresa; las pérdidas en otros países no eliminan la base imponible del EP indio.", win_argument:"Hyatt International argumentó exitosamente que la determinación de la renta atribuible al EP debe hacerse de forma autónoma conforme al Art. 7 del CDI, sin que las pérdidas globales de la empresa puedan compensarse con las rentas del EP en India. El tribunal confirmó el enfoque de entidad separada." },
+    // ── ÁFRICA ──
+    { title:"Zambia vs Nestlé Zambia Limited, August 2025, Supreme Court, Case No 03-2021", date:"August 2025", year:2025, country:"Zambia", court:"Supreme Court", categories:["Benchmark, Range and Median","Transfer Pricing Methods"], tags:["Nestlé","Persistent losses","TNMM","Local comparables","Burden of proof"], url:"https://tpcases.com/zambia-vs-nestle-zambia-limited-august-2025-supreme-court-case-no-03-2021/", summary:"Nestlé Zambia tuvo pérdidas continuas. La ZRA emitió una regularización ajustando la renta imponible. El Tribunal de Apelaciones Fiscal la anuló por método inadecuado; la Corte Suprema revisó.", outcome:"PARTIAL", outcome_reasoning:"La Corte Suprema confirmó que la auditoría TP de la ZRA estaba justificada y que NZL debía demostrar que sus precios eran arm's length, pero anuló el método específico aplicado.", win_argument:"Nestlé Zambia logró que el Tribunal de Apelaciones anulara el método de comparación utilizado por la ZRA por usar comparables inadecuados geográficamente. La Corte Suprema mantuvo la obligación de prueba sobre NZL pero ordenó una nueva valoración con el método correcto." },
+    { title:"Kenya vs Avic International Beijing (EA) Limited, November 2024, Tax Appeals Tribunal, TAT E786/2023", date:"November 2024", year:2024, country:"Kenya", court:"Tax Appeals Tribunal", categories:["Transfer Pricing Methods","Withholding Tax (WHT)"], tags:["Resale Price Method","TNMM","Vehicle assembly","Deemed dividend","WHT"], url:"https://tpcases.com/kenya-vs-avic-international-beijing-ea-limited-november-2024-tax-appeals-tribunal-case-no-tat-e786-of-2023/", summary:"Avic Kenya ensamblaba vehículos con piezas de su matriz china. La KRA rechazó el RPM y aplicó TNMM, más una retención sobre dividendo presunto.", outcome:"PARTIAL", outcome_reasoning:"El tribunal confirmó TNMM sobre RPM, pero anuló el dividendo presunto por falta de base legal expresa en la normativa keniana.", win_argument:"Avic logró que el tribunal anulara la retención sobre dividendos presuntos: la normativa keniana no preveía explícitamente esa consecuencia para ajustes de PT, y aplicar una retención sin base legal expresa violaba el principio de legalidad tributaria." },
+    { title:"Ghana vs Unilever Ghana Limited, July 2023, High Court of Ghana, CM/TAX/0450/2021", date:"July 2023", year:2023, country:"Ghana", court:"High Court of Ghana", categories:["Transfer Pricing Methods","Arm's Length Principle"], tags:["TNMM","RPM","TP regulations","Unilever","Method selection"], url:"https://tpcases.com/ghana-vs-unilever-ghana-limited-july-2023-high-court-of-ghana/", summary:"Unilever Ghana apeló una regularización fiscal alegando que la Ghana Revenue Authority no había utilizado ninguno de los métodos de PT establecidos en las regulaciones de 2012.", outcome:"WIN", outcome_reasoning:"El High Court anuló la regularización: la GRA no había aplicado un método de PT reconocido, incumpliendo los requisitos procedimentales de las Transfer Pricing Regulations 2012.", win_argument:"Unilever Ghana demostró que la GRA había determinado el ajuste sin aplicar ninguno de los métodos de PT previstos en las LI 2188 Transfer Pricing Regulations 2012. El incumplimiento del procedimiento legal obligatorio invalidaba la liquidación con independencia del fondo." },
+    // ── EUROPA ADICIONAL ──
+    { title:"Spain vs EPSON IBÉRICA S.A.U., March 2021, Tribunal Supremo, Case No 390:2021", date:"March 2021", year:2021, country:"Spain", court:"Tribunal Supremo", categories:["Arm's Length Principle","Services and Fees"], tags:["Epson","Netherlands","European HQ","Distribution","Marketing intangibles"], url:"https://tpcases.com/spain-vs-epson-iberica-s-a-u-march-2021-supreme-court-case-no-390-2021/", summary:"EPSON IBÉRICA distribuidora española en el grupo SEIKO EPSON con HQ europeo en Países Bajos. La administración española cuestionó la remuneración de EPSON IBÉRICA frente al HQ holandés por intangibles de marketing local.", outcome:"PARTIAL", outcome_reasoning:"El Tribunal Supremo estableció criterios sobre cómo valorar la contribución de la distribuidora española a los intangibles de marketing del grupo, generando doctrina relevante.", win_argument:"EPSON IBÉRICA logró que el Tribunal Supremo reconociera que las funciones de marketing local realizadas en España generaban valor que debía remunerarse adicionalmente, aunque el importe del ajuste fue inferior al planteado por la administración." },
+    { title:"Spain vs Zeraim Ibérica SA, October 2016, Tribunal Supremo, Case No 4675-2016", date:"October 2016", year:2016, country:"Spain", court:"Tribunal Supremo", categories:["Arm's Length Principle","Benchmark, Range and Median"], tags:["Secret comparables","Dutch parent","OECD Guidelines","Comparability","Seeds"], url:"https://tpcases.com/spain-vs-zeraim-iberica-sa-oct-2016-spanish-supreme-court-case-no-4675-2016/", summary:"Zeraim Ibérica impugnó el uso de comparables secretos por la administración española al valorar sus transacciones con su matriz holandesa, argumentando que las Directrices OCDE no permiten ese enfoque.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo español estableció que la administración debe revelar los comparables utilizados al contribuyente para que pueda defenderse adecuadamente.", win_argument:"Zeraim Ibérica demostró que el uso de comparables secretos por parte de la administración vulneraba el derecho de defensa del contribuyente. El Tribunal Supremo confirmó que revelar los comparables al contribuyente es un requisito de validez del procedimiento inspector en España." },
+    { title:"Czech Republic vs ESAB CZ s.r.o., June 2024, Supreme Administrative Court, 1 Afs 80/2023-64", date:"June 2024", year:2024, country:"Czech Republic", court:"Supreme Administrative Court", categories:["Benchmark, Range and Median","Transfer Pricing Methods"], tags:["Cost base","Contract manufacturer","Cost exclusion","TNMM margin","Welding equipment"], url:"https://tpcases.com/czech-republic-vs-esab-cz-s-r-o-june-2024-supreme-administrative-court-case-no-1-afs-80-2023-64/", summary:"ESAB CZ, fabricante por contrato, había excluido ciertos costes de la base de costes para calcular su margen en transacciones controladas, reduciendo así su base imponible.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo Administrativo checo confirmó que los costes excluidos debían incluirse en la base de costes: la exclusión manipulaba artificialmente el margen controlado." },
+    { title:"Hungary vs 'GW Logistics' KtF, March 2021, Supreme Court-Kúria, Kfv.I.35.320/2020/6", date:"March 2021", year:2021, country:"Hungary", court:"Supreme Court (Kúria)", categories:["Services and Fees","Arm's Length Principle"], tags:["Transport management","Logistics","Gebrüder Weiss","Cost plus","Benchmark"], url:"https://tpcases.com/hungary-vs-gw-logistics-march-2021-supreme-court-kuria-case-no-kfv-i-35-320-2020-6/", summary:"GW Logistics Hungría realizaba actividades de gestión de transporte para el grupo Gebrüder Weiss. Las autoridades húngaras impugnaron el margen cost-plus aplicado a dichas actividades.", outcome:"WIN", outcome_reasoning:"La Kúria aceptó que el margen cost-plus aplicado era consistente con un benchmarking de empresas de gestión logística independientes comparables.", win_argument:"GW Logistics demostró mediante análisis de benchmarking europeo que las empresas independientes de gestión de transporte obtenían márgenes similares, y que las diferencias funcionales respecto a los comparables estaban adecuadamente ajustadas." },
+    { title:"Portugal vs A-Contract Manufacturer LDA, December 2020, CAAD, Case No 808/2019-T", date:"December 2020", year:2020, country:"Portugal", court:"CAAD Tax Arbitration", categories:["Transfer Pricing Methods","Arm's Length Principle"], tags:["Contract manufacturing","Coffee machines","German parent","TNMM","Cost base"], url:"https://tpcases.com/portugal-vs-a-contract-manufacturer-lda-december-2020-caad-tax-arbitration-case-no-808-2019-t/", summary:"A-Contract Manufacturer LDA fabricaba máquinas de café y planchas bajo contrato para su matriz alemana B AG. La administración portuguesa cuestionó los márgenes de fabricación.", outcome:"WIN", outcome_reasoning:"El CAAD aceptó la metodología TNMM con costes de fabricación como base aplicada por el contribuyente.", win_argument:"A-Contract Manufacturer demostró que su análisis TNMM utilizando fabricantes de contrato comparables europeos producía márgenes consistentes con los obtenidos, y que los comparables cumplían los criterios de comparabilidad del capítulo III de las Directrices OCDE." },
+    { title:"Italy vs Mauser S.p.A., February 2022, Supreme Court, Case No 6283/2022", date:"February 2022", year:2022, country:"Italy", court:"Supreme Court", categories:["Arm's Length Principle","Transfer Pricing Methods"], tags:["Industrial packaging","CUP","Normal value","Related party","Import prices"], url:"https://tpcases.com/italy-vs-mauser-s-p-a-february-2022-supreme-court-case-no-6283-2022/", summary:"Mauser S.p.A., fabricante de envases industriales, fue objeto de regularización por precios de importación de productos de entidades vinculadas extranjeras. La administración aplicó CUP.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo italiano aceptó la valoración del contribuyente: los precios de importación eran de mercado conforme al CUP aplicado.", win_argument:"Mauser demostró mediante comparación directa con precios de envases industriales en transacciones con terceros independientes (CUP interno) que los precios de importación de las entidades vinculadas eran equivalentes a los de mercado." },
+    { title:"Slovakia vs Coca-Cola s.r.o., April 2015, Supreme Court, 2Sžf/76/2014", date:"April 2015", year:2015, country:"Slovakia", court:"Supreme Court", categories:["Services and Fees","Arm's Length Principle"], tags:["Management fees","Employment fees","IT services","OECD Guidelines","Deductibility"], url:"https://tpcases.com/slovakia-vs-coca-cola-s-r-o-april-2015-supreme-court-of-the-slovak-republic/", summary:"Coca-Cola Eslovaquia dedujo honorarios de gestión, empleo y servicios IT pagados a una entidad suiza del grupo. La administración eslovaca impugnó las deducciones basándose en las Directrices OCDE.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo eslovaco falló mayoritariamente a favor de Coca-Cola: los servicios eran reales y los precios eran de mercado conforme a las Directrices OCDE.", win_argument:"Coca-Cola Eslovaquia demostró con documentación contractual y evidencia de prestación efectiva que los servicios de gestión, empleo e IT eran servicios reales con valor económico para la filial eslovaca. El tribunal reconoció la plena aplicabilidad de las Directrices OCDE en la interpretación de la normativa eslovaca." },
+    { title:"European Commission vs Amazon and Luxembourg, December 2023, ECJ Grand Chamber, C-457/21P", date:"December 2023", year:2023, country:"Luxembourg", court:"European Court of Justice (Grand Chamber)", categories:["Arm's Length Principle","Intangibles"], tags:["Amazon","Luxembourg","State aid","Royalty","LuxSCS","APA"], url:"https://tpcases.com/european-commission-vs-amazon-and-luxembourg-december-2023-ecj-grand-chamber-c-457-21p/", summary:"La Comisión Europea había ordenado a Luxemburgo recuperar ~250M€ en ayudas de Estado concedidas a Amazon vía rulings fiscales que permitían royalties excesivos a LuxSCS. El TJUE (Gran Sala) revisó si la Comisión había aplicado correctamente el arm's length.", outcome:"WIN", outcome_reasoning:"El TJUE (Gran Sala) anuló la decisión de la Comisión: la metodología arm's length aplicada era incorrecta y no demostraba una ventaja selectiva real.", win_argument:"Amazon y Luxemburgo demostraron que la Comisión había cometido errores metodológicos fundamentales al aplicar el arm's length como herramienta de ayudas de Estado, utilizando una versión más estricta que la empleada por las administraciones fiscales en sus prácticas ordinarias. El TJUE confirmó los límites de la Comisión." },
+    { title:"Netherlands vs 'Fertilizer BV', April 2022, Court of Appeal, ECLI:NL:GHSHE:2022:1198", date:"April 2022", year:2022, country:"Netherlands", court:"Court of Appeal", categories:["Arm's Length Principle","Benchmark, Range and Median"], tags:["Fertilizer","Additional taxable income","Interquartile range","Benchmark","Related party"], url:"https://tpcases.com/netherlands-vs-fertilizer-bv-april-2022-court-of-appeal/", summary:"Fertilizer BV recibió una regularización de €133M por FY 2012. El tribunal de distrito la redujo a €78M. La Corte de Apelación revisó la metodología de benchmarking.", outcome:"PARTIAL", outcome_reasoning:"La Corte de Apelación redujo adicionalmente el ajuste al rechazar algunos de los comparables de la administración por insuficiente comparabilidad.", win_argument:"Fertilizer BV logró que el tribunal eliminara comparables que la administración había incluido en el benchmarking sin justificar adecuadamente que su perfil funcional y de riesgos era equivalente al de Fertilizer BV, reduciendo el rango arm's length utilizado." }
+  ];
+
+  const _origBuiltin = getBuiltinCases;
+  window.getBuiltinCases = function(country, category, year, sector, text) {
+    const allPrev = _origBuiltin('','','','','');
+    const combined = [...allPrev, ...LOTE3];
+    let filtered = combined;
+    if (country) filtered = filtered.filter(c => c.country === country);
+    if (category) filtered = filtered.filter(c => c.categories.includes(category));
+    if (year) filtered = filtered.filter(c => c.year >= parseInt(year));
+    if (sector) filtered = filtered.filter(c => c.tags.some(t => t.toLowerCase().includes(sector.toLowerCase())));
+    if (text) {
+      const tl = text.toLowerCase();
+      filtered = filtered.filter(c =>
+        c.title.toLowerCase().includes(tl) ||
+        c.summary.toLowerCase().includes(tl) ||
+        c.tags.some(t => t.toLowerCase().includes(tl)) ||
+        c.categories.some(cat => cat.toLowerCase().includes(tl))
+      );
+    }
+    return filtered.length > 0 ? filtered : combined;
+  };
+})();
+
 </script>
 </body>
 </html>
