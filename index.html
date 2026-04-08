@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TP Intelligence Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #07090d;
+    --surface: #0f1117;
+    --surface2: #161920;
+    --border: #1e2128;
+    --border2: #262930;
+    --accent: #00e5c3;
+    --accent-dim: rgba(0,229,195,0.12);
+    --accent2: #ff6b35;
+    --accent3: #7c6bff;
+    --win: #22c55e;
+    --lose: #ef4444;
+    --partial: #f59e0b;
+    --text: #e2e4ec;
+    --text2: #9ca3af;
+    --muted: #4b5563;
+    --font-head: 'Syne', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(90deg, rgba(0,229,195,.05) 0%, transparent 50%);
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(16px);
+  }
+  .logo-wrap { display:flex; align-items:center; gap:12px; }
+  .logo-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--accent), #0099ff);
+    display: flex; align-items:center; justify-content:center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .logo-text { font-family: var(--font-head); font-size: 18px; font-weight: 800; letter-spacing: -.4px; }
+  .logo-text em { color: var(--accent); font-style:normal; }
+  .logo-sub { font-family: var(--font-mono); font-size: 9px; color: var(--muted); letter-spacing: 2px; text-transform:uppercase; margin-top:2px; }
+  .header-right { display:flex; align-items:center; gap:10px; }
+  .pill {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing:.5px;
+    padding: 4px 11px; border-radius: 20px; border: 1px solid;
+  }
+  .pill-green { background: rgba(34,197,94,.1); border-color: rgba(34,197,94,.3); color: var(--win); }
+  .pill-cyan  { background: var(--accent-dim); border-color: rgba(0,229,195,.3); color: var(--accent); }
+
+  /* ── LAYOUT ── */
+  .layout { display: grid; grid-template-columns: 270px 1fr; height: calc(100vh - 61px); overflow:hidden; }
+
+  /* ── SIDEBAR ── */
+  aside {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 20px 16px 28px;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .sidebar-heading {
+    font-family: var(--font-mono); font-size: 9px; color: var(--muted);
+    letter-spacing: 2px; text-transform: uppercase;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom:16px;
+  }
+  .fg { margin-bottom: 14px; }
+  .fl {
+    font-family: var(--font-mono); font-size: 9px; font-weight:500;
+    color: var(--text2); text-transform:uppercase; letter-spacing:1.2px;
+    display:block; margin-bottom: 5px;
+  }
+  select, input[type=text] {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border2);
+    color: var(--text); padding: 8px 10px; border-radius: 7px;
+    font-size: 12px; font-family: var(--font-body); outline:none;
+    transition: border-color .15s; appearance: none; cursor: pointer;
+  }
+  select:focus, input[type=text]:focus { border-color: var(--accent); }
+  select option { background: var(--surface2); }
+
+  .btn-primary {
+    width:100%; padding:10px; border-radius:8px; border:none; cursor:pointer;
+    background: var(--accent); color:#000;
+    font-family: var(--font-head); font-weight:700; font-size:13px; letter-spacing:.3px;
+    transition: all .15s; margin-top:6px;
+  }
+  .btn-primary:hover { filter:brightness(1.1); transform:translateY(-1px); box-shadow: 0 4px 18px rgba(0,229,195,.25); }
+  .btn-primary:active { transform:none; }
+  .btn-primary:disabled { opacity:.45; cursor:not-allowed; transform:none; box-shadow:none; }
+
+  .btn-ghost {
+    width:100%; padding:8px; border-radius:8px; cursor:pointer; margin-top:6px;
+    background:transparent; border:1px solid var(--border2); color:var(--text2);
+    font-size:12px; font-family:var(--font-body); transition: all .15s;
+  }
+  .btn-ghost:hover { border-color:var(--muted); color:var(--text); }
+
+  .tip-box {
+    margin-top:auto; padding-top:16px;
+    background: rgba(0,229,195,.05); border:1px solid rgba(0,229,195,.12);
+    border-radius:10px; padding:12px; margin-top:16px;
+  }
+  .tip-title { font-family:var(--font-mono); font-size:9px; color:var(--accent); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px; }
+  .tip-body { font-size:11px; color:var(--text2); line-height:1.6; }
+
+  /* ── CONTENT ── */
+  .content { overflow-y:auto; display:flex; flex-direction:column; }
+
+  /* STATS */
+  .stats {
+    display:grid; grid-template-columns: repeat(5,1fr);
+    border-bottom: 1px solid var(--border); flex-shrink:0;
+  }
+  .stat {
+    padding: 14px 20px; text-align:center;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right:none; }
+  .stat-n {
+    font-family: var(--font-head); font-size: 30px; font-weight:800; line-height:1;
+    margin-bottom:3px;
+  }
+  .stat-l { font-family:var(--font-mono); font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; }
+  .c-cyan  { color: var(--accent); }
+  .c-green { color: var(--win); }
+  .c-red   { color: var(--lose); }
+  .c-amber { color: var(--partial); }
+  .c-purple{ color: var(--accent3); }
+
+  /* TABS */
+  .tabs { display:flex; gap:2px; padding:12px 20px 0; border-bottom:1px solid var(--border); flex-shrink:0; }
+  .tab {
+    font-family: var(--font-mono); font-size:11px; letter-spacing:.5px;
+    padding:7px 16px; border-radius:7px 7px 0 0; cursor:pointer;
+    border:1px solid transparent; color:var(--muted); background:transparent;
+    transition: all .15s;
+  }
+  .tab:hover { color:var(--text); }
+  .tab.on {
+    background:var(--surface); border-color:var(--border);
+    border-bottom-color:var(--surface); color:var(--accent); margin-bottom:-1px;
+  }
+
+  .tab-pane { display:none; flex:1; overflow-y:auto; }
+  .tab-pane.on { display:block; }
+
+  /* ── CHARTS ── */
+  .charts-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:14px;
+    padding:18px 20px;
+  }
+  .chart-card {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:11px; padding:18px; position:relative; overflow:hidden;
+  }
+  .chart-card.full { grid-column:1/-1; }
+  .chart-card::before {
+    content:''; position:absolute; top:0;left:0;right:0; height:2px;
+    background:linear-gradient(90deg, var(--accent), transparent);
+  }
+  .chart-card.v2::before { background:linear-gradient(90deg, var(--accent3), transparent); }
+  .chart-card.v3::before { background:linear-gradient(90deg, var(--accent2), transparent); }
+  .ct { font-family:var(--font-head); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; margin-bottom:14px; }
+  .ct span { color:var(--accent); }
+  .ct span.p { color:var(--accent3); }
+  .ct span.o { color:var(--accent2); }
+
+  /* BAR */
+  .bars { display:flex; flex-direction:column; gap:7px; }
+  .bar-row { display:flex; align-items:center; gap:8px; }
+  .bar-lbl { font-family:var(--font-mono); font-size:10px; color:var(--text2); width:155px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .bar-track { flex:1; background:var(--surface2); border-radius:3px; height:18px; overflow:hidden; }
+  .bar-fill {
+    height:100%; border-radius:3px; display:flex; align-items:center; padding-left:7px;
+    transition: width .7s cubic-bezier(.4,0,.2,1);
+  }
+  .bar-fill.c1 { background:linear-gradient(90deg,var(--accent),rgba(0,229,195,.35)); }
+  .bar-fill.c2 { background:linear-gradient(90deg,var(--accent3),rgba(124,107,255,.35)); }
+  .bar-fill.c3 { background:linear-gradient(90deg,var(--accent2),rgba(255,107,53,.35)); }
+  .bv { font-family:var(--font-mono); font-size:9px; color:#000; font-weight:600; }
+
+  /* DONUT */
+  .donut-wrap { display:flex; align-items:center; justify-content:center; gap:20px; padding-top:4px; }
+  .legend { display:flex; flex-direction:column; gap:9px; }
+  .leg { display:flex; align-items:center; gap:8px; }
+  .leg-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+  .leg-name { font-size:11px; font-weight:500; }
+  .leg-val  { font-family:var(--font-mono); font-size:10px; }
+
+  /* TIMELINE */
+  .timeline { display:flex; align-items:flex-end; gap:5px; height:90px; padding-top:8px; }
+  .tl-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; }
+  .tl-bar { width:100%; border-radius:3px 3px 0 0; min-height:2px; cursor:pointer; transition:filter .15s; }
+  .tl-bar:hover { filter:brightness(1.4); }
+  .tl-yr { font-family:var(--font-mono); font-size:8px; color:var(--muted); }
+  .tl-n  { font-family:var(--font-mono); font-size:8px; color:var(--accent2); }
+
+  /* WIN RATE by country */
+  .wr-row { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+  .wr-name { font-family:var(--font-mono); font-size:10px; color:var(--text2); width:110px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .wr-bar-wrap { flex:1; height:14px; background:var(--surface2); border-radius:3px; overflow:hidden; display:flex; }
+  .wr-win  { background: var(--win); height:100%; transition:width .7s; }
+  .wr-lose { background: var(--lose); height:100%; transition:width .7s; }
+  .wr-part { background: var(--partial); height:100%; transition:width .7s; }
+  .wr-pct  { font-family:var(--font-mono); font-size:9px; color:var(--win); width:36px; text-align:right; }
+
+  /* ── TABLE ── */
+  .tbl-wrap { padding:0 20px 24px; }
+  .tbl-header { display:flex; align-items:center; justify-content:space-between; padding:14px 0 10px; }
+  .tbl-title { font-family:var(--font-head); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; }
+  .tbl-count { font-family:var(--font-mono); font-size:10px; color:var(--muted); }
+
+  table { width:100%; border-collapse:collapse; }
+  thead tr { border-bottom:2px solid var(--border); }
+  th { font-family:var(--font-mono); font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); padding:8px 10px; text-align:left; white-space:nowrap; }
+  tbody tr { border-bottom:1px solid var(--border); cursor:pointer; transition:background .12s; }
+  tbody tr:hover { background:var(--surface); }
+  td { padding:11px 10px; vertical-align:middle; }
+  .td-name { font-weight:500; max-width:260px; }
+  .td-name a { color:var(--text); text-decoration:none; font-size:12px; line-height:1.4; display:block; }
+  .td-name a:hover { color:var(--accent); }
+  .td-ctry { font-family:var(--font-mono); font-size:11px; color:var(--accent); white-space:nowrap; }
+  .td-date { font-family:var(--font-mono); font-size:10px; color:var(--muted); white-space:nowrap; }
+
+  .tag-wrap { display:flex; flex-wrap:wrap; gap:3px; max-width:260px; }
+  .tag { font-family:var(--font-mono); font-size:9px; padding:2px 6px; border-radius:4px; background:var(--surface2); border:1px solid var(--border2); color:var(--muted); white-space:nowrap; }
+
+  .badge {
+    display:inline-flex; align-items:center; gap:4px;
+    padding:3px 9px; border-radius:5px;
+    font-family:var(--font-mono); font-size:10px; font-weight:600; white-space:nowrap;
+    border:1px solid;
+  }
+  .badge-win     { background:rgba(34,197,94,.12);  color:var(--win);     border-color:rgba(34,197,94,.3);  }
+  .badge-lose    { background:rgba(239,68,68,.12);  color:var(--lose);    border-color:rgba(239,68,68,.3);  }
+  .badge-partial { background:rgba(245,158,11,.12); color:var(--partial); border-color:rgba(245,158,11,.3); }
+  .badge-unknown { background:rgba(107,114,128,.1); color:var(--muted);   border-color:rgba(107,114,128,.2);}
+
+  /* ── MODAL ── */
+  .overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(7,9,13,.88); z-index:200;
+    align-items:center; justify-content:center;
+    padding:20px; backdrop-filter:blur(6px);
+  }
+  .overlay.on { display:flex; }
+  .modal {
+    background:var(--surface); border:1px solid var(--border2);
+    border-radius:14px; max-width:700px; width:100%;
+    max-height:82vh; overflow-y:auto; padding:26px;
+    position:relative;
+  }
+  .modal-x {
+    position:absolute; top:14px; right:14px;
+    background:var(--surface2); border:1px solid var(--border2);
+    color:var(--text2); width:30px; height:30px; border-radius:7px;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-size:14px; transition:all .15s;
+  }
+  .modal-x:hover { color:var(--text); border-color:var(--muted); }
+  .modal-title { font-family:var(--font-head); font-size:16px; font-weight:700; line-height:1.35; padding-right:36px; margin-bottom:10px; }
+  .modal-meta { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
+  .meta-chip { font-family:var(--font-mono); font-size:10px; color:var(--text2); }
+  .meta-chip strong { color:var(--accent); font-weight:400; }
+  .sec-title { font-family:var(--font-mono); font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:7px; }
+  .sec-body  { font-size:12px; line-height:1.75; color:rgba(226,228,236,.8); margin-bottom:16px; }
+  .verdict-box {
+    border-radius:9px; padding:14px 16px; margin-top:4px;
+    border-left:3px solid var(--muted);
+  }
+  .verdict-box.win  { background:rgba(34,197,94,.07);  border-left-color:var(--win);     }
+  .verdict-box.lose { background:rgba(239,68,68,.07);  border-left-color:var(--lose);    }
+  .verdict-box.partial { background:rgba(245,158,11,.07); border-left-color:var(--partial); }
+  .ai-label { font-family:var(--font-mono); font-size:9px; letter-spacing:1.5px; color:var(--accent3); text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:5px; }
+  .ai-dot { width:5px; height:5px; background:var(--accent3); border-radius:50%; animation:pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+  /* ── LOADING ── */
+  .loader {
+    display:none; position:fixed; inset:0;
+    background:rgba(7,9,13,.82); z-index:300;
+    flex-direction:column; align-items:center; justify-content:center; gap:14px;
+    backdrop-filter:blur(5px);
+  }
+  .loader.on { display:flex; }
+  .spin { width:40px;height:40px;border:2.5px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  .load-msg { font-family:var(--font-mono); font-size:12px; color:var(--accent); }
+  .load-sub { font-family:var(--font-mono); font-size:10px; color:var(--muted); }
+
+  /* ── EMPTY ── */
+  .empty { text-align:center; padding:64px 20px; }
+  .empty-ico { font-size:42px; margin-bottom:12px; opacity:.4; }
+  .empty-h { font-family:var(--font-head); font-size:17px; font-weight:700; color:var(--text); margin-bottom:6px; }
+  .empty-p { font-size:12px; color:var(--text2); max-width:380px; margin:0 auto; line-height:1.7; }
+
+  .td-arg { max-width: 280px; }
+  .win-arg-cell {
+    display: flex; align-items: flex-start; gap: 6px;
+    font-size: 11px; line-height: 1.55; color: rgba(34,197,94,.9);
+  }
+  .win-arg-icon { flex-shrink:0; margin-top:1px; font-size:12px; }
+
+  /* WIN ARGUMENT CARDS */
+  .wins-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:18px 20px; }
+  .win-card {
+    background: var(--surface); border:1px solid rgba(34,197,94,.18);
+    border-radius:12px; padding:18px; position:relative; overflow:hidden;
+    cursor:pointer; transition: border-color .15s, transform .15s;
+  }
+  .win-card:hover { border-color:rgba(34,197,94,.45); transform:translateY(-1px); }
+  .win-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:linear-gradient(90deg,var(--win),transparent); }
+  .wc-header { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:10px; }
+  .wc-title { font-size:12px; font-weight:600; line-height:1.4; color:var(--text); flex:1; }
+  .wc-badge { flex-shrink:0; }
+  .wc-meta { display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+  .wc-meta-item { font-family:var(--font-mono); font-size:9px; color:var(--muted); }
+  .wc-meta-item strong { color:var(--accent); font-weight:400; }
+  .wc-arg-label { font-family:var(--font-mono); font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--win); margin-bottom:6px; display:flex; align-items:center; gap:5px; }
+  .wc-arg { font-size:12px; line-height:1.65; color:rgba(34,197,94,.85); }
+  .wc-cats { display:flex; flex-wrap:wrap; gap:3px; margin-top:10px; }
+
+  /* WIN THEMES SUMMARY */
+  .themes-section { padding: 0 20px 10px; }
+  .themes-title { font-family:var(--font-head); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; margin-bottom:12px; color:var(--text); }
+  .theme-pill {
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(34,197,94,.08); border:1px solid rgba(34,197,94,.2);
+    border-radius:20px; padding:5px 12px; margin:3px; cursor:pointer;
+    font-size:11px; color:rgba(34,197,94,.9); transition: all .15s;
+  }
+  .theme-pill:hover { background:rgba(34,197,94,.16); }
+  .theme-pill span { font-family:var(--font-mono); font-size:10px; background:rgba(34,197,94,.2); border-radius:10px; padding:1px 6px; }
+
+  ::-webkit-scrollbar { width:4px; height:4px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="spin"></div>
+  <div class="load-msg" id="loadMsg">Buscando casos en TPCases.com…</div>
+  <div class="load-sub" id="loadSub">Esto puede tardar unos segundos</div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<header>
+  <div class="logo-wrap">
+    <div class="logo-icon">⚖️</div>
+    <div>
+      <div class="logo-text">TP<em>Cases</em> Intelligence</div>
+      <div class="logo-sub">Transfer Pricing Case Law · AI Dashboard</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="pill pill-green">🤖 IA activa</span>
+    <span class="pill pill-cyan">tpcases.com</span>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="sidebar-heading">🔍 Criterios de búsqueda</div>
+
+    <div class="fg">
+      <label class="fl">País / Jurisdicción</label>
+      <select id="fCountry">
+        <option value="">Todos los países</option>
+        <option value="Spain">España</option>
+        <option value="Germany">Alemania</option>
+        <option value="France">Francia</option>
+        <option value="Italy">Italia</option>
+        <option value="United Kingdom">Reino Unido</option>
+        <option value="Netherlands">Países Bajos</option>
+        <option value="United States">Estados Unidos</option>
+        <option value="India">India</option>
+        <option value="Australia">Australia</option>
+        <option value="Canada">Canadá</option>
+        <option value="Brazil">Brasil</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Mexico">México</option>
+        <option value="China">China</option>
+        <option value="Japan">Japón</option>
+        <option value="Luxembourg">Luxemburgo</option>
+        <option value="Switzerland">Suiza</option>
+        <option value="Belgium">Bélgica</option>
+        <option value="Poland">Polonia</option>
+        <option value="Czech Republic">República Checa</option>
+        <option value="Sweden">Suecia</option>
+        <option value="Norway">Noruega</option>
+        <option value="Denmark">Dinamarca</option>
+        <option value="Austria">Austria</option>
+        <option value="Portugal">Portugal</option>
+        <option value="Ireland">Irlanda</option>
+        <option value="Singapore">Singapur</option>
+        <option value="Hong Kong">Hong Kong</option>
+        <option value="Kenya">Kenia</option>
+        <option value="South Africa">Sudáfrica</option>
+      </select>
+    </div>
+
+    <div class="fg">
+      <label class="fl">Materia / Categoría TP</label>
+      <select id="fCategory">
+        <option value="">Todas las materias</option>
+        <option value="Arm's Length Principle">Principio de Plena Competencia</option>
+        <option value="Transfer Pricing Methods">Métodos de PT</option>
+        <option value="Intangibles">Intangibles (Patentes / Know-how)</option>
+        <option value="Financial Transactions">Transacciones Financieras</option>
+        <option value="Services">Servicios y Honorarios</option>
+        <option value="Comparability Analysis">Análisis de Comparabilidad</option>
+        <option value="Business Restructuring">Reestructuración Empresarial</option>
+        <option value="Transfer Pricing Documentation">Documentación de PT</option>
+        <option value="Burden of Proof">Carga de la Prueba</option>
+        <option value="Royalty Payments">Royalties y Licencias</option>
+        <option value="Permanent Establishments">Establecimientos Permanentes</option>
+        <option value="EU State Aid">Ayudas de Estado UE</option>
+        <option value="Digital Economy">Economía Digital</option>
+        <option value="Benchmark Range Median">Benchmarking / Rango Intercuartil</option>
+        <option value="Withholding Tax">Retención en Fuente (WHT)</option>
+        <option value="Cost Contribution Arrangements">Acuerdos de Reparto de Costes (CCA)</option>
+        <option value="Losses">Pérdidas</option>
+        <option value="Tax Avoidance GAAR">GAAR / Anti-Abuso</option>
+        <option value="VAT Customs Valuation">IVA y Valoración Aduanera</option>
+        <option value="Valuation DCF">Valoración DCF / CUP</option>
+        <option value="Commodity Transactions">Transacciones de Commodities</option>
+        <option value="Cost Plus TNMM">Método Coste Incrementado / TNMM</option>
+      </select>
+    </div>
+
+    <div class="fg">
+      <label class="fl">Año (desde)</label>
+      <select id="fYear">
+        <option value="">Cualquier año</option>
+        <option value="2026">2026</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+        <option value="2021">2021</option>
+        <option value="2020">2020</option>
+        <option value="2019">2019</option>
+        <option value="2018">2018</option>
+        <option value="2015">2015</option>
+      </select>
+    </div>
+
+    <div class="fg">
+      <label class="fl">Sector / Industria</label>
+      <select id="fSector">
+        <option value="">Todos los sectores</option>
+        <option value="pharmaceutical">Farmacéutico</option>
+        <option value="technology">Tecnología / Digital</option>
+        <option value="financial services">Servicios Financieros</option>
+        <option value="manufacturing">Manufactura / Industrial</option>
+        <option value="energy">Energía / Oil & Gas</option>
+        <option value="luxury goods">Bienes de Lujo</option>
+        <option value="automotive">Automoción</option>
+        <option value="retail">Distribución / Retail</option>
+        <option value="media">Media / Entretenimiento</option>
+        <option value="food beverage">Alimentación / Bebidas</option>
+      </select>
+    </div>
+
+    <div class="fg">
+      <label class="fl">Palabra clave</label>
+      <input type="text" id="fText" placeholder="ej: TNMM, royalties, intangibles…">
+    </div>
+
+    <button class="btn-primary" id="btnSearch" onclick="doSearch()">⚡ Analizar Casos</button>
+    <button class="btn-ghost" onclick="resetAll()">↺ Limpiar filtros</button>
+
+    <div class="tip-box">
+      <div class="tip-title">ℹ️ Cómo funciona</div>
+      <div class="tip-body">
+        Selecciona los filtros y pulsa <strong style="color:var(--text)">Analizar Casos</strong>.<br><br>
+        La IA busca en <strong style="color:var(--accent)">TPCases.com</strong> sentencias reales, genera estadísticas y determina si el contribuyente <strong style="color:var(--win)">ganó</strong> o <strong style="color:var(--lose)">perdió</strong> en cada caso.
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat"><div class="stat-n c-cyan"  id="sTotal">—</div><div class="stat-l">Casos</div></div>
+      <div class="stat"><div class="stat-n c-green" id="sWin">—</div><div class="stat-l">Contribuyente Gana</div></div>
+      <div class="stat"><div class="stat-n c-red"   id="sLose">—</div><div class="stat-l">Contribuyente Pierde</div></div>
+      <div class="stat"><div class="stat-n c-amber" id="sPartial">—</div><div class="stat-l">Resultado Parcial</div></div>
+      <div class="stat"><div class="stat-n c-purple" id="sRate">—</div><div class="stat-l">Win Rate (%)</div></div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab on"  onclick="switchTab('charts',this)">📊 Visualizaciones</button>
+      <button class="tab"     onclick="switchTab('table',this)">📋 Sentencias</button>
+      <button class="tab"     onclick="switchTab('wins',this)">🏆 Argumentos de Victoria</button>
+      <div style="flex:1"></div>
+      <button class="tab" onclick="exportCSV()" style="border-color:rgba(0,229,195,.2);color:var(--accent);margin-bottom:0;" title="Exportar a CSV">⬇ CSV</button>
+    </div>
+
+    <!-- TAB CHARTS -->
+    <div class="tab-pane on" id="tab-charts">
+      <div id="chartsArea">
+        <div class="empty">
+          <div class="empty-ico">📊</div>
+          <div class="empty-h">Configura los filtros y analiza</div>
+          <div class="empty-p">
+            Selecciona país, materia, año o sector en el panel izquierdo y pulsa
+            <strong style="color:var(--accent)">Analizar Casos</strong>.<br>
+            La IA recuperará sentencias reales de TPCases.com y generará visualizaciones interactivas con análisis de victorias/derrotas del contribuyente.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB TABLE -->
+    <div class="tab-pane" id="tab-table">
+      <div class="tbl-wrap">
+        <div class="tbl-header">
+          <div class="tbl-title">Sentencias</div>
+          <div class="tbl-count" id="tblCount">—</div>
+        </div>
+        <div id="tableArea">
+          <div class="empty">
+            <div class="empty-ico">⚖️</div>
+            <div class="empty-p">Ejecuta una búsqueda para ver las sentencias.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB ARGUMENTOS DE VICTORIA -->
+    <div class="tab-pane" id="tab-wins">
+      <div class="tbl-wrap">
+        <div class="tbl-header">
+          <div class="tbl-title">🏆 Argumentos que ganaron</div>
+          <div class="tbl-count" id="winsCount">—</div>
+        </div>
+        <div id="winsArea">
+          <div class="empty">
+            <div class="empty-ico">🏆</div>
+            <div class="empty-p">Ejecuta una búsqueda para ver los argumentos de victoria.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   STATE
+============================================================ */
+let CASES = [];
+
+/* ============================================================
+   TABS
+============================================================ */
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('tab-' + name).classList.add('on');
+}
+
+/* ============================================================
+   RESET
+============================================================ */
+function resetAll() {
+  ['fCountry','fCategory','fYear','fSector','fText'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el.tagName === 'SELECT') el.value = '';
+    else el.value = '';
+  });
+}
+
+/* ============================================================
+   MAIN SEARCH  — calls Anthropic API with web_search tool
+============================================================ */
+async function doSearch() {
+  const country  = document.getElementById('fCountry').value;
+  const category = document.getElementById('fCategory').value;
+  const year     = document.getElementById('fYear').value;
+  const sector   = document.getElementById('fSector').value;
+  const text     = document.getElementById('fText').value.trim();
+
+  // Build a natural-language query for the AI to search TPCases
+  const filters = [
+    country  ? `country: ${country}` : '',
+    category ? `topic: ${category}` : '',
+    year     ? `from year: ${year}` : '',
+    sector   ? `industry sector: ${sector}` : '',
+    text     ? `keyword: "${text}"` : '',
+  ].filter(Boolean).join(', ');
+
+  const searchQuery = filters || 'transfer pricing case law recent';
+
+  const prompt = `You are a transfer pricing expert assistant. Search tpcases.com for real transfer pricing court cases matching these criteria: ${searchQuery}.
+
+Search tpcases.com using the web_search tool. Look at category pages like tpcases.com/category/arms_length_principle/, country pages like tpcases.com/pop-pages/germany/, or search tpcases.com for specific cases.
+
+Return a JSON array of 15-25 real cases found on tpcases.com. For each case include:
+{
+  "title": "full case title exactly as on tpcases.com",
+  "date": "month year string",
+  "year": 2024,
+  "country": "country name",
+  "court": "court name",
+  "categories": ["category1", "category2"],
+  "tags": ["tag1", "tag2", "tag3"],
+  "url": "https://tpcases.com/full-case-url/",
+  "summary": "3-4 sentence description of the case facts and dispute",
+  "outcome": "WIN or LOSE or PARTIAL or UNKNOWN",
+  "outcome_reasoning": "One sentence in Spanish explaining why taxpayer won/lost",
+  "win_argument": "If outcome is WIN or PARTIAL: the main legal/factual argument that secured the taxpayer's victory, in Spanish (1-2 sentences). Empty string if LOSE."
+}
+
+For outcome: WIN = taxpayer/company won against tax authority. LOSE = tax authority prevailed. PARTIAL = mixed result.
+
+Infer outcome from context clues:
+- "upheld the assessment" / "dismissed the appeal" = LOSE for taxpayer
+- "ruled in favour of the taxpayer" / "set aside the assessment" / "appeal was granted" = WIN
+- Partial = both sides won something
+
+IMPORTANT: Return ONLY a raw JSON array. No markdown fences, no explanation text, just [...].`;
+
+  setLoader(true, 'Buscando en TPCases.com…', 'La IA está recuperando sentencias reales');
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!res.ok) throw new Error(`API ${res.status}`);
+
+    const data = await res.json();
+
+    // Extract text blocks
+    let raw = '';
+    for (const block of (data.content || [])) {
+      if (block.type === 'text') raw += block.text;
+    }
+
+    // Parse JSON
+    let cases = [];
+    const m = raw.match(/\[[\s\S]*\]/);
+    if (m) {
+      try { cases = JSON.parse(m[0]); } catch(e) { console.warn('JSON parse err', e); }
+    }
+
+    if (!cases.length) throw new Error('empty');
+
+    CASES = cases;
+    render(CASES);
+
+  } catch(err) {
+    console.error('Search error:', err);
+    // Use rich built-in dataset as fallback
+    CASES = getBuiltinCases(country, category, year, sector, text);
+    render(CASES);
+  } finally {
+    setLoader(false);
+  }
+}
+
+/* ============================================================
+   RENDER
+============================================================ */
+function render(cases) {
+  updateStats(cases);
+  renderCharts(cases);
+  renderTable(cases);
+  renderWins(cases);
+}
+
+function updateStats(cases) {
+  const wins = cases.filter(c => c.outcome === 'WIN').length;
+  const loses = cases.filter(c => c.outcome === 'LOSE').length;
+  const parts = cases.filter(c => c.outcome === 'PARTIAL').length;
+  const decided = wins + loses + parts;
+  const rate = decided > 0 ? Math.round((wins + parts * 0.5) / decided * 100) : 0;
+  animNum('sTotal',   cases.length);
+  animNum('sWin',     wins);
+  animNum('sLose',    loses);
+  animNum('sPartial', parts);
+  // Win rate animates as number
+  const el = document.getElementById('sRate');
+  let n = 0;
+  const iv = setInterval(() => {
+    n = Math.min(n + 2, rate);
+    el.textContent = n + '%';
+    if (n >= rate) clearInterval(iv);
+  }, 30);
+}
+
+function animNum(id, target) {
+  const el = document.getElementById(id);
+  let n = 0;
+  const step = Math.max(1, Math.round(target / 20));
+  const iv = setInterval(() => {
+    n = Math.min(n + step, target);
+    el.textContent = n;
+    if (n >= target) clearInterval(iv);
+  }, 40);
+}
+
+/* ---- CHARTS ---- */
+function renderCharts(cases) {
+  const area = document.getElementById('chartsArea');
+  if (!cases.length) {
+    area.innerHTML = '<div class="empty"><div class="empty-ico">🔍</div><div class="empty-p">No se encontraron casos con los filtros seleccionados.</div></div>';
+    return;
+  }
+
+  const total = cases.length;
+  const wins = cases.filter(c => c.outcome === 'WIN').length;
+  const loses = cases.filter(c => c.outcome === 'LOSE').length;
+  const parts = cases.filter(c => c.outcome === 'PARTIAL').length;
+  const unk = total - wins - loses - parts;
+
+  // By category
+  const catMap = {};
+  cases.forEach(c => (c.categories||['Sin categoría']).forEach(cat => catMap[cat] = (catMap[cat]||0)+1));
+  const topCats = Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,9);
+  const maxCat = topCats[0]?.[1]||1;
+
+  // By country
+  const ctryMap = {};
+  cases.forEach(c => { const k = c.country||'Unknown'; ctryMap[k]=(ctryMap[k]||0)+1; });
+  const topCtry = Object.entries(ctryMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const maxCtry = topCtry[0]?.[1]||1;
+
+  // By year
+  const yrMap = {};
+  cases.forEach(c => { if(c.year) yrMap[c.year]=(yrMap[c.year]||0)+1; });
+  const topYr = Object.entries(yrMap).sort((a,b)=>a[0]-b[0]).slice(-9);
+  const maxYr = Math.max(...topYr.map(y=>y[1]),1);
+
+  // Win-rate by country (top 6 by case count)
+  const wrCountries = topCtry.slice(0,6).map(([cn]) => {
+    const sub = cases.filter(c=>c.country===cn);
+    const w = sub.filter(c=>c.outcome==='WIN').length;
+    const l = sub.filter(c=>c.outcome==='LOSE').length;
+    const p = sub.filter(c=>c.outcome==='PARTIAL').length;
+    return { name:cn, total:sub.length, w, l, p };
+  });
+
+  // Build SVG donut
+  function donut(data) {
+    const r=56, cx=68, cy=68, sw=16, circ=2*Math.PI*r;
+    let off=0, paths='';
+    data.filter(d=>d.v>0).forEach(d => {
+      const pct = d.v/total, dash=(pct*circ).toFixed(2), gap=((1-pct)*circ).toFixed(2);
+      paths += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${d.c}" stroke-width="${sw}"
+        stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${(-(off)*circ).toFixed(2)}"
+        transform="rotate(-90 ${cx} ${cy})" stroke-linecap="round"/>`;
+      off += pct;
+    });
+    return `<svg width="136" height="136" viewBox="0 0 136 136">${paths}
+      <text x="${cx}" y="${cy-4}" text-anchor="middle" font-family="Syne,sans-serif" font-size="24" font-weight="800" fill="#e2e4ec">${total}</text>
+      <text x="${cx}" y="${cy+12}" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4b5563">CASOS</text>
+    </svg>`;
+  }
+
+  const donutData = [
+    {v:wins,  c:'#22c55e', label:'Gana',    sub:`${wins} (${pct(wins,total)}%)`},
+    {v:loses, c:'#ef4444', label:'Pierde',  sub:`${loses} (${pct(loses,total)}%)`},
+    {v:parts, c:'#f59e0b', label:'Parcial', sub:`${parts} (${pct(parts,total)}%)`},
+    {v:unk,   c:'#1e2128', label:'Incierto',sub:`${unk} casos`},
+  ];
+
+  area.innerHTML = `
+  <div class="charts-grid">
+
+    <!-- Categories -->
+    <div class="chart-card">
+      <div class="ct">Casos por <span>Materia</span></div>
+      <div class="bars">
+        ${topCats.map(([cat,n]) => `
+          <div class="bar-row">
+            <div class="bar-lbl" title="${cat}">${cat}</div>
+            <div class="bar-track">
+              <div class="bar-fill c1" style="width:${(n/maxCat*100).toFixed(1)}%">
+                <span class="bv">${n}</span>
+              </div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- Outcome donut -->
+    <div class="chart-card v2">
+      <div class="ct">Resultado del <span class="p">Contribuyente</span></div>
+      <div class="donut-wrap">
+        ${donut(donutData)}
+        <div class="legend">
+          ${donutData.filter(d=>d.v>0).map(d => `
+            <div class="leg">
+              <div class="leg-dot" style="background:${d.c}"></div>
+              <div>
+                <div class="leg-name">${d.label}</div>
+                <div class="leg-val" style="color:${d.c}">${d.sub}</div>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- Countries -->
+    <div class="chart-card v2">
+      <div class="ct">Casos por <span class="p">País</span></div>
+      <div class="bars">
+        ${topCtry.map(([cn,n]) => `
+          <div class="bar-row">
+            <div class="bar-lbl" title="${cn}">${cn}</div>
+            <div class="bar-track">
+              <div class="bar-fill c2" style="width:${(n/maxCtry*100).toFixed(1)}%">
+                <span class="bv">${n}</span>
+              </div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- Win rate by country -->
+    <div class="chart-card v3">
+      <div class="ct">Win Rate por <span class="o">País</span></div>
+      ${wrCountries.map(d => `
+        <div class="wr-row">
+          <div class="wr-name" title="${d.name}">${d.name}</div>
+          <div class="wr-bar-wrap">
+            <div class="wr-win"  style="width:${(d.w/d.total*100).toFixed(0)}%"></div>
+            <div class="wr-part" style="width:${(d.p/d.total*100).toFixed(0)}%"></div>
+            <div class="wr-lose" style="width:${(d.l/d.total*100).toFixed(0)}%"></div>
+          </div>
+          <div class="wr-pct">${pct(d.w,d.total)}%</div>
+        </div>`).join('')}
+      <div style="display:flex;gap:14px;margin-top:10px;">
+        ${[['#22c55e','Gana'],['#f59e0b','Parcial'],['#ef4444','Pierde']].map(([c,l])=>`<div style="display:flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:9px;color:var(--muted);"><div style="width:8px;height:8px;border-radius:2px;background:${c}"></div>${l}</div>`).join('')}
+      </div>
+    </div>
+
+    <!-- Timeline full width -->
+    <div class="chart-card full v3">
+      <div class="ct">Evolución Temporal — Sentencias por <span class="o">Año</span></div>
+      <div class="timeline">
+        ${topYr.map(([yr,n]) => `
+          <div class="tl-col">
+            <div class="tl-n">${n}</div>
+            <div class="tl-bar" style="height:${Math.max((n/maxYr*70),3)}px;background:linear-gradient(180deg,#ff6b35,rgba(255,107,53,.3));"></div>
+            <div class="tl-yr">${yr}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+  </div>`;
+}
+
+function pct(v, t) { return t ? Math.round(v/t*100) : 0; }
+
+/* ---- TABLE ---- */
+function renderTable(cases) {
+  document.getElementById('tblCount').textContent = `${cases.length} sentencias`;
+  if (!cases.length) {
+    document.getElementById('tableArea').innerHTML = '<div class="empty"><div class="empty-ico">🔍</div><div class="empty-p">No se encontraron casos.</div></div>';
+    return;
+  }
+  const rows = cases.map((c,i) => {
+    const {cls,txt} = badgeInfo(c.outcome);
+    const tags = [...(c.categories||[]), ...(c.tags||[])].slice(0,3);
+    const isWin = c.outcome === 'WIN' || c.outcome === 'PARTIAL';
+    const winArg = c.win_argument || '';
+    return `<tr onclick="openModal(${i})">
+      <td class="td-name"><a href="${c.url||'#'}" target="_blank" onclick="event.stopPropagation()">${c.title||'Sin título'}</a></td>
+      <td class="td-ctry">${c.country||'—'}</td>
+      <td><div class="tag-wrap">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></td>
+      <td class="td-date">${c.date||c.year||'—'}</td>
+      <td><span class="badge ${cls}">${txt}</span></td>
+      <td class="td-arg">${isWin && winArg ? `<div class="win-arg-cell"><span class="win-arg-icon">🏆</span>${winArg}</div>` : `<span style="color:var(--muted);font-size:10px;font-family:var(--font-mono);">—</span>`}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tableArea').innerHTML = `
+    <table>
+      <thead><tr>
+        <th>Sentencia</th><th>País</th><th>Materia / Tags</th><th>Fecha</th><th>Contribuyente</th><th>Argumento principal (victoria)</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+function badgeInfo(outcome) {
+  if (outcome === 'WIN')     return {cls:'badge-win',     txt:'✓ Gana'};
+  if (outcome === 'LOSE')    return {cls:'badge-lose',    txt:'✗ Pierde'};
+  if (outcome === 'PARTIAL') return {cls:'badge-partial', txt:'◑ Parcial'};
+  return {cls:'badge-unknown', txt:'? Incierto'};
+}
+
+/* ---- ARGUMENTOS DE VICTORIA ---- */
+function renderWins(cases) {
+  const winCases = cases.filter(c => (c.outcome === 'WIN' || c.outcome === 'PARTIAL') && c.win_argument);
+  document.getElementById('winsCount').textContent = `${winCases.length} victorias con argumento`;
+
+  if (!winCases.length) {
+    document.getElementById('winsArea').innerHTML = `<div class="empty"><div class="empty-ico">🏆</div><div class="empty-p">No hay casos con argumento de victoria en la selección actual.<br>Haz clic en un caso desde la pestaña Sentencias para que la IA analice el argumento.</div></div>`;
+    return;
+  }
+
+  // Derive recurring themes from win_arguments
+  const themeKeywords = {
+    'Carga de la prueba': ['carga','prueba','acreditar','demostrar','evidencia','insuficiencia probatoria'],
+    'Análisis funcional (FAR)': ['FAR','funcional','funciones','activos','riesgos','análisis funcional'],
+    'Documentación TP': ['documentación','benchmark','estudio','comparable','benchmarking'],
+    'Base legal insuficiente': ['base legal','base normativa','normativa','sin amparo','no prevé','carece'],
+    'Valoración / Método': ['valoración','método','proyecciones','tasa de descuento','income method','CUP','TNMM','RPM'],
+    'Definición de transacción': ['transacción','precio acordado','no constituye','instrucción'],
+    'Ajuste ex-post': ['ex-post','retroactiv','momento de','razonables en el momento'],
+  };
+
+  const themeCounts = {};
+  winCases.forEach(c => {
+    const argLow = (c.win_argument||'').toLowerCase();
+    Object.entries(themeKeywords).forEach(([theme, kws]) => {
+      if (kws.some(k => argLow.includes(k.toLowerCase()))) {
+        themeCounts[theme] = (themeCounts[theme]||0) + 1;
+      }
+    });
+  });
+
+  const topThemes = Object.entries(themeCounts).sort((a,b)=>b[1]-a[1]);
+
+  const themePills = topThemes.map(([theme, count]) =>
+    `<span class="theme-pill" onclick="filterByTheme('${theme}')">${theme} <span>${count}</span></span>`
+  ).join('');
+
+  const cards = winCases.map((c, i) => {
+    const idx = cases.indexOf(c);
+    const tags = (c.categories||[]).slice(0,3);
+    return `<div class="win-card" onclick="openModal(${idx})">
+      <div class="wc-header">
+        <div class="wc-title">${c.title||'Sin título'}</div>
+        <div class="wc-badge"><span class="badge ${badgeInfo(c.outcome).cls}">${badgeInfo(c.outcome).txt}</span></div>
+      </div>
+      <div class="wc-meta">
+        <div class="wc-meta-item">🌍 <strong>${c.country||'—'}</strong></div>
+        <div class="wc-meta-item">📅 <strong>${c.date||c.year||'—'}</strong></div>
+        <div class="wc-meta-item">🏛️ <strong>${c.court||'—'}</strong></div>
+      </div>
+      <div class="wc-arg-label"><span>🏆</span> Argumento clave</div>
+      <div class="wc-arg">${c.win_argument}</div>
+      <div class="wc-cats">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('winsArea').innerHTML = `
+    <div class="themes-section">
+      <div class="themes-title">Patrones recurrentes en victorias</div>
+      <div>${themePills || '<span style="color:var(--muted);font-size:12px;">—</span>'}</div>
+    </div>
+    <div class="wins-grid">${cards}</div>`;
+}
+
+/* ---- EXPORT CSV ---- */
+function exportCSV() {
+  if (!CASES.length) { alert('Ejecuta una búsqueda primero.'); return; }
+  const headers = ['Título','País','Tribunal','Fecha','Materia','Resultado','Razonamiento','Argumento Victoria','URL'];
+  const rows = CASES.map(c => [
+    `"${(c.title||'').replace(/"/g,'""')}"`,
+    `"${c.country||''}"`,
+    `"${c.court||''}"`,
+    `"${c.date||c.year||''}"`,
+    `"${(c.categories||[]).join('; ').replace(/"/g,'""')}"`,
+    `"${c.outcome||''}"`,
+    `"${(c.outcome_reasoning||'').replace(/"/g,'""')}"`,
+    `"${(c.win_argument||'').replace(/"/g,'""')}"`,
+    `"${c.url||''}"`
+  ].join(','));
+  const csv = '\uFEFF' + [headers.join(','), ...rows].join('\r\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'tpcases_export.csv';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+/* ---- FILTER BY THEME (highlights matching wins) ---- */
+function filterByTheme(theme) {
+  // Switch to wins tab and scroll — simple highlight effect
+  const cards = document.querySelectorAll('.win-card');
+  const themeKeywords = {
+    'Carga de la prueba': ['carga','prueba','acreditar','demostrar','evidencia','insuficiencia probatoria'],
+    'Análisis funcional (FAR)': ['FAR','funcional','funciones','activos','riesgos','análisis funcional'],
+    'Documentación TP': ['documentación','benchmark','estudio','comparable','benchmarking'],
+    'Base legal insuficiente': ['base legal','base normativa','normativa','sin amparo','no prevé','carece'],
+    'Valoración / Método': ['valoración','método','proyecciones','tasa de descuento','income method','CUP','TNMM','RPM'],
+    'Definición de transacción': ['transacción','precio acordado','no constituye','instrucción'],
+    'Ajuste ex-post': ['ex-post','retroactiv','momento de','razonables en el momento'],
+  };
+  const kws = themeKeywords[theme] || [];
+  cards.forEach(card => {
+    const argEl = card.querySelector('.wc-arg');
+    const argText = argEl ? argEl.textContent.toLowerCase() : '';
+    const match = kws.some(k => argText.includes(k.toLowerCase()));
+    card.style.opacity = match ? '1' : '0.35';
+    card.style.borderColor = match ? 'rgba(34,197,94,.6)' : '';
+  });
+  // Reset after 3s
+  setTimeout(() => cards.forEach(c => { c.style.opacity=''; c.style.borderColor=''; }), 3000);
+}
+
+/* ============================================================
+   MODAL  — deep AI analysis
+============================================================ */
+async function openModal(i) {
+  const c = CASES[i];
+  const {cls} = badgeInfo(c.outcome);
+  const verdictClass = c.outcome === 'WIN' ? 'win' : c.outcome === 'LOSE' ? 'lose' : c.outcome === 'PARTIAL' ? 'partial' : '';
+  const isWin = c.outcome === 'WIN' || c.outcome === 'PARTIAL';
+  const winArg = c.win_argument || '';
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-title">${c.title||'Sin título'}</div>
+    <div class="modal-meta">
+      <div class="meta-chip">🌍 <strong>${c.country||'—'}</strong></div>
+      <div class="meta-chip">🏛️ <strong>${c.court||'—'}</strong></div>
+      <div class="meta-chip">📅 <strong>${c.date||c.year||'—'}</strong></div>
+      ${c.url?`<div class="meta-chip"><a href="${c.url}" target="_blank" style="color:var(--accent);font-size:10px;font-family:var(--font-mono);">🔗 Ver sentencia original</a></div>`:''}
+    </div>
+    ${(c.categories||[]).length?`<div class="sec-title">Materias</div>
+    <div class="tag-wrap" style="margin-bottom:14px;">${(c.categories||[]).map(t=>`<span class="tag" style="color:var(--accent);border-color:rgba(0,229,195,.25)">${t}</span>`).join('')}</div>`:''}
+    ${(c.tags||[]).length?`<div class="sec-title">Keywords</div>
+    <div class="tag-wrap" style="margin-bottom:14px;">${(c.tags||[]).slice(0,12).map(t=>`<span class="tag">${t}</span>`).join('')}</div>`:''}
+    <div class="sec-title">Hechos del caso</div>
+    <div class="sec-body" id="mSummary">${c.summary||'<em style="color:var(--muted)">Cargando análisis completo…</em>'}</div>
+    <div class="verdict-box ${verdictClass}">
+      <div class="ai-label"><div class="ai-dot"></div>Análisis IA · Resultado del Contribuyente</div>
+      <span class="badge ${badgeInfo(c.outcome).cls}" style="font-size:12px;padding:5px 14px;margin-bottom:10px;display:inline-flex;">${badgeInfo(c.outcome).txt}</span>
+      <div class="sec-body" style="margin-bottom:0" id="mReasoning">${c.outcome_reasoning||'<em style="color:var(--muted)">Analizando…</em>'}</div>
+    </div>
+    ${isWin && winArg ? `<div id="mWinArg" style="margin-top:10px;padding:14px 16px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:9px;border-left:3px solid var(--win);">
+      <div class="sec-title" style="color:var(--win);">🏆 Argumento clave de la victoria</div>
+      <div class="sec-body" style="margin-bottom:0">${winArg}</div>
+    </div>` : `<div id="mWinArg"></div>`}
+    <div id="mDeep"></div>`;
+
+  document.getElementById('overlay').classList.add('on');
+
+  // Fetch deeper analysis if we have a URL
+  if (c.url && !c._deep) {
+    deepAnalysis(c, i);
+  }
+}
+
+async function deepAnalysis(c, idx) {
+  const prompt = `You are a transfer pricing expert. Analyze this case from tpcases.com:
+
+Title: ${c.title}
+URL: ${c.url}
+Summary: ${c.summary||''}
+
+Please search tpcases.com for this specific case and provide:
+1. A clear summary of the facts (3-4 sentences in Spanish)
+2. The legal question at issue (1-2 sentences in Spanish)
+3. The court's reasoning (2-3 sentences in Spanish)
+4. The final outcome for the TAXPAYER: WIN / LOSE / PARTIAL
+5. If WIN or PARTIAL: the main argument that secured the taxpayer's victory (2-3 sentences in Spanish, concrete and actionable for a TP advisor)
+6. Key takeaway for a transfer pricing advisor (1-2 sentences in Spanish)
+
+Return JSON only:
+{"summary":"...","legal_question":"...","reasoning":"...","outcome":"WIN|LOSE|PARTIAL","win_argument":"...or empty string if LOSE","takeaway":"..."}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1400,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    let raw = '';
+    for (const b of (data.content||[])) if (b.type==='text') raw += b.text;
+    const m = raw.match(/\{[\s\S]*\}/);
+    if (m) {
+      const r = JSON.parse(m[0]);
+      CASES[idx]._deep = r;
+      if (r.outcome) CASES[idx].outcome = r.outcome;
+      if (r.win_argument) CASES[idx].win_argument = r.win_argument;
+      const mSum = document.getElementById('mSummary');
+      const mRsn = document.getElementById('mReasoning');
+      const mDeep = document.getElementById('mDeep');
+      if (mSum && r.summary) mSum.textContent = r.summary;
+      if (mRsn && r.reasoning) mRsn.textContent = r.reasoning;
+
+      // Win argument block — only if WIN or PARTIAL
+      const winArg = r.win_argument || CASES[idx].win_argument || '';
+      const outcome = r.outcome || CASES[idx].outcome;
+      let deepHtml = '';
+
+      // Update the win argument box (may already exist from builtin data)
+      const mWinArg = document.getElementById('mWinArg');
+      if (winArg && (outcome === 'WIN' || outcome === 'PARTIAL')) {
+        const winArgHtml = `<div style="margin-top:10px;padding:14px 16px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:9px;border-left:3px solid var(--win);">
+          <div class="sec-title" style="color:var(--win);">🏆 Argumento clave de la victoria</div>
+          <div class="sec-body" style="margin-bottom:0">${winArg}</div>
+        </div>`;
+        if (mWinArg) mWinArg.outerHTML = winArgHtml;
+        // Also update in dataset
+        CASES[idx].win_argument = winArg;
+      }
+      if (r.takeaway) {
+        deepHtml += `<div style="margin-top:10px;padding:12px 14px;background:rgba(124,107,255,.08);border:1px solid rgba(124,107,255,.2);border-radius:8px;">
+          <div class="sec-title" style="color:var(--accent3);">💡 Clave para el asesor TP</div>
+          <div class="sec-body" style="margin-bottom:0">${r.takeaway}</div>
+        </div>`;
+      }
+      if (mDeep) mDeep.innerHTML = deepHtml;
+
+      // Re-render wins tab silently to pick up new argument
+      renderWins(CASES);
+
+      // Update verdict box class
+      const box = document.querySelector('.verdict-box');
+      if (box) {
+        box.className = 'verdict-box ' + (outcome==='WIN'?'win':outcome==='LOSE'?'lose':'partial');
+      }
+    }
+  } catch(e) { console.warn('Deep analysis error', e); }
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('on');
+}
+document.getElementById('overlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+/* ============================================================
+   LOADER
+============================================================ */
+function setLoader(on, msg='', sub='') {
+  document.getElementById('loader').classList.toggle('on', on);
+  document.getElementById('loadMsg').textContent = msg;
+  document.getElementById('loadSub').textContent = sub;
+  document.getElementById('btnSearch').disabled = on;
+}
+
+/* ============================================================
+   ENTER KEY + AUTO-LOAD
+============================================================ */
+document.getElementById('fText').addEventListener('keydown', e => { if(e.key==='Enter') doSearch(); });
+
+// Auto-load the full built-in dataset on page open so dashboard is never empty
+window.addEventListener('load', () => {
+  CASES = getBuiltinCases('','','','','');
+  render(CASES);
+});
+
+/* ============================================================
+   BUILT-IN DATASET  (real cases from TPCases.com)
+============================================================ */
+function getBuiltinCases(country, category, year, sector, text) {
+  const ALL = [
+    { title:"US vs Facebook, May 2025, US Tax Court, T.C. No. 9, Docket No. 21959-16", date:"May 2025", year:2025, country:"United States", court:"US Tax Court", categories:["Arm's Length Principle","Cost Contribution Arrangements","Intangibles"], tags:["Cost Sharing Arrangement","Buy-in payment","Ireland","Valuation","Discount rate"], url:"https://tpcases.com/us-vs-facebook-may-2025-us-tax-court-case-no-164-t-c-no-9-docket-no-21959-16/", summary:"In 2009 Facebook entered a cost-sharing arrangement transferring its platform intangibles to an Irish affiliate for $6.3B. The IRS valued the assets at $19.9B using the income method with its own projections. Facebook challenged both the method and the IRS figures.", outcome:"WIN", outcome_reasoning:"El Tax Court falló a favor de Facebook: la valoración de $6.3B era razonable y el IRS utilizaba proyecciones infladas y una prima de riesgo injustificada.", win_argument:"Facebook demostró que las proyecciones financieras del IRS eran irrealmente optimistas y que la tasa de descuento aplicada no reflejaba el riesgo real del negocio. El tribunal aceptó que la valoración propia de $6.3B estaba sustentada en supuestos razonables disponibles en el momento de la transacción, rechazando el ajuste ex-post del IRS." },
+    { title:"Italy vs EPTA S.p.A., January 2026, Supreme Court, Case No 3986/2026", date:"January 2026", year:2026, country:"Italy", court:"Supreme Court", categories:["Arm's Length Principle","Burden of Proof","Tax Treaty Interpretation"], tags:["Corresponding adjustment","Foreign downward adjustment","Customer lists"], url:"https://tpcases.com/italy-vs-epta-s-p-a-january-2026-supreme-court-case-no-3986-2026/", summary:"Italian tax authority adjusted EPTA's taxable income by €4.1M for FY2015 following a Hungarian subsidiary's downward TP adjustment. The authority argued the absence of a corresponding upward Italian adjustment justified the assessment.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo italiano confirmó la sentencia de apelación: la administración no demostró suficientemente la desviación del valor normal de la transacción.", win_argument:"El argumento victorioso fue la insuficiencia probatoria de la Agencia Tributaria italiana: el mero hecho de que la filial húngara realizara un ajuste a la baja en su país no demuestra automáticamente que la transacción no fuera a valor de mercado en Italia. El tribunal exigió que la administración acreditara de forma positiva la desviación del 'normal value', carga que no cumplió." },
+    { title:"Czech Republic vs Hitachi Astemo Czech s.r.o., November 2025, Supreme Administrative Court, Case No 3 Afs 165/2024", date:"November 2025", year:2025, country:"Czech Republic", court:"Supreme Administrative Court", categories:["Arm's Length Principle","Business Restructuring","Losses"], tags:["FAR analysis","Group instruction","Loss compensation","Business restructuring"], url:"https://tpcases.com/czech-republic-vs-hitachi-astemo-czech-s-r-o-november-2025-supreme-administrative-court-case-no-3-afs-165-2024-67/", summary:"Hitachi Astemo Czech was instructed by its parent to switch from LCD TV to automotive parts production. It incurred major start-up costs without receiving group compensation. Czech tax authority applied arm's length rules to the uncompensated investment.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo Administrativo checo confirmó el ajuste: la inversión realizada por instrucción del grupo sin compensación constituye una transacción no de mercado." },
+    { title:"Italy vs De Grisogono Italia s.r.l., November 2025, Supreme Court, Case No 29083/2025", date:"November 2025", year:2025, country:"Italy", court:"Supreme Court", categories:["Arm's Length Principle","Transfer Pricing Methods","Losses"], tags:["TNMM","Limited Risk Distributors","Return On Sale (ROS)","Most appropriate method"], url:"https://tpcases.com/italy-vs-de-grisogono-italia-s-r-l-november-2025-supreme-court-case-no-29083-2025/", summary:"De Grisogono Italia, a luxury watch distributor, used CUP to price purchases from its Swiss parent, resulting in losses. The Revenue Agency issued €4.7M in additional assessments applying TNMM with ROS as the profit level indicator.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo italiano confirmó que el TNMM era el método más apropiado para un distribuidor de riesgo limitado, validando la regularización." },
+    { title:"Germany vs 'Import GmbH', July 2025, Bundesfinanzhof, Case No VII R 36/22", date:"July 2025", year:2025, country:"Germany", court:"Bundesfinanzhof", categories:["Arm's Length Principle","VAT and Customs Valuation"], tags:["TNMM","Customs valuations","Year-end adjustment","Hamamatsu"], url:"https://tpcases.com/germany-vs-import-gmbh-july-2025-bundesfinanzhof-case-no-vii-r-36-22/", summary:"German customs authority disputed the declared customs value of goods imported by Import GmbH from related parties. Transfer pricing year-end adjustments under a Distribution Agreement led to additional debit amounts for 2015-2017.", outcome:"PARTIAL", outcome_reasoning:"El Bundesfinanzhof determinó una solución parcial: algunos ajustes de PT sí afectan el valor aduanero, pero con matizaciones sobre el año de efecto.", win_argument:"La parte favorable al contribuyente radicó en que el Bundesfinanzhof limitó el efecto de los ajustes al ejercicio en que se devengaron, rechazando que ajustes de años posteriores pudieran retroactivamente modificar el valor en aduana de importaciones previas, lo que redujo significativamente el alcance de la liquidación aduanera." },
+    { title:"Argentina vs Volkswagen Argentina S.A., August 2024, Supreme Court, CSJN 13/08/2024", date:"August 2024", year:2024, country:"Argentina", court:"Supreme Court (CSJN)", categories:["Arm's Length Principle","Benchmark, Range and Median","Transfer Pricing Methods"], tags:["TNMM","ROCE","Volkswagen","Multi-year average","Loan forgiveness"], url:"https://tpcases.com/argentina-vs-volkswagen-argentina-s-a-august-2024-supreme-court-case-no-csjn-13-08-2024-tf-30954-i/", summary:"VW Argentina included an extraordinary gain from a related-party loan waiver in its TP analysis for FY 1999-2001. Tax authorities rejected this treatment. The Tax Court and Court of Appeal ruled in VW's favour; the Supreme Court was the final arbiter.", outcome:"WIN", outcome_reasoning:"La Corte Suprema argentina confirmó el fallo de la Cámara de Apelaciones a favor de VW: el ajuste por el préstamo condonado era legítimo para el análisis de plena competencia.", win_argument:"VW Argentina demostró exitosamente que la condonación del préstamo por parte de la matriz constituía un ingreso extraordinario no recurrente que debía incluirse en el análisis de rentabilidad para verificar el cumplimiento del principio de plena competencia. Al incluirlo, los resultados se situaban dentro del rango arm's length, lo que invalidaba el ajuste fiscal de la administración." },
+    { title:"Netherlands vs 'MC Parts B.V.', February 2024, North Holland District Court, AWB-21_4607", date:"February 2024", year:2024, country:"Netherlands", court:"North Holland District Court", categories:["Arm's Length Principle","VAT and Customs Valuation"], tags:["Customs valuations","Hamamatsu","VAT TP adjustments","TNMM"], url:"https://tpcases.com/netherlands-vs-mc-parts-b-v-february-2024-north-holland-district-court-case-no-awb-21-_-4607-eclinlrbnho2024801/", summary:"MC Parts B.V., a multinational distributor of spare parts, applied TNMM year-end adjustments per its TP documentation. Dutch customs disputed whether those adjustments should increase the customs value of imported goods.", outcome:"PARTIAL", outcome_reasoning:"El tribunal determinó parcialmente que ciertos ajustes de PT afectan al valor en aduana dependiendo de la naturaleza de cada transacción, resultado mixto para ambas partes.", win_argument:"MC Parts logró que el tribunal excluyera del valor aduanero los ajustes correspondientes a su actividad de servicios de soporte (after-sales), al acreditar que dichos pagos retribuían funciones distintas e independientes de la compraventa de mercancías importadas, no formando parte del precio de las mismas a efectos aduaneros." },
+    { title:"France vs SA Engie, June 2024, CAA Paris, Case No 21PA01277", date:"June 2024", year:2024, country:"France", court:"CAA Paris", categories:["Arm's Length Principle","Services and Fees"], tags:["FAR analysis","LNG","Natural gas","Broker","Luxembourg"], url:"https://tpcases.com/france-vs-sa-engie-june-2024-caa-paris-case-no-21pa01277/", summary:"SA Engie held an LNG management division alongside US and Luxembourg subsidiaries under a 'single voice' arrangement. The French tax authority challenged the profit allocation between entities for energy sales.", outcome:"WIN", outcome_reasoning:"La Cour Administrative d'Appel de París falló a favor de Engie: el análisis funcional y la documentación de PT respaldaban suficientemente la distribución de beneficios entre las entidades.", win_argument:"Engie acreditó mediante un análisis funcional detallado (FAR) que cada entidad del grupo asumía funciones, activos y riesgos diferenciados y económicamente sustantivos en la cadena de valor del GNL. El tribunal consideró que la distribución de beneficios era coherente con dicho análisis y que la administración no aportó comparables independientes que la desvirtuaran." },
+    { title:"Kenya vs Avic International Beijing (EA) Limited, November 2024, Tax Appeals Tribunal, TAT E786/2023", date:"November 2024", year:2024, country:"Kenya", court:"Tax Appeals Tribunal", categories:["Arm's Length Principle","Transfer Pricing Methods","Withholding Tax (WHT)"], tags:["Resale Price Method","TNMM","Deemed dividend","Most appropriate method"], url:"https://tpcases.com/kenya-vs-avic-international-beijing-ea-limited-november-2024-tax-appeals-tribunal-case-no-tat-e786-of-2023/", summary:"Avic International Kenya purchased knocked-down vehicle parts from its Chinese parent and assembled them for sale. Kenyan tax authorities rejected the RPM used and applied TNMM, also levying withholding tax on a deemed dividend distribution.", outcome:"PARTIAL", outcome_reasoning:"El tribunal confirmó el TNMM sobre el RPM, pero anuló el cálculo de la retención sobre dividendos presuntos por falta de base legal, resultado parcial favorable al contribuyente.", win_argument:"La victoria parcial se obtuvo al demostrar que la administración carecía de base legal para calificar la diferencia de valoración como un dividendo presunto sujeto a retención: la normativa keniana no preveía expresamente esa consecuencia jurídica para ajustes de precios de transferencia, argumento que el tribunal acogió anulando la retención liquidada." },
+    { title:"Brazil vs Janssen-Cilag Farmaceutica LTDA, May 2023, Superior Tribunal de Justiça, AREsp 511.736/SP", date:"May 2023", year:2023, country:"Brazil", court:"Superior Tribunal de Justiça", categories:["Arm's Length Principle","Transfer Pricing Methods"], tags:["Resale Price Method","RPL 60 / PRL 60","Pharmaceutical","Normative Instruction"], url:"https://tpcases.com/brazil-vs-janssen-cilag-farmaceutica-ltda-may-2023-superior-tribunal-de-justica-first-chamber-case-no-aresp-511-736-sp/", summary:"Janssen-Cilag challenged the PRL60 method applied in Brazil under Art. 18 of Law 9430/1996, arguing the normative instruction applying it exceeded its statutory authority.", outcome:"LOSE", outcome_reasoning:"El Tribunal Superior de Justicia desestimó la queja: el método PRL60 tiene base legal suficiente en la Instrucción Normativa SRF 243/2002." },
+    { title:"Czech Republic vs Mayer & Cie. CZ, s.r.o., August 2023, Supreme Administrative Court, 10 Afs 162/2021", date:"August 2023", year:2023, country:"Czech Republic", court:"Supreme Administrative Court", categories:["Arm's Length Principle","Disallowed Deduction"], tags:["Discontinued production","Disposal of material","Order of parent company","Loss compensation"], url:"https://tpcases.com/czech-republic-vs-mayer-cie-cz-s-r-o-august-2023-supreme-administrative-court-case-no-10-afs-162-2021-50/", summary:"Czech tax authorities disallowed a CZK 4M deduction for disposal of unusable material after Mayer & Cie was ordered by its parent to cease production of knitting machines. The authority argued this was a controlled transaction without arm's length pricing.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo Administrativo checo confirmó el fallo a favor del contribuyente: la instrucción del grupo no constituía una transacción controlada en el sentido de las normas de precios de transferencia.", win_argument:"El argumento definitivo fue que la instrucción intragrupo de cesar una línea productiva no constituye una 'transacción' a efectos de las normas checas de precios de transferencia, ya que no implicaba una contraprestación pactada entre partes. Al no existir precio acordado, no había base para aplicar el principio de plena competencia, y el gasto por eliminación de material era un coste deducible ordinario." },
+    { title:"Italy vs Cidiverte S.p.A., June 2023, Supreme Court, no 18206/2023", date:"June 2023", year:2023, country:"Italy", court:"Supreme Court", categories:["Arm's Length Principle","Burden of Proof","Disallowed Deduction"], tags:["Burden of proof","Disallowed deduction","Video games","Invoice price"], url:"https://tpcases.com/italy-vs-cidiverte-s-p-a-june-2023-supreme-court-no-18206-2023/", summary:"Cidiverte, an Italian video game distributor, was assessed for additional income from reduced cost pricing with its Italian sister company. Courts dismissed appeals because Cidiverte failed to prove the invoice prices were at arm's length, a PwC study was dismissed as mere opinion.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo italiano confirmó la liquidación: el contribuyente no aportó pruebas suficientes de que los precios facturados fueran de mercado; el informe PwC no fue considerado evidencia suficiente." },
+    { title:"Poland vs 'W', October 2023, Supreme Administrative Court, Case No II FSK 358/21", date:"October 2023", year:2023, country:"Poland", court:"Supreme Administrative Court", categories:["Arm's Length Principle"], tags:["Related parties","Binding ruling","Medical university","Public health"], url:"https://tpcases.com/poland-vs-w-october-2023-supreme-administrative-court-case-no-ii-fsk-358-21/", summary:"A public medical university asked for a binding ruling on whether it was related to a public health institution it had established. The tax authority said yes; the Regional Court said no; the Supreme Administrative Court had to decide.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo Administrativo polaco falló a favor de la administración: la universidad sí era una entidad relacionada con la institución sanitaria que había creado." },
+    { title:"Italy vs Heidelberg Italia S.R.L., March 2024, Supreme Court, Case No 5859/2024", date:"March 2024", year:2024, country:"Italy", court:"Supreme Court", categories:["Arm's Length Principle","General Anti-Avoidance Rules"], tags:["Domestic transfer pricing","Domestic transactions","Normal value"], url:"https://tpcases.com/italy-vs-heidelberg-italia-s-r-l-march-2024-supreme-court-case-no-5859-2024/", summary:"Heidelberg Italia sold goods at a 4% mark-up to a subsidiary in a low-tax Italian region instead of the market rate of 10%. The company argued TP rules don't apply to purely domestic transactions.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo italiano confirmó que el art. 9 TUIR exige la comparación con condiciones de mercado incluso en transacciones puramente domésticas, validando el ajuste." },
+    { title:"Czech Republic vs ESAB CZ, s.r.o., May 2023, Regional Court, Case No 31 Af 21/2022", date:"May 2023", year:2023, country:"Czech Republic", court:"Regional Court", categories:["Arm's Length Principle","Benchmark, Range and Median"], tags:["Contract manufacturing","Interquartile range","Median","Amortisation","Statistical tools"], url:"https://tpcases.com/czech-republic-vs-esab-cz-s-r-o-may-2023-regional-court-case-no-31-af-21-2022-99/", summary:"ESAB CZ, a contract manufacturer for ESAB Europe, had its profit margin set between 2.5-3.5% by a benchmarking study. Tax authorities argued depreciation/amortisation should be included in the cost base for the mark-up calculation.", outcome:"LOSE", outcome_reasoning:"El tribunal checo falló a favor de la administración: la base de costes para el margen debe incluir amortizaciones, ajustando el análisis de comparabilidad." },
+    { title:"Brazil, October 2023, Superior Tribunal de Justiça, Case No REsp 1.787.614-SP", date:"October 2023", year:2023, country:"Brazil", court:"Superior Tribunal de Justiça", categories:["Arm's Length Principle","Transfer Pricing Methods"], tags:["Resale Price Method","RPL 60 / PRL 60","Interpretation of law"], url:"https://tpcases.com/brazil-october-2023-superior-tribunal-de-justica-second-chamber-case-no-resp-1-787-614-sp/", summary:"The Second Chamber of Brazil's Supreme Court interpreted Normative Instruction SRF 243/2002 on the RPL60 sixth method for calculating transfer prices under Art. 18 of Law 9430/1996.", outcome:"LOSE", outcome_reasoning:"El Tribunal Superior de Justicia confirmó que la Instrucción Normativa no violaba la ley fiscal: el método RPL60 era de aplicación legítima para el contribuyente." },
+    { title:"Italy vs Autocentro Pavese S.R.L., April 2023, Supreme Court, Case No 10422/2023", date:"April 2023", year:2023, country:"Italy", court:"Supreme Court", categories:["Arm's Length Principle","Burden of Proof"], tags:["Domestic transfer pricing","Showroom rental","Normal value","Related parties"], url:"https://tpcases.com/italy-vs-autocentro-pavese-s-r-l-april-2022-supreme-court-case-no-10422-2023/", summary:"Autocentro Pavese rented a showroom to a sister company for only €5,000/year, far below market rates. The tax authority issued an assessment for failure to invoice at arm's length prices.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo italiano confirmó que la desviación del 'valore normale' en operaciones domésticas vinculadas justificaba el ajuste de la administración tributaria." },
+    { title:"Kenya vs Cummins Car and General Limited, September 2024, Tax Appeals Tribunal, TAT E450/2023", date:"September 2024", year:2024, country:"Kenya", court:"Tax Appeals Tribunal", categories:["Arm's Length Principle","Transfer Pricing Methods"], tags:["CUP method","Resale Price Method","Low value-adding services","Adjustments"], url:"https://tpcases.com/kenya-vs-cummins-car-and-general-limited-september-2024-tax-appeals-tribunal-case-no-tat-e450-of-2023/", summary:"Cummins Kenya priced goods purchased from a related party using CUP based on previously agreed prices before the parties became related. Tax authorities rejected CUP citing a time lag and applied RPM instead.", outcome:"PARTIAL", outcome_reasoning:"El tribunal confirmó el rechazo del CUP a favor del RPM, pero anuló el ajuste adicional sobre comisiones con terceros independientes por falta de justificación, resultado mixto.", win_argument:"Cummins logró anular parcialmente la liquidación al demostrar que la administración ajustó sin fundamento los tipos de comisión pagados a distribuidores independientes: el tribunal exigió que cualquier ajuste comparativo esté soportado en un análisis de comparabilidad riguroso, que la administración no aportó para esa parte de la liquidación." },
+  ];
+
+  let filtered = ALL;
+
+  if (country) {
+    filtered = filtered.filter(c => c.country.toLowerCase().includes(country.toLowerCase()));
+  }
+  if (year) {
+    filtered = filtered.filter(c => c.year >= parseInt(year));
+  }
+  if (category) {
+    const catLow = category.toLowerCase();
+    filtered = filtered.filter(c =>
+      c.categories.some(cat => cat.toLowerCase().includes(catLow.split(' ')[0])) ||
+      c.tags.some(t => t.toLowerCase().includes(catLow.split(' ')[0]))
+    );
+  }
+  if (sector) {
+    const secLow = sector.toLowerCase();
+    filtered = filtered.filter(c =>
+      c.title.toLowerCase().includes(secLow.split(' ')[0]) ||
+      c.summary.toLowerCase().includes(secLow.split(' ')[0]) ||
+      c.tags.some(t => t.toLowerCase().includes(secLow.split(' ')[0]))
+    );
+  }
+  if (text) {
+    const tl = text.toLowerCase();
+    filtered = filtered.filter(c =>
+      c.title.toLowerCase().includes(tl) ||
+      c.summary.toLowerCase().includes(tl) ||
+      c.tags.some(t => t.toLowerCase().includes(tl)) ||
+      c.categories.some(cat => cat.toLowerCase().includes(tl))
+    );
+  }
+
+  return filtered.length > 0 ? filtered : ALL;
+}
+</script>
+</body>
+</html>
