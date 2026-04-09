@@ -462,6 +462,35 @@
   .risk-factor { display:flex; gap:8px; align-items:flex-start; font-size:11px; line-height:1.5; }
   .risk-factor-ico { font-size:13px; flex-shrink:0; }
 
+
+  /* ── BIBLIOGRAFÍA / DOCTRINA ── */
+  .bib-section { margin-top:14px; border-radius:10px; overflow:hidden; border:1px solid rgba(91,141,238,.25); border-top:2px solid var(--accent2); }
+  .bib-header { padding:11px 16px; background:rgba(91,141,238,.07); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(91,141,238,.15); }
+  .bib-header-left { display:flex; align-items:center; gap:7px; }
+  .bib-header-label { font-family:var(--font-mono); font-size:9px; letter-spacing:1.5px; color:var(--accent2); text-transform:uppercase; }
+  .bib-spinner { width:10px; height:10px; border:1.5px solid rgba(91,141,238,.3); border-top-color:var(--accent2); border-radius:50%; animation:spin .7s linear infinite; }
+  .bib-count { font-family:var(--font-mono); font-size:9px; color:var(--muted); }
+  .bib-list { display:flex; flex-direction:column; gap:0; }
+  .bib-item { padding:12px 16px; border-bottom:1px solid var(--border); transition:background .12s; cursor:pointer; }
+  .bib-item:last-child { border-bottom:none; }
+  .bib-item:hover { background:var(--surface2); }
+  .bib-item-top { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:5px; }
+  .bib-title { font-size:12px; font-weight:600; color:var(--text); line-height:1.4; flex:1; }
+  .bib-type-badge { font-family:var(--font-mono); font-size:8px; padding:2px 7px; border-radius:4px; white-space:nowrap; flex-shrink:0; }
+  .bib-type-article  { background:rgba(0,229,195,.1);  color:var(--accent);  border:1px solid rgba(0,229,195,.25); }
+  .bib-type-blog     { background:rgba(91,141,238,.1); color:var(--accent2); border:1px solid rgba(91,141,238,.25); }
+  .bib-type-book     { background:rgba(124,107,255,.1);color:var(--accent3); border:1px solid rgba(124,107,255,.25); }
+  .bib-type-report   { background:rgba(245,158,11,.1); color:var(--partial); border:1px solid rgba(245,158,11,.25); }
+  .bib-type-other    { background:var(--surface2);     color:var(--text2);   border:1px solid var(--border2); }
+  .bib-meta { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
+  .bib-meta span { font-family:var(--font-mono); font-size:9px; color:var(--muted); letter-spacing:.3px; }
+  .bib-snippet { font-size:11px; color:var(--text2); line-height:1.6; }
+  .bib-link { font-family:var(--font-mono); font-size:9px; color:var(--accent2); text-decoration:none; }
+  .bib-link:hover { text-decoration:underline; }
+  .bib-empty { padding:18px 16px; text-align:center; font-size:11px; color:var(--muted); }
+  .bib-refresh { font-family:var(--font-mono); font-size:9px; color:var(--muted); cursor:pointer; padding:3px 8px; border:1px solid var(--border2); border-radius:4px; background:transparent; transition:all .15s; }
+  .bib-refresh:hover { color:var(--accent2); border-color:var(--accent2); }
+
 </style>
 </head>
 <body>
@@ -1408,7 +1437,19 @@ async function openModal(i) {
       <div class="sec-title" style="color:var(--win);">🏆 Argumento clave de la victoria</div>
       <div class="sec-body" style="margin-bottom:0">${winArg}</div>
     </div>` : `<div id="mWinArg"></div>`}
-    <div id="mDeep"></div>`;
+    <div id="mDeep"></div>
+    <div class="bib-section" id="bibSection_${i}">
+      <div class="bib-header">
+        <div class="bib-header-left">
+          <div class="bib-spinner"></div>
+          <span class="bib-header-label">📚 Doctrina · Artículos · Comentarios académicos</span>
+        </div>
+        <span class="bib-count" id="bibCount_${i}">buscando…</span>
+      </div>
+      <div id="bibList_${i}" class="bib-list">
+        <div class="bib-empty">La IA está buscando artículos doctrinales, notas de práctica y comentarios académicos sobre este caso…</div>
+      </div>
+    </div>`;
 
   document.getElementById('overlay').classList.add('on');
 
@@ -1416,6 +1457,8 @@ async function openModal(i) {
   if (c.url && !c._deep) {
     deepAnalysis(c, i);
   }
+  // Always load bibliography (independent from deepAnalysis)
+  loadBibliography(c, i);
 }
 
 async function deepAnalysis(c, idx) {
@@ -1484,7 +1527,7 @@ Return JSON only:
           <div class="sec-body" style="margin-bottom:0">${r.takeaway}</div>
         </div>`;
       }
-      if (mDeep) mDeep.innerHTML = deepHtml;
+      if (mDeep) mDeep.innerHTML = deepHtml;  // deepHtml goes into mDeep (bib is separate)
 
       // Re-render wins tab silently to pick up new argument
       renderWins(CASES);
@@ -1496,6 +1539,126 @@ Return JSON only:
       }
     }
   } catch(e) { console.warn('Deep analysis error', e); }
+}
+
+/* ============================================================
+   BIBLIOGRAFÍA / DOCTRINA ACADÉMICA
+============================================================ */
+async function loadBibliography(c, idx) {
+  // Use dedicated bibSection divs injected directly in openModal HTML
+  const bibId = 'bibSection_' + idx;
+  const bibListId = 'bibList_' + idx;
+  const bibCountId = 'bibCount_' + idx;
+  
+  // Check the section exists (it's always in the modal HTML now)
+  if (!document.getElementById(bibId)) return;
+  
+  // Use cached bibliography if available
+  if (CASES[idx]._bib) {
+    renderBibliography(bibId, bibListId, bibCountId, CASES[idx]._bib);
+    return;
+  }
+
+  const caseName = c.title.split(',')[0].trim();
+  const year     = c.year || '';
+  const country  = c.country || '';
+  const cats     = (c.categories || []).join(', ');
+
+  const prompt = `You are a transfer pricing researcher. Search the web for academic articles, practitioner notes, blog posts, and commentary about this transfer pricing case:
+
+Case: "${caseName}" (${year}, ${country})
+Topics: ${cats}
+TPCases URL: ${c.url || ''}
+
+Search for:
+1. Academic articles or book chapters analyzing this specific case (Google Scholar, SSRN, IBFD, Tax Notes, journals)
+2. Practitioner commentary or law firm client alerts about this case
+3. Blog posts or professional publications (Tax Journal, Bloomberg Tax, Kluwer Tax Blog, Tax Analysts, etc.)
+4. OECD or government publications referencing this case
+
+For each source found, return:
+- title: exact article title
+- authors: author(s) name(s), or "N/A"
+- year: publication year
+- source: publication name or website
+- type: one of "article" / "blog" / "book" / "report" / "other"
+- snippet: 1-2 sentence description of what the source says about the case
+- url: direct link if available, or empty string
+- open_access: true if freely available online, false if paywalled
+
+Return a JSON array of 3-8 sources. If no specific sources are found about this exact case, return sources about the broader legal issue with a note. Return ONLY valid JSON array, no markdown.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) throw new Error('API ' + res.status);
+    const data = await res.json();
+    let raw = '';
+    for (const b of (data.content || [])) if (b.type === 'text') raw += b.text;
+    const match = raw.match(/\[\s\S]*\]/);
+    if (!match) throw new Error('No JSON array');
+    const sources = JSON.parse(match[0]);
+    CASES[idx]._bib = sources;
+    renderBibliography(bibId, bibListId, bibCountId, sources);
+  } catch(e) {
+    console.warn('Bibliography error:', e);
+    const bibEl = document.getElementById(bibId);
+    if (bibEl) {
+      const hdr = bibEl.querySelector('.bib-header-left');
+      if (hdr) hdr.innerHTML = '<span class="bib-header-label">📚 Doctrina · Artículos · Comentarios</span>';
+      const cntEl = document.getElementById(bibCountId);
+      if (cntEl) cntEl.textContent = 'sin resultados';
+      const list = document.getElementById(bibListId);
+      if (list) list.innerHTML = '<div class="bib-empty">No se encontraron fuentes específicas para este caso. Busca manualmente en IBFD, Tax Notes, Google Scholar o Kluwer Tax Blog.</div>';
+    }
+  }
+}
+
+function renderBibliography(bibId, bibListId, bibCountId, sources) {
+  // Update header spinner -> label + count
+  const hdr = document.getElementById(bibId)?.querySelector('.bib-header-left');
+  if (hdr) hdr.innerHTML = '<span class="bib-header-label">📚 Doctrina · Artículos · Comentarios</span>';
+  const cntEl = document.getElementById(bibCountId);
+  if (cntEl) cntEl.textContent = sources.length + ' fuente' + (sources.length !== 1 ? 's' : '');
+
+  if (!sources.length) {
+    const l = document.getElementById(bibListId);
+    if (l) l.innerHTML = '<div class="bib-empty">No se encontraron fuentes académicas específicas para este caso.</div>';
+    return;
+  }
+
+  const typeLabel = { article:'Artículo', blog:'Blog/Práctica', book:'Libro', report:'Informe', other:'Otro' };
+  const html = sources.map(s => {
+    const type = s.type || 'other';
+    const tLabel = typeLabel[type] || 'Otro';
+    const tClass = 'bib-type-' + (type in typeLabel ? type : 'other');
+    const openTag = s.open_access ? '<span style="color:var(--win);font-size:8px;font-family:var(--font-mono)">🔓 Acceso libre</span>' : '<span style="color:var(--muted);font-size:8px;font-family:var(--font-mono)">🔒 Acceso restringido</span>';
+    return `<div class="bib-item" ${s.url ? `onclick="window.open('${s.url}','_blank')"` : ''}>
+      <div class="bib-item-top">
+        <div class="bib-title">${s.title || 'Sin título'}</div>
+        <span class="bib-type-badge ${tClass}">${tLabel}</span>
+      </div>
+      <div class="bib-meta">
+        ${s.authors && s.authors !== 'N/A' ? `<span>✍️ ${s.authors}</span>` : ''}
+        ${s.year ? `<span>📅 ${s.year}</span>` : ''}
+        ${s.source ? `<span>📖 ${s.source}</span>` : ''}
+        ${openTag}
+      </div>
+      ${s.snippet ? `<div class="bib-snippet">${s.snippet}</div>` : ''}
+      ${s.url ? `<a href="${s.url}" target="_blank" class="bib-link" onclick="event.stopPropagation()" style="display:inline-block;margin-top:5px">🔗 Ver fuente →</a>` : ''}
+    </div>`;
+  }).join('');
+  
+  const listEl = document.getElementById(bibListId);
+  if (listEl) listEl.innerHTML = html;
 }
 
 function closeModal() {
@@ -2277,6 +2440,68 @@ window.fetchRecent = async function() {
     if (category) filtered = filtered.filter(c => c.categories.includes(category));
     if (year) filtered = filtered.filter(c => c.year >= parseInt(year));
     if (sector) filtered = filtered.filter(c => c.tags.some(t => t.toLowerCase().includes(sector.toLowerCase())));
+    if (text) {
+      const tl = text.toLowerCase();
+      filtered = filtered.filter(c =>
+        c.title.toLowerCase().includes(tl) ||
+        c.summary.toLowerCase().includes(tl) ||
+        c.tags.some(t => t.toLowerCase().includes(tl)) ||
+        c.categories.some(cat => cat.toLowerCase().includes(tl))
+      );
+    }
+    return filtered.length > 0 ? filtered : combined;
+  };
+})();
+
+
+/* ── LOTE 2025-2026: TODAS LAS SENTENCIAS RECIENTES ── */
+(function injectLote2025() {
+  const L2025 = [
+    // ── 2026 ──
+    { title:"Italy vs EPTA S.p.A., January 2026, Supreme Court, Case No 3986/2026", date:"January 2026", year:2026, country:"Italy", court:"Supreme Court", categories:["Arm's Length Principle","Burden of Proof"], tags:["Corresponding adjustment","Foreign downward adjustment","Customer lists","Normal value"], url:"https://tpcases.com/italy-vs-epta-s-p-a-january-2026-supreme-court-case-no-3986-2026/", summary:"La autoridad fiscal italiana ajustó la renta imponible de EPTA en €4,1M para FY2015 tras un ajuste a la baja realizado por la filial húngara. El Tribunal Supremo confirmó la sentencia de apelación a favor de EPTA.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo italiano confirmó: la administración no demostró suficientemente la desviación del valor normal de la transacción.", win_argument:"La insuficiencia probatoria de la Agencia Tributaria fue determinante: el mero ajuste a la baja de la filial húngara no demuestra automáticamente que la transacción no fuera a valor de mercado en Italia. El tribunal exigió prueba positiva de la desviación del 'normal value'." },
+    { title:"Kenya vs Delmonte Kenya Ltd, January 2026, Tax Appeals Tribunal, Case No TAT E041/2024", date:"January 2026", year:2026, country:"Kenya", court:"Tax Appeals Tribunal", categories:["Arm's Length Principle","Transfer Pricing Methods","Transfer Pricing Documentation"], tags:["Pineapple","Integrated business","FAR analysis","Tested party","TNMM","Intra-group loan"], url:"https://tpcases.com/kenya-vs-delmonte-kenya-ltd-january-2026-tax-appeals-tribunal/", summary:"Delmonte Kenya gestiona un negocio integrado de piña (cultivo, procesado, exportación) con transacciones controladas complejas: venta de productos, recargas de costes agrícolas y financiación intragrupo.", outcome:"PARTIAL", outcome_reasoning:"El tribunal confirmó algunos ajustes (préstamos intragrupo) pero anuló otros por documentación insuficiente de la administración.", win_argument:"Delmonte logró que el tribunal anulara los ajustes sobre la actividad de exportación al demostrar que la administración no había realizado un análisis FAR adecuado para la selección de la entidad testada, siendo la elección del tested party un elemento esencial del método TNMM." },
+    { title:"ECJ vs Stellantis Portugal (VAT TP Adjustments), 2026, European Court of Justice", date:"2026", year:2026, country:"European Union", court:"European Court of Justice", categories:["VAT and Customs Valuation","Arm's Length Principle"], tags:["VAT","TP adjustment","Profit margin guarantee","Sixth VAT Directive","Portugal"], url:"https://tpcases.com/tag/vat-treatment-of-transfer-pricing-adjustments/", summary:"Stellantis Portugal fue auditada por si los ajustes de PT para garantizar un margen mínimo generaban consecuencias IVA bajo la Sexta Directiva IVA. El TJUE emitió una resolución interpretativa.", outcome:"PARTIAL", outcome_reasoning:"El TJUE estableció criterios interpretativos sobre cuándo los ajustes TP de remuneración de margen mínimo constituyen contraprestación de servicios a efectos IVA.", win_argument:"Stellantis logró que el TJUE clarificara que no todos los ajustes de PT generan automáticamente obligaciones IVA: es necesario que el pago sea contraprestación directamente vinculada a una prestación identificable." },
+    // ── 2025 ──
+    { title:"US vs Facebook, May 2025, US Tax Court, T.C. No. 9, Docket No. 21959-16", date:"May 2025", year:2025, country:"United States", court:"US Tax Court", categories:["Arm's Length Principle","Cost Contribution Arrangements","Intangibles","Valuation - DCF and CUT/CUPs"], tags:["Cost Sharing Arrangement","Buy-in payment","Ireland","Valuation","Discount rate","DCF"], url:"https://tpcases.com/us-vs-facebook-may-2025-us-tax-court-case-no-164-t-c-no-9-docket-no-21959-16/", summary:"En 2009 Facebook transfirió sus intangibles de plataforma a una filial irlandesa por $6.300M en un CSA. El IRS valoró los activos en $19.900M usando el método de ingresos con proyecciones propias. El Tax Court revisó la metodología.", outcome:"WIN", outcome_reasoning:"El Tax Court falló a favor de Facebook: la valoración de $6.300M era razonable y el IRS usaba proyecciones infladas y una prima de riesgo injustificada.", win_argument:"Facebook demostró que las proyecciones del IRS eran irrealmente optimistas y que la tasa de descuento no reflejaba el riesgo real. El tribunal aceptó que la valoración propia de $6.300M estaba sustentada en supuestos razonables disponibles ex-ante, rechazando el ajuste ex-post del IRS." },
+    { title:"US vs 3M Company and Subsidiaries, October 2025, U.S. Court of Appeals, Opinion No 23-3772", date:"October 2025", year:2025, country:"United States", court:"U.S. Court of Appeals (8th Circuit)", categories:["Intangibles","Arm's Length Principle"], tags:["Royalty","Brazil","Currency controls","Blocked income","IRC 482","3M"], url:"https://tpcases.com/us-vs-3m-company-and-subsidiaries-october-2025-us-court-of-appeal-opinion-no-23-3772/", summary:"3M disputó si el IRS podía atribuirle ingresos adicionales por royalties de su filial brasileña cuando la legislación brasileña limitaba el importe de royalties que podía pagarse a la controladora extranjera.", outcome:"LOSE", outcome_reasoning:"El Tribunal de Apelaciones confirmó que el IRS puede aplicar el IRC §482 para atribuir ingresos aunque la ley extranjera impida el pago efectivo; las restricciones legales extranjeras no bloquean la aplicación arm's length del derecho fiscal estadounidense.", win_argument:"" },
+    { title:"Czech Republic vs Hitachi Astemo Czech s.r.o., November 2025, Supreme Administrative Court, 3 Afs 165/2024", date:"November 2025", year:2025, country:"Czech Republic", court:"Supreme Administrative Court", categories:["Arm's Length Principle","Business Restructuring","Losses"], tags:["FAR analysis","Group instruction","Loss compensation","Business restructuring","Manufacturing"], url:"https://tpcases.com/czech-republic-vs-hitachi-astemo-czech-s-r-o-november-2025-supreme-administrative-court-case-no-3-afs-165-2024-67/", summary:"Hitachi Astemo Czech fue instruida por su matriz para cambiar de fabricación de TV LCD a piezas de automoción, incurriendo en importantes costes de arranque sin compensación del grupo.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo Administrativo checo confirmó el ajuste: la inversión realizada por instrucción del grupo sin compensación constituye una transacción no de mercado." },
+    { title:"Czech Republic vs Inventec s.r.o. (FY2015), November 2025, Supreme Administrative Court", date:"November 2025", year:2025, country:"Czech Republic", court:"Supreme Administrative Court", categories:["Transfer Pricing Methods","Benchmark, Range and Median"], tags:["ROTC","ROVAC","PLI","Contract manufacturing","Electronics","Toll manufacturer"], url:"https://tpcases.com/czech-republic-vs-inventec-s-r-o-fy2015-november-2025-supreme-administrative-court/", summary:"Inventec s.r.o., fabricante electrónico por contrato, usó ROVAC (retorno sobre costes de valor añadido, excluyendo materiales) como PLI. Las autoridades preferían ROTC (incluyendo materiales). El tribunal determinó cuál era el PLI correcto.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo Administrativo checo confirmó que el ROTC era el PLI más apropiado para Inventec, desestimando el uso de ROVAC por la empresa." },
+    { title:"Czech Republic vs Inventec s.r.o. (FY2014), June 2025, Supreme Administrative Court", date:"June 2025", year:2025, country:"Czech Republic", court:"Supreme Administrative Court", categories:["Transfer Pricing Methods","Benchmark, Range and Median"], tags:["ROTC","ROVAC","PLI","Contract manufacturing","Electronics","FAR analysis"], url:"https://tpcases.com/czech-republic-vs-inventec-s-r-o-fy2014-june-2025-supreme-administrative-court/", summary:"Caso FY2014 de Inventec. El Regional Court anuló la regularización indicando que las autoridades no habían considerado el perfil FAR de Inventec al optar por ROTC en lugar de ROVAC.", outcome:"WIN", outcome_reasoning:"El Regional Court anuló el ajuste al considerar que la administración no había justificado suficientemente la idoneidad del ROTC frente al ROVAC teniendo en cuenta el perfil funcional específico de Inventec.", win_argument:"Inventec demostró que su función de mero ensamblador sin control sobre materiales era un factor FAR determinante que hacía al ROVAC (costes de valor añadido) más representativo de su actividad que el ROTC, que incluía materiales sobre los que no tenía control económico." },
+    { title:"Italy vs De Grisogono Italia s.r.l., November 2025, Supreme Court, Case No 29083/2025", date:"November 2025", year:2025, country:"Italy", court:"Supreme Court", categories:["Arm's Length Principle","Transfer Pricing Methods","Losses"], tags:["TNMM","CUP","Limited Risk Distributor","ROS","Luxury watches"], url:"https://tpcases.com/italy-vs-de-grisogono-italia-s-r-l-november-2025-supreme-court-case-no-29083-2025/", summary:"De Grisogono Italia, distribuidora de relojes de lujo, usó CUP para valorar compras a su matriz suiza generando pérdidas. La Agencia Tributaria emitió regularizaciones de €4,7M aplicando TNMM con ROS como PLI.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo italiano confirmó que el TNMM era el método más apropiado para un distribuidor de riesgo limitado, validando la regularización." },
+    { title:"Spain vs Bunge Iberica SA, July 2025, Supreme Court, SAN 3721/2025", date:"July 2025", year:2025, country:"Spain", court:"Tribunal Supremo", categories:["Financial Transactions","Arm's Length Principle"], tags:["Cash pooling","Group credit rating","Symmetrical rates","Bunge","Depositor","Borrower"], url:"https://tpcases.com/spain-vs-bunge-iberica-sa-july-2025-supreme-court-case-no-san-3721-2025-ecliests20253721/", summary:"Bunge Ibérica participa como depositante y prestataria en el cash pool del grupo. La administración ajustó los tipos de interés aplicándolos simétricamente basándose en el rating del grupo. El TS confirma el ajuste.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo español confirmó que los tipos del cash pool deben determinarse simétricamente sobre la base del rating crediticio del grupo, desestimando el uso de tipos distintos para posiciones deudoras y acreedoras." },
+    { title:"Spain vs RPC Superfos Pamplona S.A., March 2025, Audiencia Nacional, SAN 1539/2025", date:"March 2025", year:2025, country:"Spain", court:"Audiencia Nacional", categories:["Transfer Pricing Documentation","Marketing and Procurement Hubs"], tags:["Centralised procurement","Polymers","Documentation penalty","Art. 203 LGT","Documentation denied"], url:"https://tpcases.com/spain-vs-rpc-superfos-pamplona-s-a-march-2025-audiencia-nacional-case-san-1539-2025-ecliesan20251539/", summary:"RPC Superfos Pamplona compró polímeros a través de un sistema de compras centralizado europeo. Las autoridades abrieron inspección por falta de transparencia en la fijación de precios. Pese a múltiples requerimientos, no se aportó documentación completa y se impuso sanción por incumplimiento documental.", outcome:"LOSE", outcome_reasoning:"La Audiencia Nacional confirmó la sanción por incumplimiento documental: la falta reiterada de documentación era constitutiva de infracción conforme al Art. 203 LGT." },
+    { title:"Spain vs XZ España SA, October 2025, Tax Court (TEAC)", date:"October 2025", year:2025, country:"Spain", court:"TEAC", categories:["Financial Transactions","Benchmark, Range and Median","Services and Fees"], tags:["Cash pooling","Intra-group loan","Group credit rating","TNMM","Consumer goods","Median adjustment"], url:"https://tpcases.com/spain-xz-espana-sa-october-2025/", summary:"XZ España SA, filial española de un grupo multinacional de bienes de consumo, fue auditada para FY2015-17. La administración concluyó que su rentabilidad caía fuera del rango arm's length y ajustó a la mediana. También se regularizaron préstamos intragrupo y cash pool.", outcome:"PARTIAL", outcome_reasoning:"El TEAC confirmó los ajustes sobre distribución pero anuló parcialmente los relacionados con el cash pool al no haberse justificado adecuadamente el rechazo al rating individual.", win_argument:"XZ España logró que el TEAC anulara parte del ajuste del cash pool: la administración no demostró por qué el rating del grupo debía prevalecer sobre el rating individual sin analizar el implicit support específico en las circunstancias concretas del caso." },
+    { title:"Germany vs 'Timber GmbH & Co. KG', May 2025, Bundesverfassungsgericht, Case No 2 BvR 172/24", date:"May 2025", year:2025, country:"Germany", court:"Bundesverfassungsgericht", categories:["Transfer Pricing Documentation","Disallowed Deduction"], tags:["Written contract","No written agreement","Start-up loss","Timber","Sister company","Constitutional"], url:"https://tpcases.com/germany-vs-timber-gmbh-co-kg-may-2025-bundesverfassungsgericht-case-no-2-bvr-172-24/", summary:"El Finanzgericht denegó la deducción de €4M pagados por una empresa del grupo maderero a una empresa hermana como compensación por defectos de construcción, exclusivamente porque no existía contrato escrito entre partes vinculadas.", outcome:"WIN", outcome_reasoning:"El Bundesverfassungsgericht anuló la sentencia del Finanzgericht por arbitraria: exigir contrato escrito como requisito independiente sin analizar el arm's length viola el Art. 3.1 de la Ley Fundamental.", win_argument:"La empresa demostró que el Finanzgericht había elevado el requisito de forma escrita a una condición de validez autónoma e independiente del análisis arm's length, lo que constituía una interpretación arbitraria contraria a la Constitución. El BVerfG ordenó un nuevo análisis considerando todas las circunstancias relevantes." },
+    { title:"Netherlands vs 'Tobacco BV', June 2025, Court of Appeal", date:"June 2025", year:2025, country:"Netherlands", court:"Court of Appeal", categories:["Financial Transactions","Tax Avoidance Schemes","Arm's Length Principle"], tags:["Factoring","Low-tax jurisdiction","Section 8b","Debt factoring","LuxLeaks","Substance"], url:"https://tpcases.com/netherlands-tobacco-bv-june-2025/", summary:"Tobacco BV cedió sus créditos a una entidad del grupo en jurisdicción de baja tributación mediante un acuerdo de factoring. La administración holandesa impugnó las comisiones de factoring como no arm's length.", outcome:"LOSE", outcome_reasoning:"El Tribunal de Apelación confirmó que los costes de factoring no eran de mercado y que la empresa no había refutado la presunción bajo el Art. 8b de la Ley del IS holandesa de 1969." },
+    { title:"Netherlands vs 'PT Cash Pool LDA', August 2025, Tax Authority Ruling", date:"August 2025", year:2025, country:"Netherlands", court:"Tax Authority / Court", categories:["Financial Transactions","Benchmark, Range and Median"], tags:["Cash pooling","Asymmetrical interest rates","CUP","Shareholder loan","Portugal","Germany"], url:"https://tpcases.com/netherlands-pt-cash-pool-lda-august-2025/", summary:"PT Cash Pool LDA (grupo con sede en Alemania) participaba en cash pooling en EUR y USD y tenía préstamos de accionistas de entidades vinculadas. La autoridad fiscal concluyó que los tipos no eran arm's length.", outcome:"LOSE", outcome_reasoning:"El tribunal confirmó el ajuste: los tipos de interés del cash pool y los préstamos de accionistas no reflejaban condiciones de mercado comparables." },
+    { title:"Netherlands vs 'Motorcycle Parts BV', July 2025, Amsterdam Court of Appeal, Customs/TP", date:"July 2025", year:2025, country:"Netherlands", court:"Amsterdam Court of Appeal", categories:["VAT and Customs Valuation","Arm's Length Principle"], tags:["Customs value","Hamamatsu","Year-end TP adjustment","TNMM","Motorcycle parts","Article 29(1)"], url:"https://tpcases.com/netherlands-motorcycle-parts-bv-july-2025/", summary:"Importadora holandesa de piezas de moto realizó un ajuste de PT de €20M a su empresa matriz y solicitó devolución de aranceles adicionales. El tribunal de apelación de Ámsterdam rechazó la devolución.", outcome:"LOSE", outcome_reasoning:"El tribunal distinguió el precedente Hamamatsu del TJUE, confirmando que el ajuste de PT estaba directamente vinculado a las mercancías importadas y debía incluirse en el valor en aduana conforme al Art. 29(1) del Código Aduanero." },
+    { title:"Poland vs ERP Distributor, February 2025, Supreme Administrative Court", date:"February 2025", year:2025, country:"Poland", court:"Supreme Administrative Court", categories:["VAT and Customs Valuation","Transfer Pricing Methods"], tags:["ERP software","VAT","Year-end adjustment","License fee","TNMM","Compensation payment"], url:"https://tpcases.com/poland-erp-distributor-february-2025/", summary:"Distribuidora polaca de software ERP realizó ajustes de fin de año en las comisiones de licencia para mantener un margen arm's length. La administración trató los pagos compensatorios como servicios sujetos a IVA.", outcome:"WIN", outcome_reasoning:"El Tribunal Supremo Administrativo polaco confirmó que los pagos compensatorios de ajuste TP no constituían retribución por un servicio específico y no estaban sujetos a IVA.", win_argument:"La empresa demostró que los ajustes de fin de año en las tarifas de licencia eran meros mecanismos de corrección del precio del producto original y no la contraprestación de un servicio independiente, siendo el nexo entre el pago y una prestación concreta el elemento definitorio de la sujeción al IVA." },
+    { title:"Korea vs 'Electrics Co. Ltd', October 2025, Supreme Court, Case No 2024두54065", date:"October 2025", year:2025, country:"Korea", court:"Supreme Court", categories:["Transfer Pricing Methods","Benchmark, Range and Median"], tags:["Dutch electronics","Medical equipment","Aggregation","Maintenance services","Local comparables","Remand"], url:"https://tpcases.com/korea-vs-electrics-co-ltd-october-2025-supreme-court-case-no-2024du54065/", summary:"Filial coreana de un grupo electrónico holandés fue regularizada por precios excesivos en equipos médicos, electrodomésticos e iluminación. Las autoridades agregaron servicios de mantenimiento con ventas de productos y usaron comparables de servicios domésticos.", outcome:"PARTIAL", outcome_reasoning:"El Tribunal Supremo coreano devolvió el caso al tribunal inferior para nueva valoración: confirmó que la agregación de transacciones requería justificación adicional y que los comparables domésticos de servicios eran inadecuados.", win_argument:"La empresa logró que el Tribunal Supremo coreano reconociera que agregar servicios de mantenimiento con ventas de productos sin justificación específica distorsionaba el análisis TP, y que usar comparables de empresas de servicios domésticos para un distribuidor de equipos de alta tecnología importados era metodológicamente incorrecto." },
+    { title:"India vs M/s Hitachi Solutions India Pvt. Ltd, June 2025, ITAT Chennai, IT(TP)A No. 17/CHNY/2024", date:"June 2025", year:2025, country:"India", court:"Income Tax Appellate Tribunal - Chennai", categories:["Benchmark, Range and Median","Transfer Pricing Methods"], tags:["Goodwill amortisation","Operating costs","Comparability","IT services","TNMM","Non-operating item"], url:"https://tpcases.com/india-vs-hitachi-solutions-india-pvt-ltd-june-2025-itat-chennai/", summary:"Hitachi Solutions India excluyó la amortización del fondo de comercio de los costes operativos en su benchmarking TNMM, alegando que era una partida extraordinaria no recurrente. Las autoridades lo incluyeron.", outcome:"LOSE", outcome_reasoning:"El ITAT de Chennai confirmó que la amortización del fondo de comercio debía incluirse en los costes operativos al derivar de la adquisición del negocio del contribuyente y ser un coste inherente a la actividad." },
+    { title:"India vs Hyatt International Southwest Asia Ltd., July 2025, Supreme Court, Case No 9766/2025", date:"July 2025", year:2025, country:"India", court:"Supreme Court", categories:["Permanent Establishments","Intangibles"], tags:["Hotel management","SOSAs","Royalty","PE","Positive income","UAE DTA"], url:"https://tpcases.com/india-vs-hyatt-international-southwest-asia-ltd-july-2025-supreme-court/", summary:"El Tribunal Supremo revisó si los pagos recibidos por Hyatt bajo los Acuerdos de Servicios de Supervisión Estratégica (SOSAs) constituían royalties bajo el Art. 12 del CDI India-EAU o beneficios empresariales del EP.", outcome:"PARTIAL", outcome_reasoning:"El Tribunal Supremo estableció criterios pero remitió al ITAT para nueva valoración sobre la calificación de los pagos y la atribución de rentas al EP.", win_argument:"Hyatt logró que el Tribunal Supremo rechazara la calificación automática de los SOSAs como royalties, reconociendo que los pagos por servicios de gestión hotelera tienen características propias que requieren análisis específico bajo el Art. 7 (beneficios empresariales) del CDI." },
+    { title:"South Africa vs SC (Pty) Ltd (Mauritius Structure), April 2025, Tax Court", date:"April 2025", year:2025, country:"South Africa", court:"Tax Court", categories:["Intangibles","Services and Fees"], tags:["DEMPE","Franchise fee","Mauritius","Trademark","Know-how","Profit split","CUP"], url:"https://tpcases.com/south-africa-vs-sc-pty-ltd-april-2025-tax-court/", summary:"SC (Pty) Ltd recibía remuneración por actividades realizadas para SIL (Mauricio), que ostentaba legalmente las marcas y know-how del grupo. SARS concluyó que SCL realizaba de facto las funciones DEMPE relevantes.", outcome:"LOSE", outcome_reasoning:"El tribunal confirmó la posición de SARS: la conducta real de SCL y SIL evidenciaba que SCL controlaba las decisiones estratégicas del grupo, siendo el propietario económico de los intangibles independientemente de la titularidad formal.", win_argument:"" },
+    { title:"Greece vs Hamios S.A., March 2025, Supreme Administrative Court, A464/2025", date:"March 2025", year:2025, country:"Greece", court:"Supreme Administrative Court", categories:["Services and Fees","Disallowed Deduction"], tags:["Management services","Vague contract","Insufficient documentation","Deductibility","Group companies"], url:"https://tpcases.com/greece-vs-hamios-sa-march-2025-supreme-administrative-court-case-no-a464-2025/", summary:"HAMIOS S.A. dedujo pagos por servicios de gestión a otras empresas del grupo. El Tribunal Administrativo de Apelación los rechazó por contratos vagos y documentación insuficiente.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo Administrativo griego confirmó la denegación de deducción: los contratos de servicios no acreditaban suficientemente las prestaciones específicas realizadas." },
+    { title:"Greece vs 'Retail S.A.', April 2025, Administrative Tribunal, Case No 1029/2025", date:"April 2025", year:2025, country:"Greece", court:"Administrative Tribunal", categories:["Services and Fees","Intangibles"], tags:["Management fees","Royalties","Trademark","Know-how","Netherlands","Deductibility","Transfer pricing study"], url:"https://tpcases.com/greece-vs-retail-sa-april-2025-administrative-tribunal-case-no-1029-2025/", summary:"Retail S.A. pagó comisiones de gestión y royalties por marcas, know-how y asistencia técnica a una entidad vinculada holandesa. Para respaldar la deducibilidad de los royalties presentó un estudio de PT.", outcome:"PARTIAL", outcome_reasoning:"El tribunal aceptó la deducción de royalties respaldados por el estudio TP pero mantuvo el rechazo a parte de los servicios de gestión por insuficiente evidencia de prestación efectiva.", win_argument:"Retail S.A. logró la deducción de royalties al haber aportado un estudio de PT formal que el tribunal consideró suficiente para respaldar el valor de mercado de las licencias de marca y know-how, diferenciándolos de los servicios de gestión que carecían de documentación equivalente." },
+    { title:"Slovakia vs Coca-Cola HBC Česko a Slovensko s.r.o., May 2025, Slovak Court", date:"May 2025", year:2025, country:"Slovakia", court:"Slovak Court", categories:["Arm's Length Principle","Financial Transactions"], tags:["Coca-Cola","Czech Republic","Double tax treaty","Art. 9","Slovak law","Foreign dependent persons"], url:"https://tpcases.com/slovakia-coca-cola-hbc-may-2025/", summary:"Coca-Cola HBC Česko alegó que el Art. 9 de los CDIs con la Rep. Checa, Austria y Países Bajos no podía aplicarse directamente sin legislación interna, y que la ley fiscal eslovaca no permitía los ajustes de PT impugnados.", outcome:"LOSE", outcome_reasoning:"El tribunal confirmó que el Art. 9 de los CDIs era directamente aplicable y que los ajustes de PT estaban fundamentados en la normativa eslovaca." },
+    { title:"Bulgaria vs Lukoil Neftohim Burgas / Lukoil Bulgaria EOOD, November 2025, Tax Court", date:"November 2025", year:2025, country:"Bulgaria", court:"Tax Court", categories:["Commodity Transactions","Financial Transactions","Transfer Pricing Methods"], tags:["Oil and gas","Fuel supply","CUP","TNMM","Intra-group loan","Guarantee","Platts","Gross profit margin"], url:"https://tpcases.com/bulgaria-lukoil-november-2025/", summary:"Las transacciones revisadas incluían ventas mayoristas de combustible entre Lukoil Neftohim Burgas (productor) y Lukoil Bulgaria EOOD (distribuidor), y un préstamo intragrupo de USD 150M.", outcome:"PARTIAL", outcome_reasoning:"El tribunal confirmó el ajuste sobre el préstamo intragrupo pero anuló el ajuste sobre las transacciones de combustible al considerar que el CUP con cotizaciones Platts era el método más apropiado y el contribuyente lo había aplicado correctamente.", win_argument:"Lukoil demostró que las transacciones de venta de combustible se habían valorado con CUP usando cotizaciones independientes de Platts, que es la referencia de mercado estándar para el sector, y que el ajuste de márgenes propuesto por la administración mediante TNMM no respetaba la jerarquía de métodos." },
+    { title:"Denmark vs Holding A/S (Promissory Note), October 2025, Tax Tribunal", date:"October 2025", year:2025, country:"Denmark", court:"Tax Tribunal", categories:["Financial Transactions","General Anti-Avoidance Rules (GAAR)","Non-Recognition and Recharacterisation"], tags:["Acquisition loan","Interest deductibility","Promissory note","Share transaction","Anti-avoidance","DKK 100M"], url:"https://tpcases.com/denmark-holding-as-promissory-note-october-2025/", summary:"La administración fiscal danesa aumentó la renta imponible de Holding A/S al no reconocer un acuerdo de préstamo derivado de una transacción de acciones. El pagaré de DKK 100M y sus intereses no fueron aceptados como deducibles.", outcome:"LOSE", outcome_reasoning:"El Tribunal Tributario confirmó el ajuste: la estructura del préstamo derivado de la transacción de acciones era artificialmente circular y carecía de sustancia económica real." },
+    { title:"Tanzania vs Aggreko International Projects Ltd (Tanzania Branch), December 2025, Tax Tribunal", date:"December 2025", year:2025, country:"Tanzania", court:"Tax Tribunal", categories:["Services and Fees","Permanent Establishments","Transfer Pricing Documentation"], tags:["Head office costs","Dubai hub","Pro rata allocation","Revenue allocation key","Branch","Documentation"], url:"https://tpcases.com/tanzania-aggreko-december-2025/", summary:"La sucursal tanzana de Aggreko International (UK) dedujo costes de casa central y hub regional de Dubai asignados pro-rata por ingresos. La Agencia Tributaria de Tanzania denegó la deducción por falta de documentación suficiente.", outcome:"LOSE", outcome_reasoning:"El tribunal confirmó que Aggreko Tanzania no había aportado documentación que demostrara de forma clara y verificable la asignación de los costes de casa central a las operaciones tanzanas." },
+    { title:"Vietnam vs Coca-Cola Vietnam, November 2025, Vietnamese Court", date:"November 2025", year:2025, country:"Vietnam", court:"Vietnamese Court", categories:["Arm's Length Principle","Transfer Pricing Methods","Losses"], tags:["Coca-Cola","Concentrate","TNMM","Below IQR","VND 362 billion","Intragroup purchases"], url:"https://tpcases.com/vietnam-coca-cola-november-2025/", summary:"La autoridad fiscal vietnamita concluyó que las transacciones de Coca-Cola Vietnam con partes vinculadas no eran arm's length para 2007-2015. La empresa aplicó un método similar al TNMM con comparables propios, pero varios años quedaron por debajo del rango.", outcome:"LOSE", outcome_reasoning:"El tribunal confirmó el ajuste: usando los propios comparables de Coca-Cola Vietnam, los resultados de varios ejercicios caían fuera del rango arm's length, justificando el ajuste al punto mediano." },
+    { title:"Colombia vs Monómeros Colombo Venezolanos SA, May 2025, Supreme Administrative Court, 25943", date:"May 2025", year:2025, country:"Colombia", court:"Supreme Administrative Court", categories:["Financial Transactions","Arm's Length Principle"], tags:["Intra-group loan","BVI","Interest disallowance","Related party","Chemical industry"], url:"https://tpcases.com/colombia-vs-monomeros-colombo-venezolanos-sa-may-2025/", summary:"Monómeros Colombo Venezolanos recibió préstamos de su empresa vinculada Monómeros International (Islas Vírgenes Británicas). Las autoridades fiscales aumentaron la renta declarada y denegaron deducciones de intereses por no ser arm's length.", outcome:"LOSE", outcome_reasoning:"El Tribunal Supremo Administrativo de Colombia confirmó que los intereses de los préstamos de la BVI no cumplían el principio de plena competencia." }
+  ];
+
+  const _origL3 = getBuiltinCases;
+  window.getBuiltinCases = function(country, category, year, sector, text) {
+    const allPrev = _origL3('','','','','');
+    // Deduplicate by title
+    const existingTitles = new Set(allPrev.map(c => c.title));
+    const newOnly = L2025.filter(c => !existingTitles.has(c.title));
+    const combined = [...allPrev, ...newOnly];
+    let filtered = combined;
+    if (country)   filtered = filtered.filter(c => c.country === country);
+    if (category)  filtered = filtered.filter(c => c.categories.includes(category));
+    if (year)      filtered = filtered.filter(c => c.year >= parseInt(year));
+    if (sector)    filtered = filtered.filter(c => c.tags.some(t => t.toLowerCase().includes(sector.toLowerCase())));
     if (text) {
       const tl = text.toLowerCase();
       filtered = filtered.filter(c =>
